@@ -43,6 +43,35 @@ class Leg:
 
         return pos
 
+    def calcJointAngles(self):
+        ''' Leg hat u.a. eine Abfragemethode (calcJointAngles), der x,y und z-Koordinaten
+            (kartesische Koordinaten) des Fußpunkts des Beins geschickt werden.
+            Die Methode liefert die entsprechenden 3 Gelenkwinkel (a,b,g) zurück.
+        '''
+        pass
+
+    def calcFootCoordinate(self):
+        ''' Leg hat u.a. eine Abfragemethode (calcFootCoordinate), der 3 Gelenkwinkel
+            (Winkelkoordinaten) geschickt werden. Die Methode liefert die kartesischen
+            Koordinaten des Fußpunkts im Basiskoordinatensystem (x 0 ,y 0 ,z 0 ) des Beins zurück
+            (siehe nächste Folien).
+        '''
+        pass
+
+    def setFootCoordinate(self):
+        ''' Leg hat u.a. eine Setzmethode (setFootCoordinate), der die im nächsten Zeitschritt
+            anzufahrende Fußposition (x,y,z) übergeben wird. Diese wird mit Hilfe der anderen
+            Methoden der Klassen in entsprechende Gelenkwinkel umgewandelt und an die drei
+            Instanzen der Gelenkantriebe (Klasse JointDrive, Gruppe Antriebskommunikation)
+            übergeben.
+        '''
+
+        pass
+
+
+
+
+
 
 def startFunction():
     myLeg = Leg([0.043,0.04,0.053,0.062,0.02,0.005,0.096])
