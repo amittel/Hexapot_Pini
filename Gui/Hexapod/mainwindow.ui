@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>960</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1280</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuDatei">
+    <property name="title">
+     <string>Datei</string>
+    </property>
+    <addaction name="actionEinstellungn_exportieren"/>
+    <addaction name="actionEinstellungn_importieren"/>
+    <addaction name="separator"/>
+    <addaction name="actionBeenden"/>
+   </widget>
+   <widget class="QMenu" name="menuAnsicht">
+    <property name="title">
+     <string>Ansicht</string>
+    </property>
+    <addaction name="actionStatusleiste_anzeigen"/>
+    <addaction name="actionVollbildmodus"/>
+    <addaction name="actionTerminal_anzeigen"/>
+   </widget>
+   <widget class="QMenu" name="menuEinstellungen">
+    <property name="title">
+     <string>Einstellungen</string>
+    </property>
+    <widget class="QMenu" name="menuProfile_wechseln">
+     <property name="title">
+      <string>Profile wechseln</string>
+     </property>
+     <addaction name="actionStandardprofil"/>
+    </widget>
+    <addaction name="actionAktuelles_Profil_Bearbeiten"/>
+    <addaction name="menuProfile_wechseln"/>
+    <addaction name="actionProfile_Bearbeiten"/>
+    <addaction name="separator"/>
+    <addaction name="actionSprache_Umschalten"/>
+    <addaction name="actionKurzbefehle_festlegen"/>
+    <addaction name="separator"/>
+    <addaction name="actionHexapod_Einrichtung"/>
+   </widget>
+   <widget class="QMenu" name="menuHilfe">
+    <property name="title">
+     <string>Hilfe</string>
+    </property>
+    <addaction name="actionHilfe"/>
+    <addaction name="separator"/>
+    <addaction name="actionInfo"/>
+   </widget>
+   <addaction name="menuDatei"/>
+   <addaction name="menuAnsicht"/>
+   <addaction name="menuEinstellungen"/>
+   <addaction name="menuHilfe"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionEinstellungn_exportieren">
+   <property name="text">
+    <string>Einstellungn exportieren</string>
+   </property>
+  </action>
+  <action name="actionEinstellungn_importieren">
+   <property name="text">
+    <string>Einstellungn importieren</string>
+   </property>
+  </action>
+  <action name="actionBeenden">
+   <property name="text">
+    <string>Beenden</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionStatusleiste_anzeigen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Statusleiste anzeigen</string>
+   </property>
+  </action>
+  <action name="actionVollbildmodus">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Vollbildmodus</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
+   </property>
+  </action>
+  <action name="actionTerminal_anzeigen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Terminal anzeigen</string>
+   </property>
+  </action>
+  <action name="actionAktuelles_Profil_Bearbeiten">
+   <property name="text">
+    <string>Aktuelles Profil Bearbeiten</string>
+   </property>
+  </action>
+  <action name="actionProfile_Bearbeiten">
+   <property name="text">
+    <string>Profile Bearbeiten</string>
+   </property>
+  </action>
+  <action name="actionSprache_Umschalten">
+   <property name="text">
+    <string>Sprache Umschalten</string>
+   </property>
+  </action>
+  <action name="actionKurzbefehle_festlegen">
+   <property name="text">
+    <string>Kurzbefehle festlegen</string>
+   </property>
+  </action>
+  <action name="actionHexapod_Einrichtung">
+   <property name="text">
+    <string>Programm Einrichtung</string>
+   </property>
+  </action>
+  <action name="actionHilfe">
+   <property name="text">
+    <string>Hilfe</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionInfo">
+   <property name="text">
+    <string>Info</string>
+   </property>
+  </action>
+  <action name="actionStandardprofil">
+   <property name="text">
+    <string>Standardprofil</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

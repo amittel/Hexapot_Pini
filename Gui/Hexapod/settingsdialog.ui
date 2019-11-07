@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsDialog</class>
+ <widget class="QDialog" name="SettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>1001</width>
+     <height>471</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>2</number>
+   </property>
+   <widget class="QWidget" name="tab0">
+    <attribute name="title">
+     <string>Lokale Einstellungen</string>
+    </attribute>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>171</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pfad zu Bibliotheken&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>110</y>
+       <width>211</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>/usr/share/bin/pygame</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>110</y>
+       <width>91</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PyGame:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>210</y>
+       <width>91</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Foo:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_2">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>210</y>
+       <width>211</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>/usr/share/bin/foo</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_3">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>260</y>
+       <width>211</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>/usr/share/bin/foo</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>260</y>
+       <width>91</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Bar:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_4">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>160</y>
+       <width>211</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>/usr/share/bin/zeromq</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>160</y>
+       <width>91</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PyGame:</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab1">
+    <attribute name="title">
+     <string>Controller Einstellungen</string>
+    </attribute>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>20</y>
+       <width>401</width>
+       <height>221</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fancy Shit from QtGamepad Demos here!&lt;/p&gt;&lt;p&gt;Configure Controller&lt;br/&gt;Setup controller keymap&lt;br/&gt;test controller keys&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>Roboter</string>
+    </attribute>
+    <widget class="QLineEdit" name="lineEdit_5">
+     <property name="geometry">
+      <rect>
+       <x>228</x>
+       <y>30</y>
+       <width>113</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>MyRobot</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>30</y>
+       <width>77</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>80</y>
+       <width>77</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>IP</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_6">
+     <property name="geometry">
+      <rect>
+       <x>228</x>
+       <y>80</y>
+       <width>113</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>192.168.0.1</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>130</y>
+       <width>121</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Benutzername</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_7">
+     <property name="geometry">
+      <rect>
+       <x>228</x>
+       <y>130</y>
+       <width>113</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>root</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>180</y>
+       <width>91</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Passwort</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_8">
+     <property name="geometry">
+      <rect>
+       <x>228</x>
+       <y>180</y>
+       <width>113</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>MyRobot</string>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_5">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>240</y>
+       <width>111</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hinzufügen</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_6">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>240</y>
+       <width>121</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Zurücksetzen</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="geometry">
+      <rect>
+       <x>380</x>
+       <y>30</y>
+       <width>591</width>
+       <height>321</height>
+      </rect>
+     </property>
+     <row>
+      <property name="text">
+       <string>Neue Zeile</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Neue Zeile</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Neue Zeile</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>Neue Spalte</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Neue Spalte</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Neue Spalte</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Neue Spalte</string>
+      </property>
+     </column>
+     <item row="0" column="0">
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </item>
+     <item row="0" column="1">
+      <property name="text">
+       <string>IP</string>
+      </property>
+     </item>
+     <item row="0" column="2">
+      <property name="text">
+       <string>Benutzername</string>
+      </property>
+     </item>
+     <item row="0" column="3">
+      <property name="text">
+       <string>Passwort ändern</string>
+      </property>
+     </item>
+     <item row="1" column="0">
+      <property name="text">
+       <string>MyRobot</string>
+      </property>
+     </item>
+     <item row="1" column="1">
+      <property name="text">
+       <string>192.168.0.1</string>
+      </property>
+     </item>
+     <item row="1" column="2">
+      <property name="text">
+       <string>root</string>
+      </property>
+     </item>
+     <item row="1" column="3">
+      <property name="text">
+       <string/>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="pushButton_7">
+     <property name="geometry">
+      <rect>
+       <x>380</x>
+       <y>370</y>
+       <width>103</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Löschen</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>550</y>
+     <width>141</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Voreinstellungen</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>550</y>
+     <width>103</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>550</y>
+     <width>103</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Anwenden</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>550</y>
+     <width>103</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Abbrechen</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

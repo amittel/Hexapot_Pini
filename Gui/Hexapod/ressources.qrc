@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/data">
+        <file>files/Decepticons-Logo.png</file>
+    </qresource>
+</RCC>
