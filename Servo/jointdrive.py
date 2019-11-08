@@ -9,11 +9,11 @@ import time
 # Implements the interface between leg- and servo class
 # ------------------------------------------------------------------------------
 # Provides all required methods that allow the leg class to control the servo
-# Implements all nessesary codomain conversion between leg- and servo values
+# Implements all necessary co-domain conversion between leg- and servo values
 # Limits values too valid servo values
 # Servo uses ticks from 0 to 1023 for angle and speed
-# Leg uses angles in radian and rotation per minit for speed
-# Defines zero angle as average of min- and max value -> positive and negativ angles are allowed
+# Leg uses angles in radian and rotation per minute for speed
+# Defines zero angle as average of min- and max value -> positive and negative angles are allowed
 class JointDrive(ServoAx12a):
     # Definition of public class attributes
     # ----------------------------------------------------------------------
@@ -28,29 +28,37 @@ class JointDrive(ServoAx12a):
     # id -> id of servo, cw -> rotating direction, aOffset -> angle offset,
     # aMax -> maximum angle allowed, aMin -> minimum angle allowed
     def __init__(self, id, ccw=False, aOffset=0.0, aMax=math.pi * 2, aMin=-math.pi * 2):
-
+        self.id = id
+        self.ccw = False
+        self.aOffset = 0.0
+        self.aMax = math.pi * 2
+        self.aMin = -math.pi * 2
     # Converts angle in radian to servo ticks
     # angle -> in radian, returns angle in servo ticks
     def __convertAngleToTicks(self, angle):
-
+        angleToTicks = (1023/(5*math.pi/3)) * angle
+        return angleToTicks
     # Converts servo ticks to angle in radian
     # ticks -> servo ticks, returns angle in radian
     def __convertTicksToAngle(self, ticks):
-
+        ticksToAngle = ticks/(1023/(5*math.pi/3))
+        return ticksToAngle
     # Converts speed in rpm to servo ticks
     # speed -> value in rpm
     def __convertSpeedToTicks(self, speed):
-
+        speedToTicks = (1023/114) * speed
+        return speedToTicks
     # Converts ticks to speed in rpm
     # ticks -> servo ticks
     def __convertTicksToSpeed(self, ticks):
-
+        ticksToSpeed = ticks/(1023/114)
+        return ticksToSpeed
     # Public methods
     # ----------------------------------------------------------------------
     # Get current angle of servo
     # returns angle in radian
     def getCurrentJointAngle(self):
-
+        return self.currentJointAngle
     # Set servo to desired angle
     # angle -> in radian,
     # speed -> speed of movement, speed < 0 -> no speed set, speed = 0 -> maximum speed
