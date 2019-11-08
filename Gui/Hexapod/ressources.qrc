@@ -1,5 +1,19 @@
 <RCC>
     <qresource prefix="/data">
         <file>files/Decepticons-Logo.png</file>
+        <file>files/quickGamepad/xboxControllerBack.png</file>
+        <file>files/quickGamepad/xboxControllerButtonA.png</file>
+        <file>files/quickGamepad/xboxControllerButtonB.png</file>
+        <file>files/quickGamepad/xboxControllerButtonGuide.png</file>
+        <file>files/quickGamepad/xboxControllerButtonX.png</file>
+        <file>files/quickGamepad/xboxControllerButtonY.png</file>
+        <file>files/quickGamepad/xboxControllerDPad.png</file>
+        <file>files/quickGamepad/xboxControllerLeftShoulder.png</file>
+        <file>files/quickGamepad/xboxControllerLeftThumbstick.png</file>
+        <file>files/quickGamepad/xboxControllerLeftTrigger.png</file>
+        <file>files/quickGamepad/xboxControllerRightShoulder.png</file>
+        <file>files/quickGamepad/xboxControllerRightThumbstick.png</file>
+        <file>files/quickGamepad/xboxControllerRightTrigger.png</file>
+        <file>files/quickGamepad/xboxControllerStart.png</file>
     </qresource>
 </RCC>

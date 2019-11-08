@@ -19,11 +19,11 @@
      <x>10</x>
      <y>60</y>
      <width>1001</width>
-     <height>471</height>
+     <height>651</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab0">
     <attribute name="title">
@@ -146,7 +146,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>PyGame:</string>
+      <string>zeroMQ:</string>
      </property>
     </widget>
    </widget>
@@ -157,14 +157,241 @@
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>20</y>
-       <width>401</width>
-       <height>221</height>
+       <x>20</x>
+       <y>10</y>
+       <width>471</width>
+       <height>71</height>
       </rect>
      </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fancy Shit from QtGamepad Demos here!&lt;/p&gt;&lt;p&gt;Configure Controller&lt;br/&gt;Setup controller keymap&lt;br/&gt;test controller keys&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>90</y>
+       <width>88</width>
+       <height>169</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerLeftTrigger.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_12">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>280</y>
+       <width>218</width>
+       <height>92</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerLeftShoulder.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_13">
+     <property name="geometry">
+      <rect>
+       <x>880</x>
+       <y>80</y>
+       <width>88</width>
+       <height>169</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerRightTrigger.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>740</x>
+       <y>280</y>
+       <width>218</width>
+       <height>92</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerRightShoulder.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_15">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>100</y>
+       <width>138</width>
+       <height>138</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerButtonGuide.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_16">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>100</y>
+       <width>83</width>
+       <height>79</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerBack.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_17">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>100</y>
+       <width>86</width>
+       <height>78</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerStart.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_18">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>410</y>
+       <width>186</width>
+       <height>186</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerDPad.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_19">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>430</y>
+       <width>153</width>
+       <height>158</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerLeftThumbstick.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_20">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>430</y>
+       <width>153</width>
+       <height>160</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerRightThumbstick.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_21">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>410</y>
+       <width>86</width>
+       <height>78</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerButtonY.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_22">
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>470</y>
+       <width>86</width>
+       <height>78</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerButtonX.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_23">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>530</y>
+       <width>86</width>
+       <height>78</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerButtonA.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_24">
+     <property name="geometry">
+      <rect>
+       <x>880</x>
+       <y>470</y>
+       <width>86</width>
+       <height>78</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="ressources.qrc">:/data/files/quickGamepad/xboxControllerButtonB.png</pixmap>
      </property>
     </widget>
    </widget>
@@ -308,80 +535,80 @@
     <widget class="QTableWidget" name="tableWidget">
      <property name="geometry">
       <rect>
-       <x>380</x>
+       <x>360</x>
        <y>30</y>
-       <width>591</width>
+       <width>421</width>
        <height>321</height>
       </rect>
      </property>
      <row>
       <property name="text">
-       <string>Neue Zeile</string>
+       <string>1</string>
       </property>
      </row>
      <row>
       <property name="text">
-       <string>Neue Zeile</string>
+       <string>2</string>
       </property>
      </row>
      <row>
       <property name="text">
-       <string>Neue Zeile</string>
+       <string>3</string>
       </property>
      </row>
      <column>
       <property name="text">
-       <string>Neue Spalte</string>
+       <string>Name</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Neue Spalte</string>
+       <string>IP</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Neue Spalte</string>
+       <string>Benutzername</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Neue Spalte</string>
+       <string>Passwort ändern</string>
       </property>
      </column>
      <item row="0" column="0">
       <property name="text">
-       <string>Name</string>
+       <string>MyRobot</string>
       </property>
      </item>
      <item row="0" column="1">
       <property name="text">
-       <string>IP</string>
+       <string>192.168.0.1</string>
       </property>
      </item>
      <item row="0" column="2">
       <property name="text">
-       <string>Benutzername</string>
+       <string>root</string>
       </property>
      </item>
      <item row="0" column="3">
       <property name="text">
-       <string>Passwort ändern</string>
+       <string/>
       </property>
      </item>
      <item row="1" column="0">
       <property name="text">
-       <string>MyRobot</string>
+       <string/>
       </property>
      </item>
      <item row="1" column="1">
       <property name="text">
-       <string>192.168.0.1</string>
+       <string/>
       </property>
      </item>
      <item row="1" column="2">
       <property name="text">
-       <string>root</string>
+       <string/>
       </property>
      </item>
      <item row="1" column="3">
@@ -393,7 +620,7 @@
     <widget class="QPushButton" name="pushButton_7">
      <property name="geometry">
       <rect>
-       <x>380</x>
+       <x>360</x>
        <y>370</y>
        <width>103</width>
        <height>33</height>
@@ -409,7 +636,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>550</y>
+     <y>720</y>
      <width>141</width>
      <height>33</height>
     </rect>
@@ -421,8 +648,8 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>550</y>
+     <x>690</x>
+     <y>720</y>
      <width>103</width>
      <height>33</height>
     </rect>
@@ -434,8 +661,8 @@
   <widget class="QPushButton" name="pushButton_3">
    <property name="geometry">
     <rect>
-     <x>570</x>
-     <y>550</y>
+     <x>800</x>
+     <y>720</y>
      <width>103</width>
      <height>33</height>
     </rect>
@@ -447,8 +674,8 @@
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>550</y>
+     <x>910</x>
+     <y>720</y>
      <width>103</width>
      <height>33</height>
     </rect>
@@ -458,6 +685,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="ressources.qrc"/>
+ </resources>
  <connections/>
 </ui>
