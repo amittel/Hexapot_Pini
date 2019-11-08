@@ -1,5 +1,5 @@
 import time
-import serialPorts
+from Servo import serialPorts
 import serial
 
 # create serial port connection

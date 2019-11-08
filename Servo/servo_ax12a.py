@@ -1,6 +1,6 @@
 import serial
-import serialPorts
-from dynamixel import *
+from Servo import serialPorts
+from Servo.dynamixel import *
 
 
 # Definition of Servo-Ax12a-controller class, defines control and status methods

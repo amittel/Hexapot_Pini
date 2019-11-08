@@ -1,5 +1,5 @@
 import math
-from servo_ax12a import *
+from Servo.servo_ax12a import *
 
 import time
 

@@ -1,5 +1,5 @@
 import serial
-import serialPorts
+from Servo import serialPorts
 import copy
 
 
