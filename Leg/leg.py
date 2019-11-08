@@ -1,6 +1,7 @@
 import math
 import numpy as np
 
+
 class Leg:
     def __init__(self, a):
         self.a = [a[0], a[1], a[2], a[3], a[4], a[5], a[6]]
@@ -67,10 +68,6 @@ class Leg:
         '''
 
         pass
-
-
-
-
 
 
 def startFunction():
