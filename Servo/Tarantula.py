@@ -1,5 +1,5 @@
 import time
-from Servo import serialPorts
+import serialPorts
 import serial
 
 # create serial port connection
@@ -25,19 +25,16 @@ servoId2 = 13
 # ID 8
 command = [255, 255, servoId, 5, 4, 30, 0, 0, 0]    # command list
 
-# Set to position 300 ID 8
-position = 300                                    # define position
+# Set to position x ID 8
+position = 1023                                    # define position
 command[6] = position & 255                         # set data low byte in command list
 command[7] = position >> 8                          # set data high byte in command list
 sendCommand(command)                                # send command
 
-# --------------
 # ID 13
-time.sleep(0)
-
 command = [255, 255, servoId2, 5, 4, 30, 0, 0, 0]    # command list
 
-# Set to position 300 ID 13
+# Set to position x ID 13
 position = 1023                                         # define position
 command[6] = position & 255                         # set data low byte in command list
 command[7] = position >> 8                          # set data high byte in command list
@@ -46,4 +43,32 @@ sendCommand(command)
 command = [255, 255, 254, 2, 5, 250]
 sendCommand(command)
 
+# ------------------------
+# Set the position back to 0
 
+# ID 8
+commandBack = [255, 255, servoId, 5, 4, 30, 0, 0, 0]
+
+# Set to position 0
+position = 0
+commandBack[6] = position & 255                         # set data low byte in command list
+commandBack[7] = position >> 8                          # set data high byte in command list
+sendCommand(commandBack)
+
+time.sleep(2)
+
+# ID 13
+commandBack = [255, 255, servoId2, 5, 4, 30, 0, 0, 0]
+
+# Set to position 0
+position = 0
+commandBack[6] = position & 255                         # set data low byte in command list
+commandBack[7] = position >> 8                          # set data high byte in command list
+sendCommand(commandBack)
+
+# Execute reg written actions
+commandBack = [255, 255, 254, 2, 5, 250]
+sendCommand(commandBack)
+
+command = [255, 255, 1, 4, 2, 30, 0, 0, 204]
+sendCommand(command)

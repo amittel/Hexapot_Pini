@@ -51,14 +51,16 @@ class Dynamixel:
     # register -> register address of servo
     # nByte    -> number of bytes to read
     def __writeReadDataPkt(self, register, nByte):
-
+        command = [255, 255, 1, 4, 2, 30, register, nByte, 204]
     # Read status packet, set error value and get return values from servo
     # nByte    -> number of bytes to read
     def __readStatusPkt(self, nByte):
-
+        command = [255,255, 1, 3, 0, nByte, 219]
     # Calculates check sum of packet list
     def __checkSum(self, pkt):
-
+        # ------------------------------
+        checkSum = 0
+        #-------------------------------
     # Read status packet, set error value and get return values from servo
     # nByte -> number of bytes to read
     def __doReadStatusPkt(self, nByte):
