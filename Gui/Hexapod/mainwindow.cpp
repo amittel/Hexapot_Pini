@@ -45,10 +45,7 @@ void MainWindow::on_actionBeenden_triggered()
 
 void MainWindow::on_actionHexapod_Einrichtung_triggered()
 {
-    // The commented code runs, but keeps focus on opened window "MyDialog"
-//    MyDialog mDialog;
-//    mDialog.setModal(false);
-//    mDialog.exec();
+    // Opening this dialog will block userinput to the mainwindow ("setModal -> false")
     SettingsDialog sDialog;
     sDialog.setModal(false);
     sDialog.exec();
@@ -56,6 +53,7 @@ void MainWindow::on_actionHexapod_Einrichtung_triggered()
 
 void MainWindow::on_actionInfo_triggered()
 {
+    // Opening this dialog will block userinput to the mainwindow ("setModal -> false")
     InfoDialog iDialog;
     iDialog.setModal(false);
     iDialog.exec();

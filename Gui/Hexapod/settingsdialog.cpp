@@ -5,6 +5,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SettingsDialog)
 {
+    // Set the Window Icon
+    setWindowIcon(QIcon(":/data/files/Decepticons-Logo.png"));
     ui->setupUi(this);
 }
 

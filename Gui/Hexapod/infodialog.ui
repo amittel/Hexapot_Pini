@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Über Hexapod Steuerungssoftware</string>
   </property>
   <widget class="QLabel" name="label_logo">
    <property name="geometry">
@@ -37,12 +37,12 @@
     <rect>
      <x>90</x>
      <y>20</y>
-     <width>121</width>
+     <width>461</width>
      <height>51</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Hexapod&lt;br/&gt;&lt;/span&gt;Version 1.0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Hexapod Steuerungssoftware - Team Blau&lt;br/&gt;&lt;/span&gt;Version 1.0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QTabWidget" name="tabWidget">
@@ -61,21 +61,111 @@
     <attribute name="title">
      <string>Über</string>
     </attribute>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>60</y>
+       <width>541</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hexapod Steuerungssoftware&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Copyright © 2019-2020 Team Blau&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://www.fh-bielefeld.de/ium/presse/aktuelles/hexapod-walking-challenge&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://www.fh-bielefeld.de/ium/presse/aktuelles/&lt;br/&gt;hexapod-walking-challenge&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Liezenz: Link zum Lizenz-Dialog&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab1">
     <attribute name="title">
      <string>Bibliotheken</string>
     </attribute>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>201</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'sans-serif'; color:#222222; background-color:#ffffff;&quot;&gt;• &lt;/span&gt;KDE Frameworks 5.55.0&lt;br/&gt;&lt;span style=&quot; font-family:'sans-serif'; color:#222222; background-color:#ffffff;&quot;&gt;• &lt;/span&gt;Qt 5.13 (kompiliert gegen 5.13)&lt;br/&gt;&lt;span style=&quot; font-family:'sans-serif'; color:#222222; background-color:#ffffff;&quot;&gt;• &lt;/span&gt;Das &lt;span style=&quot; font-style:italic;&quot;&gt;xcb&lt;/span&gt; Fenstersystem&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab2">
     <attribute name="title">
      <string>Autoren</string>
     </attribute>
+    <widget class="QTextBrowser" name="textBrowser">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>561</width>
+       <height>281</height>
+      </rect>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Noto Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Bitte verwenden Sie &lt;/span&gt;&lt;a href=&quot;https://github.com/amittel/Hexapot_Pini/issues&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;https://github.com/amittel/Hexapot_Pini/issues&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt; für Problemberichte.&lt;br /&gt;&lt;br /&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br /&gt;Chefentwickler&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab3">
     <attribute name="title">
      <string>Übersertzung</string>
     </attribute>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>561</width>
+       <height>271</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Noto Sans';&quot;&gt;Arnulf Mittelstädt&lt;br/&gt;Chefentwickler&lt;br/&gt;&lt;/span&gt;&lt;a href=&quot;mailto:arnulf.mittelstaedt@fh-bielefeld.de&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;E-Mail&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;KDE wird dank der Arbeit von Teams in aller Welt in viele&lt;br/&gt;Sprachen übersetzt.&lt;br/&gt;&lt;br/&gt;Allgemeine Informationen zur Übersetzug finden Sie unter&lt;br/&gt;&lt;a href=&quot;https://l10n.kde.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://l10n.kde.org/&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;Informationen zur deutschen Übersetzung unter &lt;a href=&quot;https://community.kde.org/KDE_Localization/de&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://&lt;br/&gt;community.kde.org/KDE_Localization/de&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QPushButton" name="pushButton">
