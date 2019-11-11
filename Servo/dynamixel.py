@@ -45,7 +45,7 @@ class Dynamixel:
         self.id = id
     # Start predefined action on servo
     # id -> id of servo to ping, without id -> broadcast action
-    def __doAction(self, id=_ID_BROADCAST):
+    def __doAction(self, id = _ID_BROADCAST):
         command = [255, 255, id, 2, 5, 250]
     # Prepares and sends packet to servo in order to read data from servo memory
     # register -> register address of servo
