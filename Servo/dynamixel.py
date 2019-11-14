@@ -43,26 +43,38 @@ class Dynamixel:
     # id -> id of attached servo
     def __init__(self, id):
         self.id = id
+
     # Start predefined action on servo
     # id -> id of servo to ping, without id -> broadcast action
-    def __doAction(self, id = _ID_BROADCAST):
-        command = [255, 255, id, 2, 5, 250]
+    def __doAction(self, id=_ID_BROADCAST):
+        actionPkt = [255, 255, 0, 2, 5, 0]
+        actionPkt[2] = id
+        actionPkt[-1] = self.__checkSum(actionPkt)
+
     # Prepares and sends packet to servo in order to read data from servo memory
     # register -> register address of servo
     # nByte    -> number of bytes to read
     def __writeReadDataPkt(self, register, nByte):
-        command = [255, 255, 1, 4, 2, 30, register, nByte, 204]
+        readPkt = [255, 255, 0, 4, 2, 0, 0, 0]
+        readPkt[2] = self.id
+        readPkt[5] = register
+        readPkt[6] = nByte
+        readPkt[-1] = self.__checkSum(readPkt)
+
     # Read status packet, set error value and get return values from servo
     # nByte    -> number of bytes to read
     def __readStatusPkt(self, nByte):
-        command = [255,255, 1, 3, 0, nByte, 219]
+        statusPkt = self.__serial_port()
+
     # Calculates check sum of packet list
     def __checkSum(self, pkt):
         s = sum(pkt[2:-1])
         return (~s) & 0xFF
+
     # Read status packet, set error value and get return values from servo
     # nByte -> number of bytes to read
     def __doReadStatusPkt(self, nByte):
+        pass
 
     # Definition of protected methods
     # Accessible within own and derived classes
@@ -71,23 +83,27 @@ class Dynamixel:
     # register -> register address of servo
     # dtLen    -> number of data bytes to read
     def _requestNByte(self, register, dtLen=1):
+        pass
 
     # Read data word from servo memory
     # register -> register address of servo
     # dtWLen   -> number of data words to read
     def _requestNWord(self, register, dtWlen=1):
+        pass
 
     # Sends packet to servo in order to write n data bytes into servo memory
     # register -> register address of servo
     # data     -> list of bytes to write
     # trigger  -> False -> command is directly executed, True -> command is delayed until action command
     def _writeNBytePkt(self, register, data, trigger):
+        pass
 
     # Sends packet to servo in order to write data dword into servo memory
     # register -> register address of servo
     # data     -> list of words to write
     # trigger  -> False -> command is directly executed, True -> command is delayed until action command
     def _writeNWordPkt(self, register, data, trigger):
+        pass
 
     # Definition of public methods with implicit servo-id
     # Accessible from everywhere
@@ -103,4 +119,3 @@ class Dynamixel:
     # Get last error
     def getLastError(self):
         return self.error
-
