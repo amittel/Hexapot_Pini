@@ -60,11 +60,18 @@ class Dynamixel:
         readPkt[5] = register
         readPkt[6] = nByte
         readPkt[-1] = self.__checkSum(readPkt)
-
     # Read status packet, set error value and get return values from servo
     # nByte    -> number of bytes to read
     def __readStatusPkt(self, nByte):
-        statusPkt = self.__serial_port()
+        global parameters     # ??????????? not sure about global (auto-correct)
+        statusPkt = list(self.__serial_port.read(self.__STATUS_PACKET_BASE_LENGTH + nByte))
+        checkPkt = self.__checkSum(list)
+        if checkPkt == statusPkt[-1]:
+            parameters = statusPkt[5:-1]
+            error = statusPkt[4]
+        else:
+            error = 0x10
+        return [parameters, error]
 
     # Calculates check sum of packet list
     def __checkSum(self, pkt):
@@ -74,7 +81,7 @@ class Dynamixel:
     # Read status packet, set error value and get return values from servo
     # nByte -> number of bytes to read
     def __doReadStatusPkt(self, nByte):
-        pass
+        pass  # same as __readStatusPkt?
 
     # Definition of protected methods
     # Accessible within own and derived classes
