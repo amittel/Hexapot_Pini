@@ -17,10 +17,8 @@ import time
 class JointDrive(ServoAx12a):
     # Definition of public class attributes
     # ----------------------------------------------------------------------
-    _ANGLE_RADIAN_ZERO = (
-                                     ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi / 360  # Zero angle offset of servo in radian
-    _ANGLE_UNIT = ServoAx12a._ANGLE_MAX_TICKS / ((ServoAx12a._ANGLE_MAX_DEGREE - \
-                                                  ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)  # Ticks per rad
+    _ANGLE_RADIAN_ZERO = (ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi / 360  # Zero angle offset of servo in radian
+    _ANGLE_UNIT = ServoAx12a._ANGLE_MAX_TICKS / ((ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)  # Ticks per rad
 
     # Private methods
     # ----------------------------------------------------------------------
@@ -30,9 +28,10 @@ class JointDrive(ServoAx12a):
     def __init__(self, id, ccw=False, aOffset=0.0, aMax=math.pi * 2, aMin=-math.pi * 2):
         self.id = id
         self.ccw = False
-        self.aOffset = 0.0
+        self.aOffset = 0.0x
         self.aMax = math.pi * 2
         self.aMin = -math.pi * 2
+        super().__init__(id)
     # Converts angle in radian to servo ticks
     # angle -> in radian, returns angle in servo ticks
     _CONST_ANGLE_TO_TICKS = 1023 / (5 * math.pi / 3)

@@ -90,7 +90,7 @@ class Dynamixel:
     def _writeNWordPkt(self, register, data, trigger):
 
     # Definition of public methods with implicit servo-id
-    # Accessible from everywere
+    # Accessible from everywhere
     # ---------------------------------------------------------------------------
     # Show available serial lines
     def showSerialLines(self):
