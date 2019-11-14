@@ -51,65 +51,66 @@ class ServoAx12a(Dynamixel):
     # Get time of return delay
     # returns: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
     def getReturnDelay(self):
+        return self.__RETURN_DELAY_TIME
 
     # Get status return level
     # returns: 0->No return against all commands (Except PING Command), 1->Return only for the READ command, 2->Return for all commands
     def getReturnLevel(self):
-
+        return self.__RETURN_LEVEL
     # Get goal position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
     def getGoalPosition(self):
-
+        return self.__GOAL_POSITION
     # Get moving speed
     # returns: 0 to 1023, the unit is about 0.111rpm.
     #          If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #          If it is 1023, it is about 114rpm.
     def getMovingSpeed(self):
-
+        return self.__MOVING_SPEED
     # Get present position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
     def getPresentPosition(self):
-
+        return self.__PRESENT_POSITION
     # Get present speeed
     # returns: 0 to 1023, the unit is about 0.111rpm.
     #          If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #          If it is 1023, it is about 114rpm.
     def getPresentSpeed(self):
-
-    # Get present position and speed, returns: [position, speed]
+        return self.__PRESENT_SPEED
+    # Get goal position and speed, returns: [position, speed]
     # position: 0 ~ 1023,
     # speed:    0 to 1023, the unit is about 0.111rpm.
     #           If it is 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
     def getGoalPosSpeed(self):
-
+        return [self.__GOAL_POSITION, self.__MOVING_SPEED]
     # Get present position and speed, returns: [position, speed]
     # position: 0 ~ 1023,
     # speed:    0 to 1023, the unit is about 0.111rpm.
     #           If it 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
     def getPresPosSpeed(self):
-
+        return [self.__PRESENT_POSITION, self.__PRESENT_SPEED]
     # Setter methods for servo Ax12a
     # ----------------------------------------------------------------------
     # Set time of return delay
     # delay: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
     def setReturnDelay(self, delay, trigger=False):
-
+        self.__RETURN_DELAY_TIME = delay
     # Set status return level
     # 0->No return against all commands (Except PING Command), 1->Return only for the READ command, 2->Return for all commands
     def setReturnLevel(self, level, trigger=False):
-
+        self.__RETURN_LEVEL = level
     # Set goal position
     # position: 0 to 1023 is available. The unit is 0.29 degree.
     def setGoalPosition(self, position, trigger=False):
-
+        self.__GOAL_POSITION = position
     # Set moving speed
     # speed: 0~1023 can be used, and the unit is about 0.111rpm.
     #        If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #        If it is 1023, it is about 114rpm.
     def setMovingSpeed(self, speed, trigger=False):
-
+        self.__MOVING_SPEED = speed
     # Set goal position and speed
     # position: 0 to 1023 is available. The unit is 0.29 degree.
     # speed:    0~1023 can be used, and the unit is about 0.111rpm.

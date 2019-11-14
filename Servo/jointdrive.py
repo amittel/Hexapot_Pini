@@ -60,7 +60,7 @@ class JointDrive(ServoAx12a):
     # Get current angle of servo
     # returns angle in radian
     def getCurrentJointAngle(self):
-        return self.currentJointAngle
+
     # Set servo to desired angle
     # angle -> in radian,
     # speed -> speed of movement, speed < 0 -> no speed set, speed = 0 -> maximum speed
