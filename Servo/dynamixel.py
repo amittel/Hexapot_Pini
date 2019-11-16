@@ -41,6 +41,9 @@ class Dynamixel:
     # ---------------------------------------------------------------------------
     # Constructor, sets id and defines error variable
     # id -> id of attached servo
+    """
+        Constructor sets ID and error
+    """
     def __init__(self, id):
         self.id = id
         self.error = 0
@@ -101,16 +104,29 @@ class Dynamixel:
     # Read data byte from servo memory
     # register -> register address of servo
     # dtLen    -> number of data bytes to read
+    """
+    Requests NBytes from parameters n+1 to m
+    """
     def _requestNByte(self, register, dtLen=1):
         self.__writeReadDataPkt(register, dtLen)
         data = self.__doReadStatusPkt(dtLen)
-        return data
+        if data is None:
+            return None
+        else:
+            return data
 
     # Read data word from servo memory
     # register -> register address of servo
     # dtWLen   -> number of data words to read
     def _requestNWord(self, register, dtWlen=1):
-        pass
+        dataList = dtWlen * 2
+        if dataList == None:
+            return None
+        else:
+            self.__writeReadDataPkt(register, dataList)
+            return dataList
+
+
 
     # Sends packet to servo in order to write n data bytes into servo memory
     # register -> register address of servo
