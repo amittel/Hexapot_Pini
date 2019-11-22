@@ -38,7 +38,6 @@ class JointDrive(ServoAx12a):
     # Converts angle in radian to servo ticks
     # angle -> in radian, returns angle in servo ticks
     _CONST_ANGLE_TO_TICKS = 1023 / (5 * math.pi / 3)
-
     def __convertAngleToTicks(self, angle):
         return self._CONST_ANGLE_TO_TICKS * angle
 
@@ -50,20 +49,22 @@ class JointDrive(ServoAx12a):
     # Converts speed in rpm to servo ticks
     # speed -> value in rpm
     _CONST_SPEED_TO_TICKS = 1023 / 114
-
     def __convertSpeedToTicks(self, speed):
         return self._CONST_SPEED_TO_TICKS * speed
 
     # Converts ticks to speed in rpm
     # ticks -> servo ticks
     def __convertTicksToSpeed(self, ticks):
-        ticksToSpeed = ticks / self._CONST_SPEED_TO_TICKS
-        return ticksToSpeed
+        return ticks / self._CONST_SPEED_TO_TICKS
     # Public methods
     # ----------------------------------------------------------------------
     # Get current angle of servo
     # returns angle in radian
     def getCurrentJointAngle(self):
+        angle_in_ticks = self.getPresentPosition()
+        if(angle_in_ticks is None):
+            return self.curAngle
+        angle = self.__convertTicksToAngle(angle_in_ticks)
 
     # Set servo to desired angle
     # angle -> in radian,
