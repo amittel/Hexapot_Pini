@@ -119,28 +119,59 @@ class Dynamixel:
     # register -> register address of servo
     # dtWLen   -> number of data words to read
     def _requestNWord(self, register, dtWlen=1):
-        dataList = dtWlen * 2
-        if dataList == None:
+        dtLen = dtWlen * 2
+        self.__writeReadDataPkt(register, dtLen)
+        data = self.__doReadStatusPkt(dtLen)
+        if data is None:
             return None
         else:
-            self.__writeReadDataPkt(register, dataList)
-            return dataList
+            return data
 
-
-
+    """
+    WRITE_DATA Write data bytes into the control table of the Dynamixel actuator
+    """
     # Sends packet to servo in order to write n data bytes into servo memory
     # register -> register address of servo
     # data     -> list of bytes to write
     # trigger  -> False -> command is directly executed, True -> command is delayed until action command
     def _writeNBytePkt(self, register, data, trigger):
-        pass
+        pktWriteNByte = [255, 255, 0, 0, 3, 0]
+        # pktWriteNByte[2] = self.id
+        # pktWriteNByte[5] = register
+
+        writeLength = len(data) + 3
+        for dataNum in data:
+            pktWriteNByte.append(dataNum & 255)
+        pktWriteNByte.append(0)
+
+        pktWriteNByte[3] = writeLength
+        pktWriteNByte[2] = self.id
+        pktWriteNByte[5] = register
+        pktWriteNByte[-1] = self.__checkSum(pktWriteNByte)
+        pktWriteNByte[4] = self.__TRIGGERT_ACTION if trigger else self.__DIRECT_ACTION
+
+        Dynamixel.__serial_port.write(pktWriteNByte)
 
     # Sends packet to servo in order to write data dword into servo memory
     # register -> register address of servo
     # data     -> list of words to write
     # trigger  -> False -> command is directly executed, True -> command is delayed until action command
     def _writeNWordPkt(self, register, data, trigger):
-        pass
+        pktWriteWord = [255, 255, 0, 5, 3, 0, 0, 0, 0]
+        writeLength = len(data) + 3
+
+        for dataNum in data:
+            pktWriteWord.append(dataNum & 255)
+            pktWriteWord.append(dataNum >> 8 & 255)
+        pktWriteWord.append(0)
+
+        pktWriteWord[3] = writeLength
+        pktWriteWord[2] = self.id
+        pktWriteWord[5] = register
+        pktWriteWord[-1] = self.__checkSum(pktWriteWord)
+        pktWriteWord[4] = self.__TRIGGERT_ACTION if trigger else self.__DIRECT_ACTION
+
+        Dynamixel.__serial_port.write(pktWriteWord)
 
     # Definition of public methods with implicit servo-id
     # Accessible from everywhere
