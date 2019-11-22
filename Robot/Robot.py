@@ -4,7 +4,6 @@ import os
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 import mpl_toolkits.mplot3d.axes3d as p3
 import mpl_toolkits.mplot3d.art3d as art3d
 
@@ -12,23 +11,22 @@ import mpl_toolkits.mplot3d.art3d as art3d
 class Robot:
 
     def __init__(self, isReal):
-        self.isReal = isReal
-        self.stepSize = 0.1  # Distance of trajectory points
-        self.stepHeight = 0.5  # Bereich von 0 bis 1
+        self.isReal = isReal  # Flag if the robot is simulated (animation) or real (no animation)
+        self.stepSize = 0.1  # Spacing of trajectory points
+        self.stepHeight = 0.5  # Working area from 0 to 1
         self.accuracy = 4  # Amount of decimals
-        self.swing = self.createSwingTrajectory()
-        self.stem = self.createStemTrajectory()
-        self.cycleTime = 0.1
-        self.walkingAngle = 0
+        self.trajectory = self.createTrajectory()
+        self.cycleTime = 0.1  # Time for each step size
+        self.walkingAngle = 0  # Current movement angle
         self.legs = []
-        self.swingLegs = [0, 2, 4]  # Werte sind indizes von legs
-        self.stemLegs = [1, 3, 5]
+        self.legsGroup1 = [0, 2, 4]  # Group 1 starts swinging
+        self.legsGroup2 = [1, 3, 5]  # Group 2 starts stemming
 
-        if not self.isReal:
+        if not self.isReal:  # Only for animation
             self.fig = plt.figure()
             self.ax1 = p3.Axes3D(self.fig)
             self.init_plotting()
-            # Matrizen in array für Animation der Beinpunkte
+            # Translation matrix for displacement of foot points in animation
             self.translationMatrix = np.array([
                 np.array([
                     [1, 0, 0, 3],
@@ -62,10 +60,11 @@ class Robot:
                     [0, 0, 0, 1]])])
 
     def iterate(self):
-        os.system("cls")
-        # Aktuelle Position in Trajektorie init
-        n = -1
-        cycle = 0
+        os.system("cls")  # Supposed to clear console
+        indexLegs1 = -1  # Index in trajectory of three legs that start swinging (-1 cuz it starts to count up in loop)
+        indexLegs2 = int(len(
+            self.trajectory) / 2 - 1)  # Index in trajectory of three legs that start stemming  (-1 cuz it starts to count up in loop)
+        # Temporary variables for checking of read in values
         angle = self.walkingAngle
         height = self.stepHeight
         while 1:
@@ -74,28 +73,16 @@ class Robot:
             #############
             #     E     #
             #############
-            # Index der aktuellen Trajektionsposition
-            n += 1
-            if n == len(self.swing):
-                n = 0
-                cycle += 1
-                if cycle == 2:
-                    cycle = 0
-            if cycle == 0:
-                if n == 0:
-                    self.swingLegs = [0, 2, 4]
-                    self.stemLegs = [1, 3, 5]
-                elif n == len(self.swing) / 2:
-                    self.swingLegs = [1, 3, 5]
-                    self.stemLegs = [0, 2, 4]
-            else:
-                if n == 0:
-                    self.swingLegs = [1, 3, 5]
-                    self.stemLegs = [0, 2, 4]
-                elif n == len(self.swing) / 2:
-                    self.swingLegs = [0, 2, 4]
-                    self.stemLegs = [1, 3, 5]
-            if n == 0 and not self.isReal:  # Nur für animation und bei Position 0 auslesen
+            indexLegs1 += 1
+            indexLegs2 += 1
+            # Indices iterate spaced by half trajectory length through trajectory.
+            if indexLegs1 == len(self.trajectory):
+                indexLegs1 = 0
+            if indexLegs2 == len(self.trajectory):
+                indexLegs2 = 0
+            # For animation. Changes only apply when three legs are at their highest position
+            # TODO: COM OBJEKT AUSLESEN
+            if (indexLegs1 == 0 or indexLegs2 == 0) and not self.isReal:
                 # Angle & Step height
                 try:
                     input_data = open('Steuer.txt', 'r').read()
@@ -111,30 +98,29 @@ class Robot:
                 if is_number(height):
                     if float(height) <= 1:
                         self.stepHeight = float(height)
-                        self.swing = self.createSwingTrajectory()
+                        self.trajectory = self.createTrajectory()
 
             #############
             #     V     #
             #############
-            # Kopie der aktuellen Position um trajectory nicht zu verändern
-            curPosSwing = copy.deepcopy(self.swing[n])
-            curPosStem = copy.deepcopy(self.stem[n])
-            # Rotationsmatrix für Verarbeitung vom Winkel
+            # Copy of current positions to not change them
+            curPos1 = copy.deepcopy(self.trajectory[indexLegs1])
+            curPos2 = copy.deepcopy(self.trajectory[indexLegs2])
             rotationMatrix = self.rotationMatrixZ(self.walkingAngle)
-            self.legs = []
-            # Koordinaten für jedes Bein anhängen
+            self.legs = []  # Clear legs for new positions
+            # Append current coordinates for each leg
             if self.isReal:
                 for i in range(0, 6):
-                    if i in self.stemLegs:
-                        self.legs.append(np.dot(rotationMatrix, curPosStem))
-                    elif i in self.swingLegs:
-                        self.legs.append(np.dot(rotationMatrix, curPosSwing))
+                    if i in self.legsGroup1:
+                        self.legs.append(np.dot(rotationMatrix, curPos1))
+                    elif i in self.legsGroup2:
+                        self.legs.append(np.dot(rotationMatrix, curPos2))
             else:
                 for i in range(0, 6):
-                    if i in self.stemLegs:
-                        self.legs.append(np.dot(np.dot(self.translationMatrix[i], rotationMatrix), curPosStem))
-                    elif i in self.swingLegs:
-                        self.legs.append(np.dot(np.dot(self.translationMatrix[i], rotationMatrix), curPosSwing))
+                    if i in self.legsGroup1:
+                        self.legs.append(np.dot(np.dot(self.translationMatrix[i], rotationMatrix), curPos1))
+                    elif i in self.legsGroup2:
+                        self.legs.append(np.dot(np.dot(self.translationMatrix[i], rotationMatrix), curPos2))
 
             #############
             #     A     #
@@ -145,40 +131,34 @@ class Robot:
                 print("\nTime: %f" % (end_time - start_time))
                 time.sleep(self.cycleTime - (end_time - start_time))
             else:
-                # animation.FuncAnimation(self.fig, self.refreshData(), interval=10)
                 self.animate()
                 end_time = time.perf_counter()
                 print("\nTime: %f" % (end_time - start_time))
 
-    def createSwingTrajectory(self):
+    def createTrajectory(self):
         """
-        Hier wird die Trajektorie der Schwingbewegung generiert
-        :return: Liste mit Koordinaten 
+        Returns a List with variable length depending on predefined stepSize
+        Starting with the topmost point of the swing phase for easy determination of the point for direction switching
         """
-        swingList = []
+        trajectory = []
         for i in np.arange(0, 1, (self.stepSize)):
-            swingList.append([round(i, self.accuracy), 0, round(self.swingFunctionCalculation(i), self.accuracy), 1])
+            trajectory.append([round(i, self.accuracy), 0, round(self.swingFunctionCalculation(i), self.accuracy), 1])
+        for i in np.arange(1, -1, -(self.stepSize)):
+            trajectory.append([round(i, self.accuracy), 0, 0, 1])
         for i in np.arange(-1, 0, (self.stepSize)):
-            swingList.append([round(i, self.accuracy), 0, round(self.swingFunctionCalculation(i), self.accuracy), 1])
-        return swingList
-
-    def createStemTrajectory(self):
-        """
-        Hier wird die Trajektorie der Stemmbewegung generiert
-        :return:
-        """
-        stemList = []
-        for i in np.arange(0, -1, -(self.stepSize)):
-            stemList.append([round(i, self.accuracy), 0, 0, 1])
-        for i in np.arange(1, 0, -(self.stepSize)):
-            stemList.append([round(i, self.accuracy), 0, 0, 1])
-        return stemList
+            trajectory.append([round(i, self.accuracy), 0, round(self.swingFunctionCalculation(i), self.accuracy), 1])
+        return trajectory
 
     def swingFunctionCalculation(self, x):
-        # Kosinus für variable Höhe
+        """
+        Returns a value depending on x. The function defines the movement of the legs during swing phase
+        """
         return np.abs(self.stepHeight * math.cos((math.pi / 2) * x))
 
     def rotationMatrixZ(self, angle):
+        """
+        Return a matrix for the rotation of movement around the Z-axis
+        """
         rotationMatrix = np.array([
             [round(np.cos(angle), self.accuracy), round(-np.sin(angle), self.accuracy), 0, 0],
             [round(np.sin(angle), self.accuracy), round(np.cos(angle), self.accuracy), 0, 0],
@@ -190,18 +170,24 @@ class Robot:
     # PLOTTING
 
     def animate(self):
+        """
+        Reads the coordinates in self.legs, prints them and clears them afterwards
+        """
         dots = []
-        for i, l in enumerate(self.legs):
-            if i in self.swingLegs:
+        for l in self.legs:
+            if l[2] > 0:  # Z-coordinate > 0 (swing phase)
                 c = 'red'
             else:
                 c = 'black'
             dots.append(self.ax1.scatter(l[0], l[1], l[2], c=c))
-        plt.pause(0.0000000000000000000000000000001)
+        plt.pause(0.0000001)
         for d in dots:
             d.remove()
 
     def init_plotting(self):
+        """
+        Initializes the coordinate system for the animation
+        """
         # Plotting
         self.ax1.set_xlabel('X', fontsize=14, fontweight='bold', color='b')
         self.ax1.set_ylabel('Y', fontsize=14, fontweight='bold', color='r')
@@ -220,19 +206,22 @@ class Robot:
         for c in circles:
             self.ax1.add_patch(c)
             art3d.pathpatch_2d_to_3d(c)
-        plt.ion()  # Turn the interactive mode on
+        plt.ion()  # Turn the interactive mode on.
 
 
 # Outside of Robot
 
 def is_number(s):
+    """
+    Checks value s if it is a number
+    """
     try:
         float(s)
         return True
     except ValueError:
         return False
 
-#Test
+
 ############################
 #           TEST           #
 ############################
