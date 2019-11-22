@@ -156,3 +156,4 @@ class Dynamixel:
     # Get last error
     def getLastError(self):
         return self.error
+
