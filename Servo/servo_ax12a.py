@@ -45,43 +45,49 @@ class ServoAx12a(Dynamixel):
     # ----------------------------------------------------------------------
     # Constructor, return level and return delay are set
     def __init__(self, id):
-        super().__init__(id)
+        super().__init__(self, id)
 
     # Getter methods for servo Ax12a
     # ----------------------------------------------------------------------
     # Get time of return delay
     # returns: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
     def getReturnDelay(self):
-        return self.__RETURN_DELAY_TIME
+        returnDelay = self._requestNByte(self.__RETURN_DELAY_TIME)
+        return returnDelay
 
     # Get status return level
     # returns: 0->No return against all commands (Except PING Command), 1->Return only for the READ command, 2->Return for all commands
     def getReturnLevel(self):
-        return self.__RETURN_LEVEL
+        returnLevel = self._requestNByte(self.__RETURN_LEVEL)
+        return returnLevel
 
     # Get goal position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
     def getGoalPosition(self):
-        return self.__GOAL_POSITION
+        goalPosition = self._requestNWord(self.__GOAL_POSITION)
+        return goalPosition
 
     # Get moving speed
     # returns: 0 to 1023, the unit is about 0.111rpm.
     #          If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #          If it is 1023, it is about 114rpm.
     def getMovingSpeed(self):
-        return self.__MOVING_SPEED
+        movingSpeed = self._requestNWord(self.__MOVING_SPEED)
+        return movingSpeed
 
     # Get present position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
     def getPresentPosition(self):
-        return self.__PRESENT_POSITION
+        presentPosition = self._requestNWord(self.__PRESENT_POSITION)
+        return presentPosition
 
     # Get present speed
     # returns: 0 to 1023, the unit is about 0.111rpm.
     #          If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #          If it is 1023, it is about 114rpm.
     def getPresentSpeed(self):
-        return self.__PRESENT_SPEED
+        presentSpeed = self._requestNWord(self.__PRESENT_SPEED)
+        return presentSpeed
 
     # Get goal position and speed, returns: [position, speed]
     # position: 0 ~ 1023,
@@ -89,7 +95,8 @@ class ServoAx12a(Dynamixel):
     #           If it is 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
     def getGoalPosSpeed(self):
-        return [self.__GOAL_POSITION, self.__MOVING_SPEED]
+        goalPosSpeed = self._requestNWord(self.__GOAL_POSITION, self.__MOVING_SPEED)
+        return goalPosSpeed
 
     # Get present position and speed, returns: [position, speed]
     # position: 0 ~ 1023,
@@ -97,7 +104,8 @@ class ServoAx12a(Dynamixel):
     #           If it 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
     def getPresPosSpeed(self):
-        return [self.__PRESENT_POSITION, self.__PRESENT_SPEED]
+        presPosSpeed = self._requestNWord(self.__PRESENT_POSITION, self.__PRESENT_SPEED)
+        return presPosSpeed
 
     # Setter methods for servo Ax12a
     # ----------------------------------------------------------------------
@@ -105,29 +113,28 @@ class ServoAx12a(Dynamixel):
     # Set time of return delay
     # delay: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
     def setReturnDelay(self, delay, trigger=False):
-        self.__RETURN_DELAY_TIME = delay
+        self._writeNBytePkt(self.__RETURN_DELAY_TIME, delay, trigger)
         #call a method from Dynamixel to send command
 
 
     # Set status return level
     # 0->No return against all commands (Except PING Command), 1->Return only for the READ command, 2->Return for all commands
     def setReturnLevel(self, level, trigger=False):
-        self.__RETURN_LEVEL = level
+        self._writeNBytePkt(self.__RETURN_LEVEL, level, trigger)
         #call a method from Dynamixel to send command
 
     # Set goal position
     # position: 0 to 1023 is available. The unit is 0.29 degree.
     def setGoalPosition(self, position, trigger=False):
-        if(position >= 0 and position <= 1023):
-            self.__GOAL_POSITION = position
-            # call a method from Dynamixel to send command
+        self._writeNWordPkt(self.__GOAL_POSITION, position, trigger)
+        # call a method from Dynamixel to send command
 
     # Set moving speed
     # speed: 0~1023 can be used, and the unit is about 0.111rpm.
     #        If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #        If it is 1023, it is about 114rpm.
     def setMovingSpeed(self, speed, trigger=False):
-        self.__MOVING_SPEED = speed
+        self._writeNWordPkt(self.__MOVING_SPEED, speed, trigger)
         # call a method from Dynamixel to send command
 
     # Set goal position and speed
@@ -136,6 +143,5 @@ class ServoAx12a(Dynamixel):
     #           If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
     def setGoalPosSpeed(self, position, speed, trigger=False):
+        self._writeNWordPkt(self.__GOAL_POSITION, [position, speed], trigger)
         # call a method from Dynamixel to send command
-        pass
-

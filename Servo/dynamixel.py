@@ -104,6 +104,7 @@ class Dynamixel:
                 self.error = 0x40
         else:
             self.error = 0x80
+
         paramErrorPkt = [parameters, self.error]
         if paramErrorPkt is not [None, 0]:
             if parameters is not None:
