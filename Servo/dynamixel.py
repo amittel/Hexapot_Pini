@@ -48,6 +48,9 @@ class Dynamixel:
         self.id = id
         self.error = 0
 
+    """
+        Trigger the action if the data was written via REG_WRITE
+    """
     # Start predefined action on servo
     # id -> id of servo to ping, without id -> broadcast action
     def __doAction(self, id=_ID_BROADCAST):
@@ -55,6 +58,9 @@ class Dynamixel:
         actionPkt[2] = id
         actionPkt[-1] = self.__checkSum(actionPkt)
 
+    """
+        Read data from the control table of an actuator
+    """
     # Prepares and sends packet to servo in order to read data from servo memory
     # register -> register address of servo
     # nByte    -> number of bytes to read
@@ -65,15 +71,25 @@ class Dynamixel:
         readPkt[6] = nByte
         readPkt[-1] = self.__checkSum(readPkt)
 
+    """
+        Same as __doReadStatusPkt ??
+    """
     # Read status packet, set error value and get return values from servo
     # nByte    -> number of bytes to read
     def __readStatusPkt(self, nByte):
         pass
+
+    """
+        Checks the sum of the parameters to check for Errors
+    """
     # Calculates check sum of packet list
     def __checkSum(self, pkt):
         s = sum(pkt[2:-1])
         return (~s) & 0xFF
 
+    """
+        Read the status packet and return parameter values
+    """
     # Read status packet, set error value and get return values from servo
     # nByte -> number of bytes to read
     def __doReadStatusPkt(self, nByte):
@@ -101,12 +117,12 @@ class Dynamixel:
     # Definition of protected methods
     # Accessible within own and derived classes
     # ---------------------------------------------------------------------------
+    """
+        Requests NBytes (8 bits) from parameters n+1 to m
+    """
     # Read data byte from servo memory
     # register -> register address of servo
     # dtLen    -> number of data bytes to read
-    """
-    Requests NBytes from parameters n+1 to m
-    """
     def _requestNByte(self, register, dtLen=1):
         self.__writeReadDataPkt(register, dtLen)
         data = self.__doReadStatusPkt(dtLen)
@@ -114,7 +130,9 @@ class Dynamixel:
             return None
         else:
             return data
-
+    """
+        Requests NWords (16 bits) from parameters n+1 to m
+    """
     # Read data word from servo memory
     # register -> register address of servo
     # dtWLen   -> number of data words to read
@@ -128,7 +146,7 @@ class Dynamixel:
             return data
 
     """
-    WRITE_DATA Write data bytes into the control table of the Dynamixel actuator
+    WRITE_DATA Write data bytes (8 bits) into the control table of the Dynamixel actuator
     """
     # Sends packet to servo in order to write n data bytes into servo memory
     # register -> register address of servo
@@ -152,6 +170,9 @@ class Dynamixel:
 
         Dynamixel.__serial_port.write(pktWriteNByte)
 
+    """
+    WRITE_DATA Write data words (16 bits) into the control table of the Dynamixel actuator
+    """
     # Sends packet to servo in order to write data dword into servo memory
     # register -> register address of servo
     # data     -> list of words to write
