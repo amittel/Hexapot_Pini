@@ -27,11 +27,10 @@ class JointDrive(ServoAx12a):
     # aMax -> maximum angle allowed, aMin -> minimum angle allowed
     def __init__(self, id, ccw=False, aOffset=0.0, aMax=math.pi * 2, aMin=-math.pi * 2):
         self.id = id
-        self.ccw = False
-        self.aOffset = 0.0
-        self.aMax = math.pi * 2
-        self.aMin = -math.pi * 2
-        self.curAngle = 0.0
+        self.ccw = ccw
+        self.aOffset = aOffset
+        self.aMax = aMax
+        self.aMin = aMin
 
         super().__init__(id)
 
