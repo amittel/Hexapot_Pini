@@ -19,21 +19,21 @@ class Dynamixel:
     # Definition of private class attributes, accessible only within own class
     # ---------------------------------------------------------------------------
     # Define dynamixel constants
-    __DYNAMIXEL_PORT_NR = 0  # Index of dynamixel line in list
-    __BAUDRATE = 1000000  # Baudrate of dynamixel serial line
-    __TIME_OUT_DEFAULT = 2  # Default time out
-    __DIRECT_ACTION = 3  # Direct action command
-    __TRIGGERT_ACTION = 4  # Triggered action command
+    __DYNAMIXEL_PORT_NR         = 0  # Index of dynamixel line in list
+    __BAUDRATE                  = 1000000  # Baudrate of dynamixel serial line
+    __TIME_OUT_DEFAULT          = 2  # Default time out
+    __DIRECT_ACTION             = 3  # Direct action command
+    __TRIGGER_ACTION            = 4  # Triggered action command
     __STATUS_PACKET_BASE_LENGTH = 6  # Base length of status packet
-    __lines = serialPorts.serialPortList()  # Contains all available serial lines
-    __serial_port = serial.Serial(__lines[__DYNAMIXEL_PORT_NR], \
+    __lines                     = serialPorts.serialPortList()  # Contains all available serial lines
+    __serial_port               = serial.Serial(__lines[__DYNAMIXEL_PORT_NR], \
                                   __BAUDRATE, timeout=__TIME_OUT_DEFAULT)  # Serial line object
     # Create templates of command packets
-    __pktAction = [255, 255, 0, 2, 5, 0]  # Packet to invoke action
-    __pktReadData = [255, 255, 0, 4, 2, 0, 0, 0]  # Packet to request date
-    __pktWriteByte = [255, 255, 0, 4, 3, 0, 0, 0]  # Packet to write byte
+    __pktAction     = [255, 255, 0, 2, 5, 0]  # Packet to invoke action
+    __pktReadData   = [255, 255, 0, 4, 2, 0, 0, 0]  # Packet to request date
+    __pktWriteByte  = [255, 255, 0, 4, 3, 0, 0, 0]  # Packet to write byte
     __pktWriteNByte = [255, 255, 0, 0, 3, 0]  # Base-packet to write n-bytes
-    __pktWriteWord = [255, 255, 0, 5, 3, 0, 0, 0, 0]  # Packet to write word
+    __pktWriteWord  = [255, 255, 0, 5, 3, 0, 0, 0, 0]  # Packet to write word
 
     # ---------------------------------------------------------------------------
     # Definition of private methods with implicit servo-id
@@ -78,6 +78,7 @@ class Dynamixel:
     # nByte    -> number of bytes to read
     def __readStatusPkt(self, nByte):
         pass
+
 
     """
         Checks the sum of the parameters to check for Errors
@@ -124,6 +125,9 @@ class Dynamixel:
     # Read data byte from servo memory
     # register -> register address of servo
     # dtLen    -> number of data bytes to read
+    """
+    Requests NBytes from parameters n+1 to m
+    """
     def _requestNByte(self, register, dtLen=1):
         self.__writeReadDataPkt(register, dtLen)
         data = self.__doReadStatusPkt(dtLen)
@@ -131,6 +135,7 @@ class Dynamixel:
             return None
         else:
             return data
+
     """
         Requests NWords (16 bits) from parameters n+1 to m
     """

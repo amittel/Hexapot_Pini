@@ -56,15 +56,14 @@ class JointDrive(ServoAx12a):
     # ticks -> servo ticks
     def __convertTicksToSpeed(self, ticks):
         return ticks / self._CONST_SPEED_TO_TICKS
+
     # Public methods
     # ----------------------------------------------------------------------
     # Get current angle of servo
     # returns angle in radian
     def getCurrentJointAngle(self):
-        angle_in_ticks = self.getPresentPosition()
-        if(angle_in_ticks is None):
-            return self.curAngle
-        angle = self.__convertTicksToAngle(angle_in_ticks)
+        self.curAngle = self.__convertTicksToAngle(self.getPresentPosition())
+        return self.curAngle
 
     # Set servo to desired angle
     # angle -> in radian,
