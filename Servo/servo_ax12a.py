@@ -23,29 +23,29 @@ class ServoAx12a(Dynamixel):
     # Definition of protected class attributes
     # ----------------------------------------------------------------------
     # Servo constants
-    _ANGLE_MAX_TICKS    = 1023  # ticks at highest position (330 degree)
-    _ANGLE_MIN_TICKS    = 0  # ticks at lowest position (30 degree)
-    _ANGLE_MAX_DEGREE   = 300  # highest angle reachable is 330 degree
-    _ANGLE_MIN_DEGREE   = 0  # lowest angle reachable is 30 degree
-    _SPEED_UNIT         = 0.111  # 0.111 rpm per tick
-    _SPEED_MAX_TICKS    = 1023  # 1023
+    _ANGLE_MAX_TICKS    = 1023          # ticks at highest position (330 degree)
+    _ANGLE_MIN_TICKS    = 0             # ticks at lowest position (30 degree)
+    _ANGLE_MAX_DEGREE   = 300           # highest angle reachable is 330 degree
+    _ANGLE_MIN_DEGREE   = 0             # lowest angle reachable is 30 degree
+    _SPEED_UNIT         = 0.111         # 0.111 rpm per tick
+    _SPEED_MAX_TICKS    = 1023          # 1023
     _SPEED_MAX_RPM      = 1023 * 0.111  # 1023 * 0.111 = 113.5 rpm
 
     # Definition of public class attributes
     # ----------------------------------------------------------------------
     # Definition of valid return levels
-    RETURN_LEVEL_PING_COMMAND   = 0  # Status packet is only returned for ping
-    RETURN_LEVEL_READ_COMMANDS  = 1  # Status packet is returned for ping and read requests
-    RETURN_LEVEL_ALL_COMMANDS   = 2  # Status packet is returned for ping, read requests and writes
+    RETURN_LEVEL_PING_COMMAND = 0  # Status packet is only returned for ping
+    RETURN_LEVEL_READ_COMMANDS = 1  # Status packet is returned for ping and read requests
+    RETURN_LEVEL_ALL_COMMANDS = 2  # Status packet is returned for ping, read requests and writes
     # Defines the wait time the servo switches from receive to send mode
     # when a read request packet was received
-    RETURN_DELAY_VALUE          = 10  # Definition of return delay time, value * 2 -> [uS]
+    RETURN_DELAY_VALUE = 10  # Definition of return delay time, value * 2 -> [uS]
 
     # Definition of private methods
     # ----------------------------------------------------------------------
     # Constructor, return level and return delay are set
     def __init__(self, id):
-        super().__init__(self, id)
+        super().__init__(id)
         self.setReturnLevel(self.RETURN_LEVEL_ALL_COMMANDS)
         self.setReturnDelay(self.RETURN_DELAY_VALUE)
 
@@ -57,7 +57,9 @@ class ServoAx12a(Dynamixel):
         return self._requestNByte(ServoAx12a.__RETURN_DELAY_TIME)
 
     # Get status return level
-    # returns: 0->No return against all commands (Except PING Command), 1->Return only for the READ command, 2->Return for all commands
+    # returns:  0->No return against all commands (Except PING Command),
+    #           1->Return only for the READ command,
+    #           2->Return for all commands
     def getReturnLevel(self):
         return self._requestNByte(ServoAx12a.__RETURN_LEVEL)
 
@@ -108,14 +110,14 @@ class ServoAx12a(Dynamixel):
     # delay: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
     def setReturnDelay(self, delay, trigger=False):
         self._writeNBytePkt(self.__RETURN_DELAY_TIME, delay, trigger)
-        #call a method from Dynamixel to send command
-
+        # call a method from Dynamixel to send command
 
     # Set status return level
-    # 0->No return against all commands (Except PING Command), 1->Return only for the READ command, 2->Return for all commands
+    # 0->No return against all commands (Except PING Command),
+    # 1->Return only for the READ command, 2->Return for all commands
     def setReturnLevel(self, level, trigger=False):
         self._writeNBytePkt(self.__RETURN_LEVEL, level, trigger)
-        #call a method from Dynamixel to send command
+        # call a method from Dynamixel to send command
 
     # Set goal position
     # position: 0 to 1023 is available. The unit is 0.29 degree.
