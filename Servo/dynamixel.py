@@ -87,7 +87,7 @@ class Dynamixel:
         command                 = [255, 255, 0, 0, 0, 0]
         command[self.PKT_ID]    = servoId
         command[self.PKT_LEN]   = 2
-        command[self.PKT_INS]   = self.INS_READ_DATA
+        command[self.PKT_INS]   = self.INS_ACTION
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
         self.sendCommand(command)
@@ -125,25 +125,7 @@ class Dynamixel:
     # nByte -> number of bytes to read
     def __doReadStatusPkt(self, nByte):
         statusPkt = list(self.__serial_port.read(self.__STATUS_PACKET_BASE_LENGTH + nByte))
-        # if len(statusPkt) > 5:
-        #     checkSumValue = self.__checkSum(statusPkt)
-        #     if checkSumValue == statusPkt[-1]:
-        #         parameters = statusPkt[5:-2]
-        #         self.error = statusPkt[4]
-        #     else:
-        #         self.error = 0x40
-        # else:
-        #     self.error = 0x80
-        #
-        # paramErrorPkt = [parameters, self.error]
-        # if paramErrorPkt is not [None, 0]:
-        #     if parameters is not None:
-        #         return parameters
-        #     else:
-        #         return self.error
-        # else:
-        #     self.error = 0x80
-        #     return self.error
+
         if statusPkt[self.PKT_CSUM] == self.__checkSum(statusPkt):
             if statusPkt[self.PKT_LEN] == (self.__STATUS_PACKET_BASE_LENGTH + nByte):
                 return statusPkt[self.PKT_PARAM_FIRST : self.PKT_CSUM]
@@ -186,20 +168,6 @@ class Dynamixel:
     # data     -> list of bytes to write
     # trigger  -> False -> command is directly executed, True -> command is delayed until action command
     def _writeNBytePkt(self, register, byteData, trigger):
-        # pktWriteNByte = [255, 255, 0, 0, 3, 0]
-        # # pktWriteNByte[2] = self.id
-        # # pktWriteNByte[5] = register
-        #
-        # writeLength = len(data) + 3
-        # for dataNum in data:
-        #     pktWriteNByte.append(dataNum & 255)
-        # pktWriteNByte.append(0)
-        #
-        # pktWriteNByte[self.PKT_LEN]     = writeLength
-        # pktWriteNByte[self.PKT_ID]      = self.id
-        # pktWriteNByte[self.PKT_REG]     = register
-        # pktWriteNByte[self.PKT_CSUM]    = self.__checkSum(pktWriteNByte)
-        # pktWriteNByte[self.PKT_TRG]     = self.__TRIGGER_ACTION if trigger else self.__DIRECT_ACTION
         command                 = [255, 255, 0, 0, 0, 0]
         command[self.PKT_ID]    = self.id
         command[self.PKT_LEN]   = len(byteData) + 3
@@ -221,24 +189,10 @@ class Dynamixel:
     def _writeNWordPkt(self, register, wordData, trigger):
         byteData = []
         for word in wordData:
-            byteData.append(word & 0xFF)
-            byteData.append(word >> 8 & 0xFF)
+            byteData.append(word & 0xFF)        # append fst. byte
+            byteData.append(word >> 8 & 0xFF)   # append snd. byte
 
         self._writeNBytePkt(register, byteData, trigger)
-        # pktWriteWord = [255, 255, 0, 5, 3, 0, 0, 0, 0]
-        # writeLength = len(data) + 3
-        #
-        # for dataNum in data:
-        #     pktWriteWord.append(dataNum & 255)
-        #     pktWriteWord.append(dataNum >> 8 & 255)
-        # pktWriteWord.append(0)
-        #
-        # pktWriteWord[self.PKT_LEN]     = writeLength
-        # pktWriteWord[self.PKT_ID]     = self.id
-        # pktWriteWord[5]     = register
-        # pktWriteWord[self.PKT_CSUM]    = self.__checkSum(pktWriteWord)
-        # pktWriteWord[self.PKT_TRG]     = self.__TRIGGER_ACTION if trigger else self.__DIRECT_ACTION
-        # Dynamixel.__serial_port.write(pktWriteWord)
 
     # Definition of public methods with implicit servo-id
     # Accessible from everywhere
