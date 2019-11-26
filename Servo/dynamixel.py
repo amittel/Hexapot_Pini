@@ -35,6 +35,10 @@ class Dynamixel:
     __pktWriteNByte = [255, 255, 0, 0, 3, 0]            # Base-packet to write n-bytes
     __pktWriteWord  = [255, 255, 0, 5, 3, 0, 0, 0, 0]   # Packet to write word
 
+    __PKT_ID    = 2
+    __PKT_CSUM  = -1
+
+
     # ---------------------------------------------------------------------------
     # Definition of private methods with implicit servo-id
     # Accessible only within own class
@@ -55,8 +59,8 @@ class Dynamixel:
     # id -> id of servo, without id -> broadcast action
     def __doAction(self, id=_ID_BROADCAST):
         actionPkt = [255, 255, 0, 2, 5, 0]
-        actionPkt[2] = id
-        actionPkt[-1] = self.__checkSum(actionPkt)
+        actionPkt[self.__PKT_ID] = id
+        actionPkt[self.__PKT_CSUM] = self.__checkSum(actionPkt)
 
     """
         Read data from the control table of an actuator
@@ -129,11 +133,11 @@ class Dynamixel:
     """
     def _requestNByte(self, register, dtLen=1):
         self.__writeReadDataPkt(register, dtLen)
-        data = self.__doReadStatusPkt(dtLen)
-        if data is None:
-            return None
-        else:
-            return data
+        return self.__doReadStatusPkt(dtLen)
+        # if data is None:
+        #     return None
+        # else:
+        #     return data
 
     """
         Requests NWords (16 bits) from parameters n+1 to m
@@ -144,11 +148,11 @@ class Dynamixel:
     def _requestNWord(self, register, dtWlen=1):
         dtLen = dtWlen * 2
         self.__writeReadDataPkt(register, dtLen)
-        data = self.__doReadStatusPkt(dtLen)
-        if data is None:
-            return None
-        else:
-            return data
+        return self.__doReadStatusPkt(dtLen)
+        # if data is None:
+        #     return None
+        # else:
+        #     return data
 
     """
     WRITE_DATA Write data bytes (8 bits) into the control table of the Dynamixel actuator
@@ -195,7 +199,7 @@ class Dynamixel:
         pktWriteWord[2]     = self.id
         pktWriteWord[5]     = register
         pktWriteWord[-1]    = self.__checkSum(pktWriteWord)
-        pktWriteWord[4]     = self.__TRIGGERT_ACTION if trigger else self.__DIRECT_ACTION
+        pktWriteWord[4]     = self.__TRIGGER_ACTION if trigger else self.__DIRECT_ACTION
 
         Dynamixel.__serial_port.write(pktWriteWord)
 

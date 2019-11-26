@@ -20,25 +20,30 @@ class JointDrive(ServoAx12a):
     _ANGLE_RADIAN_ZERO = (ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi / 360  # Zero angle offset of servo in radian
     _ANGLE_UNIT = ServoAx12a._ANGLE_MAX_TICKS / ((ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)  # Ticks per rad
 
+    _CONST_ANGLE_TO_TICKS = 1023 / (5 * math.pi / 3)
+    _CONST_SPEED_TO_TICKS = 1023 / 114
     # Private methods
     # ----------------------------------------------------------------------
-    # Constructor, defines the folowing variables: counterClockWise, angleOffset, angleMax, angleMin
+    # Constructor, defines the following variables: counterClockWise, angleOffset, angleMax, angleMin
     # id -> id of servo, cw -> rotating direction, aOffset -> angle offset,
     # aMax -> maximum angle allowed, aMin -> minimum angle allowed
     def __init__(self, id, ccw=False, aOffset=0.0, aMax=math.pi * 2, aMin=-math.pi * 2):
         self.id = id
-        self.ccw = False
-        self.aOffset = 0.0
-        self.aMax = math.pi * 2
-        self.aMin = -math.pi * 2
-        self.curAngle = 0.0
+        self.counterClockWise = ccw
+        self.angleMax = aMax if (aMax > aMin or aMax < self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_ZERO
+        self.angleMin = aMin if (aMin > aMax or aMin < (-1)*self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_ZERO
+        self.aOffset = aOffset
 
         super().__init__(id)
 
     # Converts angle in radian to servo ticks
     # angle -> in radian, returns angle in servo ticks
-    _CONST_ANGLE_TO_TICKS = 1023 / (5 * math.pi / 3)
     def __convertAngleToTicks(self, angle):
+        angle += self.aOffset
+        if self.counterClockWise:
+            angle += self._ANGLE_RADIAN_ZERO
+        else:
+            angle = self._ANGLE_RADIAN_ZERO - angle
         return self._CONST_ANGLE_TO_TICKS * angle
 
     # Converts servo ticks to angle in radian
@@ -48,7 +53,6 @@ class JointDrive(ServoAx12a):
 
     # Converts speed in rpm to servo ticks
     # speed -> value in rpm
-    _CONST_SPEED_TO_TICKS = 1023 / 114
     def __convertSpeedToTicks(self, speed):
         return self._CONST_SPEED_TO_TICKS * speed
 
