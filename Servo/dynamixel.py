@@ -200,12 +200,13 @@ class Dynamixel:
         # pktWriteNByte[self.PKT_REG]     = register
         # pktWriteNByte[self.PKT_CSUM]    = self.__checkSum(pktWriteNByte)
         # pktWriteNByte[self.PKT_TRG]     = self.__TRIGGER_ACTION if trigger else self.__DIRECT_ACTION
-        command                 = [255, 255, 0, 0, 0]
+        command                 = [255, 255, 0, 0, 0, 0]
         command[self.PKT_ID]    = self.id
-        command[self.PKT_LEN]   = len(byteData)
+        command[self.PKT_LEN]   = len(byteData) + 3
         command[self.PKT_INS]   = self.INS_REG_WRITE if trigger else self.INS_WRITE_DATA
+        command[self.PKT_REG]   = register
         command.extend(byteData.append(0))
-        command[self.PKT_ERR]   = self.__checkSum(command)
+        command[self.PKT_CSUM]  = self.__checkSum(command)
 
         self.sendCommand(command)
         # Dynamixel.__serial_port.write(pktWriteNByte)
