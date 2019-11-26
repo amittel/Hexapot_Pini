@@ -36,11 +36,9 @@ class Dynamixel:
     # byte position for package
     PKT_ID          = 2 # byte position for package id
     PKT_LEN         = 3 # byte position for package length
-    PKT_TRG         = 4 # byte position for package trigger
     PKT_INS         = 4 # byte position for package instruction
     PKT_ERR         = 4 # byte position for package error
-    PKT_PARAM_FIRST = 4 # byte position for package param first
-    PKT_PARAM_LAST  =-1 # byte position for package param last
+    PKT_PARAM_FIRST = 5 # byte position for package param first
     PKT_REG         = 5 # byte position for package register
     PKT_DATA_LEN    = 6 # byte position for package read data's length
     PKT_CSUM        =-1 # byte position for package check sum
@@ -148,7 +146,7 @@ class Dynamixel:
         #     return self.error
         if statusPkt[self.PKT_CSUM] == self.__checkSum(statusPkt):
             if statusPkt[self.PKT_LEN] == (self.__STATUS_PACKET_BASE_LENGTH + nByte):
-                return statusPkt[self.PKT_PARAM_FIRST : self.PKT_PARAM_LAST]
+                return statusPkt[self.PKT_PARAM_FIRST : self.PKT_CSUM]
             else:
                 return None, statusPkt[self.PKT_ERR], self.ERR_DEFAULT
         else:
