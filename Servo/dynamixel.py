@@ -137,9 +137,9 @@ class Dynamixel:
 
         if statusPkt[self.PKT_CSUM] == self.__checkSum(statusPkt):
             if statusPkt[self.PKT_LEN] == (self.__STATUS_PACKET_BASE_LENGTH + nByte):
-                return statusPkt[self.PKT_PARAM_FIRST : self.PKT_CSUM]
+                return statusPkt[self.PKT_PARAM_FIRST : self.PKT_CSUM], self.ERR_DEFAULT
             else:
-                return None, statusPkt[self.PKT_ERR], self.ERR_DEFAULT
+                return None, statusPkt[self.PKT_ERR]
         else:
             return None, self.ERR_CHECKSUM
 
