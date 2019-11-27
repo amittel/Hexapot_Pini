@@ -22,19 +22,20 @@ class JointDrive(ServoAx12a):
 
     _CONST_ANGLE_TO_TICKS = 1023 / (5 * math.pi / 3)
     _CONST_SPEED_TO_TICKS = 1023 / 114
+
     # Private methods
     # ----------------------------------------------------------------------
     # Constructor, defines the following variables: counterClockWise, angleOffset, angleMax, angleMin
     # id -> id of servo, cw -> rotating direction, aOffset -> angle offset,
     # aMax -> maximum angle allowed, aMin -> minimum angle allowed
-    def __init__(self, id, ccw=False, aOffset=0.0, aMax=math.pi * 2, aMin=-math.pi * 2):
-        self.id = id
+    def __init__(self, servoId, ccw = False, aOffset = 0.0, aMax = math.pi * 2, aMin = -math.pi * 2):
+        self.id = servoId
         self.counterClockWise = ccw
         self.angleMax = aMax if (aMax > aMin or aMax < self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_ZERO
         self.angleMin = aMin if (aMin > aMax or aMin < (-1)*self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_ZERO
         self.aOffset = aOffset
-
-        super().__init__(id)
+        self.curAngle = 0
+        super().__init__(servoId)
 
     # Converts angle in radian to servo ticks
     # angle -> in radian, returns angle in servo ticks
@@ -71,22 +72,30 @@ class JointDrive(ServoAx12a):
 
     # Set servo to desired angle
     # angle -> in radian,
-    def setDesiredJointAngle(self, angle, trigger=False):
-        self.setGoalPosition(self.__convertAngleToTicks(angle), trigger)
-        self.curAngle -= angle
+    def setDesiredJointAngle(self, angle: float, trigger: bool = False):
+        success = self.setGoalPosition(self.__convertAngleToTicks(angle), trigger)
+        if success:
+            self.curAngle -= angle
+
+        return success
 
     # Set servo to desired angle speed
     # angle -> in radian,
     # speed -> speed of movement in rpm, speed = 0 -> maximum speed
-    def setDesiredAngleSpeed(self, angle, speed=0, trigger=False):
+    def setDesiredAngleSpeed(self, angle: float, speed: int = 0, trigger: bool = False):
         speed_in_ticks = self.__convertSpeedToTicks(speed)
         angle_in_ticks = self.__convertAngleToTicks(angle)
 
-        self.setGoalPosSpeed(angle_in_ticks, speed_in_ticks, trigger)
-        self.curAngle -= angle
+        success = self.setGoalPosSpeed(angle_in_ticks, speed_in_ticks, trigger)
+        if success :
+            self.curAngle -= angle
+
+        return success
 
     # Set speed value of servo
     # speed -> angle speed in rpm
     def setSpeedValue(self, speed, trigger=False):
         speed_in_ticks = self.__convertSpeedToTicks(speed)
-        self.setMovingSpeed(speed_in_ticks, trigger)
+        success = self.setMovingSpeed(speed_in_ticks, trigger)
+
+        return success
