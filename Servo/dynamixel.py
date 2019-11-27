@@ -41,7 +41,7 @@ class Dynamixel:
     PKT_PARAM_FIRST = 5 # byte position for package param first
     PKT_REG         = 5 # byte position for package register
     PKT_DATA_LEN    = 6 # byte position for package read data's length
-    PKT_CSUM        =-1 # byte position for package check sum
+    PKT_CSUM        = -1 # byte position for package check sum
 
     # byte value for instruction
     INS_PING        = 1
