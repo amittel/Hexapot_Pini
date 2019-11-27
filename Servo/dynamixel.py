@@ -147,7 +147,7 @@ class Dynamixel:
         Checks the sum of the parameters to check for Errors
     """
     # Calculates check sum of packet list
-    def __checkSum(self, pkt):
+    def __checkSum(self, pkt: list) -> int:
         s = sum(pkt[2:-1])
         return (~s) & 0xFF
 
@@ -199,7 +199,6 @@ class Dynamixel:
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
         self.__sendCommand(command)
-        # Dynamixel.__serial_port.write(pktWriteNByte)
 
     """
     WRITE_DATA Write data words (16 bits) into the control table of the Dynamixel actuator
@@ -233,4 +232,5 @@ class Dynamixel:
 
     # Get last error
     def getLastError(self):
+        self.__doReadStatusPkt(0)
         return self.error

@@ -54,7 +54,7 @@ class ServoAx12a(Dynamixel):
     # Get time of return delay
     # returns: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
     def getReturnDelay(self):
-        nByte = self._requestNByte(ServoAx12a.__RETURN_DELAY_TIME)
+        nByte = self._requestNByte(self.__RETURN_DELAY_TIME)
         return self.__convertByteToInt(nByte)
 
     # Get status return level
@@ -62,13 +62,13 @@ class ServoAx12a(Dynamixel):
     #           1->Return only for the READ command,
     #           2->Return for all commands
     def getReturnLevel(self):
-        nByte = self._requestNByte(ServoAx12a.__RETURN_LEVEL)
+        nByte = self._requestNByte(self.__RETURN_LEVEL)
         return self.__convertByteToInt(nByte)
 
     # Get goal position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
     def getGoalPosition(self):
-        nByte = self._requestNWord(ServoAx12a.__GOAL_POSITION)
+        nByte = self._requestNWord(self.__GOAL_POSITION)
         return self.__convertByteToInt(nByte)
 
     # Get moving speed
@@ -76,13 +76,13 @@ class ServoAx12a(Dynamixel):
     #          If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #          If it is 1023, it is about 114rpm.
     def getMovingSpeed(self):
-        nByte = self._requestNWord(ServoAx12a.__MOVING_SPEED)
+        nByte = self._requestNWord(self.__MOVING_SPEED)
         return self.__convertByteToInt(nByte)
 
     # Get present position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
     def getPresentPosition(self):
-        nByte = self._requestNWord(ServoAx12a.__PRESENT_POSITION)
+        nByte = self._requestNWord(self.__PRESENT_POSITION)
         return self.__convertByteToInt(nByte)
 
     # Get present speed
@@ -90,7 +90,7 @@ class ServoAx12a(Dynamixel):
     #          If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #          If it is 1023, it is about 114rpm.
     def getPresentSpeed(self):
-        nByte = self._requestNWord(ServoAx12a.__PRESENT_SPEED)
+        nByte = self._requestNWord(self.__PRESENT_SPEED)
         return self.__convertByteToInt(nByte)
 
     # Get goal position and speed, returns: [position, speed]
@@ -99,7 +99,9 @@ class ServoAx12a(Dynamixel):
     #           If it is 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
     def getGoalPosSpeed(self):
-        return self._requestNWord(self.__GOAL_POSITION, self.__MOVING_SPEED)
+        nByte_pos = self._requestNWord(self.__GOAL_POSITION)
+        nByte_spd = self._requestNWord(self.__MOVING_SPEED)
+        return [self.__convertByteToInt(nByte_pos), self.__convertByteToInt(nByte_spd)]
 
     # Get present position and speed, returns: [position, speed]
     # position: 0 ~ 1023,
@@ -107,7 +109,9 @@ class ServoAx12a(Dynamixel):
     #           If it 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
     def getPresPosSpeed(self):
-        return self._requestNWord(self.__PRESENT_POSITION, self.__PRESENT_SPEED)
+        nByte_pos = self._requestNWord(self.__PRESENT_POSITION)
+        nByte_spd = self._requestNWord(self.__PRESENT_SPEED)
+        return [self.__convertByteToInt(nByte_pos), self.__convertByteToInt(nByte_spd)]
 
     # Setter methods for servo Ax12a
     # ----------------------------------------------------------------------
@@ -116,20 +120,20 @@ class ServoAx12a(Dynamixel):
     # delay: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
     def setReturnDelay(self, delay, trigger=False):
         self._writeNBytePkt(self.__RETURN_DELAY_TIME, delay, trigger)
-        # call a method from Dynamixel to send command
+        return True if self.getLastError() == 0 else False
 
     # Set status return level
     # 0->No return against all commands (Except PING Command),
     # 1->Return only for the READ command, 2->Return for all commands
     def setReturnLevel(self, level, trigger=False):
         self._writeNBytePkt(self.__RETURN_LEVEL, level, trigger)
-        # call a method from Dynamixel to send command
+        return True if self.getLastError() == 0 else False
 
     # Set goal position
     # position: 0 to 1023 is available. The unit is 0.29 degree.
     def setGoalPosition(self, position, trigger=False):
         self._writeNWordPkt(self.__GOAL_POSITION, position, trigger)
-        # call a method from Dynamixel to send command
+        return True if self.getLastError() == 0 else False
 
     # Set moving speed
     # speed: 0~1023 can be used, and the unit is about 0.111rpm.
@@ -137,7 +141,7 @@ class ServoAx12a(Dynamixel):
     #        If it is 1023, it is about 114rpm.
     def setMovingSpeed(self, speed, trigger=False):
         self._writeNWordPkt(self.__MOVING_SPEED, speed, trigger)
-        # call a method from Dynamixel to send command
+        return True if self.getLastError() == 0 else False
 
     # Set goal position and speed
     # position: 0 to 1023 is available. The unit is 0.29 degree.
@@ -146,16 +150,17 @@ class ServoAx12a(Dynamixel):
     #           If it is 1023, it is about 114rpm.
     def setGoalPosSpeed(self, position, speed, trigger=False):
         self._writeNWordPkt(self.__GOAL_POSITION, [position, speed], trigger)
-        # call a method from Dynamixel to send command
+        return True if self.getLastError() == 0 else False
 
     # ---------------------------------------------------------------------------
     # Definition of private methods with implicit servo-id
     # Accessible only within own class
     # ---------------------------------------------------------------------------
+
     # Convert byte array to integer
     # nByte:    -> number of bytes to convert
-    # return integer
-    def __convertByteToInt(self, nByte):
+    # return    integer
+    def __convertByteToInt(self, nByte: list) -> int:
         if nByte is not None and isinstance(nByte, list):
             n = len(nByte)
             res = 0
