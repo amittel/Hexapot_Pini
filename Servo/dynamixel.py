@@ -18,7 +18,7 @@ class Dynamixel:
     # ---------------------------------------------------------------------------
     # Define dynamixel constants
     __DYNAMIXEL_PORT_NR         = 0         # Index of dynamixel line in list
-    __BAUDRATE                  = 1000000   # Baudrate of dynamixel serial line
+    __BAUDRATE                  = 1000000   # Baud rate of dynamixel serial line
     __TIME_OUT_DEFAULT          = 2         # Default time out
     __DIRECT_ACTION             = 3         # Direct action command
     __TRIGGER_ACTION            = 4         # Triggered action command
@@ -88,6 +88,15 @@ class Dynamixel:
         command[self.PKT_ID]    = servoId
         command[self.PKT_LEN]   = 2
         command[self.PKT_INS]   = self.INS_ACTION
+        command[self.PKT_CSUM]  = self.__checkSum(command)
+
+        self.sendCommand(command)
+
+    def __doPing(self, servoId):
+        command                 = [255, 255, 0, 0, 0, 0]
+        command[self.PKT_ID]    = servoId
+        command[self.PKT_LEN]   = 2
+        command[self.PKT_INS]   = self.INS_PING
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
         self.sendCommand(command)
@@ -214,7 +223,7 @@ class Dynamixel:
     """
     # Calculates check sum of packet list
     def __checkSum(self, pkt):
-        s = sum(pkt[2:-2])
+        s = sum(pkt[2:-1])
         return (~s) & 0xFF
 
     def sendCommand(self, command):
