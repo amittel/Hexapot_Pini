@@ -120,20 +120,20 @@ class ServoAx12a(Dynamixel):
     # delay: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
     def setReturnDelay(self, delay, trigger=False):
         self._writeNBytePkt(self.__RETURN_DELAY_TIME, delay, trigger)
-        return True if self.getLastError() == 0 else False
+        return True if self.getLastError() == self.ERR_DEFAULT else False
 
     # Set status return level
     # 0->No return against all commands (Except PING Command),
     # 1->Return only for the READ command, 2->Return for all commands
     def setReturnLevel(self, level, trigger=False):
         self._writeNBytePkt(self.__RETURN_LEVEL, level, trigger)
-        return True if self.getLastError() == 0 else False
+        return True if self.getLastError() == self.ERR_DEFAULT else False
 
     # Set goal position
     # position: 0 to 1023 is available. The unit is 0.29 degree.
     def setGoalPosition(self, position, trigger=False):
         self._writeNWordPkt(self.__GOAL_POSITION, position, trigger)
-        return True if self.getLastError() == 0 else False
+        return True if self.getLastError() == self.ERR_DEFAULT else False
 
     # Set moving speed
     # speed: 0~1023 can be used, and the unit is about 0.111rpm.
@@ -141,7 +141,7 @@ class ServoAx12a(Dynamixel):
     #        If it is 1023, it is about 114rpm.
     def setMovingSpeed(self, speed, trigger=False):
         self._writeNWordPkt(self.__MOVING_SPEED, speed, trigger)
-        return True if self.getLastError() == 0 else False
+        return True if self.getLastError() == self.ERR_DEFAULT else False
 
     # Set goal position and speed
     # position: 0 to 1023 is available. The unit is 0.29 degree.
@@ -150,7 +150,7 @@ class ServoAx12a(Dynamixel):
     #           If it is 1023, it is about 114rpm.
     def setGoalPosSpeed(self, position, speed, trigger=False):
         self._writeNWordPkt(self.__GOAL_POSITION, [position, speed], trigger)
-        return True if self.getLastError() == 0 else False
+        return True if self.getLastError() == self.ERR_DEFAULT else False
 
     # ---------------------------------------------------------------------------
     # Definition of private methods with implicit servo-id

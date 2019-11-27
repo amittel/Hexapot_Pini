@@ -224,11 +224,13 @@ class Dynamixel:
 
     # Start predefined action on servo with assigned id
     def action(self):
-        return self.__doAction(self.id)
+        self.__doAction(self.id)
+        return self.getLastError()
 
     # Ping servo
     def ping(self):
-        return self.__doPing(self.id)
+        self.__doPing(self.id)
+        return self.getLastError()
 
     # Get last error
     def getLastError(self):
