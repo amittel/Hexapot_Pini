@@ -34,12 +34,12 @@ class ServoAx12a(Dynamixel):
     # Definition of public class attributes
     # ----------------------------------------------------------------------
     # Definition of valid return levels
-    RETURN_LEVEL_PING_COMMAND = 0  # Status packet is only returned for ping
-    RETURN_LEVEL_READ_COMMANDS = 1  # Status packet is returned for ping and read requests
-    RETURN_LEVEL_ALL_COMMANDS = 2  # Status packet is returned for ping, read requests and writes
+    RETURN_LEVEL_PING_COMMAND   = 0  # Status packet is only returned for ping
+    RETURN_LEVEL_READ_COMMANDS  = 1  # Status packet is returned for ping and read requests
+    RETURN_LEVEL_ALL_COMMANDS   = 2  # Status packet is returned for ping, read requests and writes
     # Defines the wait time the servo switches from receive to send mode
     # when a read request packet was received
-    RETURN_DELAY_VALUE = 10  # Definition of return delay time, value * 2 -> [uS]
+    RETURN_DELAY_VALUE          = 10  # Definition of return delay time, value * 2 -> [uS]
 
     # Definition of private methods
     # ----------------------------------------------------------------------
@@ -54,38 +54,44 @@ class ServoAx12a(Dynamixel):
     # Get time of return delay
     # returns: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
     def getReturnDelay(self):
-        return self._requestNByte(ServoAx12a.__RETURN_DELAY_TIME)
+        nByte = self._requestNByte(ServoAx12a.__RETURN_DELAY_TIME)
+        return self.__convertByteToInt(nByte)
 
     # Get status return level
     # returns:  0->No return against all commands (Except PING Command),
     #           1->Return only for the READ command,
     #           2->Return for all commands
     def getReturnLevel(self):
-        return self._requestNByte(ServoAx12a.__RETURN_LEVEL)
+        nByte = self._requestNByte(ServoAx12a.__RETURN_LEVEL)
+        return self.__convertByteToInt(nByte)
 
     # Get goal position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
     def getGoalPosition(self):
-        return self._requestNWord(ServoAx12a.__GOAL_POSITION)
+        nByte = self._requestNWord(ServoAx12a.__GOAL_POSITION)
+        return self.__convertByteToInt(nByte)
 
     # Get moving speed
     # returns: 0 to 1023, the unit is about 0.111rpm.
     #          If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #          If it is 1023, it is about 114rpm.
     def getMovingSpeed(self):
-        return self._requestNWord(ServoAx12a.__MOVING_SPEED)
+        nByte = self._requestNWord(ServoAx12a.__MOVING_SPEED)
+        return self.__convertByteToInt(nByte)
 
     # Get present position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
     def getPresentPosition(self):
-        return self._requestNWord(ServoAx12a.__PRESENT_POSITION)
+        nByte = self._requestNWord(ServoAx12a.__PRESENT_POSITION)
+        return self.__convertByteToInt(nByte)
 
     # Get present speed
     # returns: 0 to 1023, the unit is about 0.111rpm.
     #          If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #          If it is 1023, it is about 114rpm.
     def getPresentSpeed(self):
-        return self._requestNWord(ServoAx12a.__PRESENT_SPEED)
+        nByte = self._requestNWord(ServoAx12a.__PRESENT_SPEED)
+        return self.__convertByteToInt(nByte)
 
     # Get goal position and speed, returns: [position, speed]
     # position: 0 ~ 1023,
@@ -141,3 +147,22 @@ class ServoAx12a(Dynamixel):
     def setGoalPosSpeed(self, position, speed, trigger=False):
         self._writeNWordPkt(self.__GOAL_POSITION, [position, speed], trigger)
         # call a method from Dynamixel to send command
+
+    # ---------------------------------------------------------------------------
+    # Definition of private methods with implicit servo-id
+    # Accessible only within own class
+    # ---------------------------------------------------------------------------
+    # Convert byte array to integer
+    # nByte:    -> number of bytes to convert
+    # return integer
+    def __convertByteToInt(self, nByte):
+        if nByte is not None and isinstance(nByte, list):
+            n = len(nByte)
+            res = 0
+            for byte in nByte:
+                res += byte << (8 * (n - 1))
+                n -= 1
+
+            return res
+        else:
+            return -1

@@ -90,7 +90,7 @@ class Dynamixel:
         command[self.PKT_INS]   = self.INS_ACTION
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
-        self.sendCommand(command)
+        self.__sendCommand(command)
 
     def __doPing(self, servoId):
         command                 = [255, 255, 0, 0, 0, 0]
@@ -99,7 +99,7 @@ class Dynamixel:
         command[self.PKT_INS]   = self.INS_PING
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
-        self.sendCommand(command)
+        self.__sendCommand(command)
 
     """
         Read data from the control table of an actuator
@@ -116,7 +116,7 @@ class Dynamixel:
         command[self.PKT_DATA_LEN]  = nByte
         command[self.PKT_CSUM]      = self.__checkSum(command)
 
-        self.sendCommand(command)
+        self.__sendCommand(command)
 
     """
         Same as __doReadStatusPkt ??
@@ -142,6 +142,19 @@ class Dynamixel:
                 return None, statusPkt[self.PKT_ERR]
         else:
             return None, self.ERR_CHECKSUM
+
+    """
+        Checks the sum of the parameters to check for Errors
+    """
+    # Calculates check sum of packet list
+    def __checkSum(self, pkt):
+        s = sum(pkt[2:-1])
+        return (~s) & 0xFF
+
+    # Send command to servo
+    def __sendCommand(self, command):
+        self.__serial_port.write(command)
+        print("send:", command)
 
     # Definition of protected methods
     # Accessible within own and derived classes
@@ -185,7 +198,7 @@ class Dynamixel:
         command.extend(byteData.append(0))
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
-        self.sendCommand(command)
+        self.__sendCommand(command)
         # Dynamixel.__serial_port.write(pktWriteNByte)
 
     """
@@ -214,18 +227,10 @@ class Dynamixel:
     def action(self):
         return self.__doAction(self.id)
 
+    # Ping servo
+    def ping(self):
+        return self.__doPing(self.id)
+
     # Get last error
     def getLastError(self):
         return self.error
-
-    """
-    Checks the sum of the parameters to check for Errors
-    """
-    # Calculates check sum of packet list
-    def __checkSum(self, pkt):
-        s = sum(pkt[2:-1])
-        return (~s) & 0xFF
-
-    def sendCommand(self, command):
-        self.__serial_port.write(command)
-        print("send:", command)
