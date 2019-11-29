@@ -47,13 +47,14 @@ class JointDrive(ServoAx12a):
             angle = self._ANGLE_RADIAN_ZERO - angle
         return abs(self._CONST_ANGLE_TO_TICKS * angle)
 
-
-
     # Converts servo ticks to angle in radian
     # ticks -> servo ticks, returns angle in radian
     def __convertTicksToAngle(self, ticks):
-        ticks = ticks + self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO+self.aOffset) if self.counterClockWise is True\
-            else ticks + self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO-self.aOffset)
+        if self.counterClockWise:
+            ticks += self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO + self.aOffset)
+        else:
+            ticks += self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO - self.aOffset)
+
         return ticks / self._CONST_ANGLE_TO_TICKS
 
     # Converts speed in rpm to servo ticks
