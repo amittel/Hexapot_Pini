@@ -21,7 +21,7 @@ class JointDrive(ServoAx12a):
     _ANGLE_UNIT = ServoAx12a._ANGLE_MAX_TICKS / ((ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)  # Ticks per rad
 
     _CONST_ANGLE_TO_TICKS = 1023 / (5 * math.pi / 3)
-    _CONST_SPEED_TO_TICKS = 1023 / 114
+    _CONST_SPEED_TO_TICKS = 1023 / super()._SPEED_MAX_RPM
 
     # Private methods
     # ----------------------------------------------------------------------
@@ -45,22 +45,28 @@ class JointDrive(ServoAx12a):
             angle += self._ANGLE_RADIAN_ZERO
         else:
             angle = self._ANGLE_RADIAN_ZERO - angle
-        return self._CONST_ANGLE_TO_TICKS * angle
+        return abs(self._CONST_ANGLE_TO_TICKS * angle)
+
+
 
     # Converts servo ticks to angle in radian
     # ticks -> servo ticks, returns angle in radian
     def __convertTicksToAngle(self, ticks):
+        ticks = ticks + self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO+self.aOffset) if self.counterClockWise is True\
+            else ticks + self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO-self.aOffset)
         return ticks / self._CONST_ANGLE_TO_TICKS
 
     # Converts speed in rpm to servo ticks
     # speed -> value in rpm
     def __convertSpeedToTicks(self, speed):
-        return self._CONST_SPEED_TO_TICKS * speed
+        ticks = self._SPEED_MAX_TICKS if speed is self._SPEED_MAX_RPM else self._CONST_SPEED_TO_TICKS * speed
+        return ticks
 
     # Converts ticks to speed in rpm
     # ticks -> servo ticks
     def __convertTicksToSpeed(self, ticks):
-        return ticks / self._CONST_SPEED_TO_TICKS
+        speed = (ticks * self._SPEED_MAX_RPM) / self._CONST_SPEED_TO_TICKS
+        return speed
 
     # Public methods
     # ----------------------------------------------------------------------
