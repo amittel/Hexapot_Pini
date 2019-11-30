@@ -17,7 +17,9 @@ import time
 class JointDrive(ServoAx12a):
     # Definition of public class attributes
     # ----------------------------------------------------------------------
-    _ANGLE_RADIAN_ZERO = (ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi / 360  # Zero angle offset of servo in radian
+    _ANGLE_RADIAN_ZERO  = (ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi / 360  # Zero angle offset of servo in radian
+    _ANGLE_RADIAN_MAX   = ServoAx12a._ANGLE_MAX_DEGREE * math.pi / 360                                   # Max angle offset of servo in radian
+    _ANGLE_RADIAN_MIN   = ServoAx12a._ANGLE_MIN_DEGREE * math.pi / 360                                   # Min angle offset of servo in radian
     _ANGLE_UNIT = ServoAx12a._ANGLE_MAX_TICKS / ((ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)  # Ticks per rad
 
     _CONST_ANGLE_TO_TICKS = 1023 / (5 * math.pi / 3)
@@ -31,8 +33,8 @@ class JointDrive(ServoAx12a):
     def __init__(self, servoId, ccw = False, aOffset = 0.0, aMax = math.pi * 2, aMin = -math.pi * 2):
         self.id = servoId
         self.counterClockWise = ccw
-        self.angleMax = aMax if (aMax > aMin or aMax < self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_ZERO
-        self.angleMin = aMin if (aMin > aMax or aMin < (-1)*self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_ZERO
+        self.angleMax = aMax if(aMax > self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_MAX
+        self.angleMin = aMin if(aMin < self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_MIN
         self.aOffset = aOffset
         self.curAngle = 0
         super().__init__(servoId)
@@ -49,7 +51,7 @@ class JointDrive(ServoAx12a):
 
     # Converts servo ticks to angle in radian
     # ticks -> servo ticks, returns angle in radian
-    def __convertTicksToAngle(self, ticks):
+    def __convertTicksToAngle(self, ticks: int):
         if self.counterClockWise:
             ticks += self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO + self.aOffset)
         else:
@@ -59,13 +61,13 @@ class JointDrive(ServoAx12a):
 
     # Converts speed in rpm to servo ticks
     # speed -> value in rpm
-    def __convertSpeedToTicks(self, speed):
+    def __convertSpeedToTicks(self, speed: float):
         ticks = self._SPEED_MAX_TICKS if speed is self._SPEED_MAX_RPM else self._CONST_SPEED_TO_TICKS * speed
         return ticks
 
     # Converts ticks to speed in rpm
     # ticks -> servo ticks
-    def __convertTicksToSpeed(self, ticks):
+    def __convertTicksToSpeed(self, ticks: int):
         speed = (ticks * self._SPEED_MAX_RPM) / self._CONST_SPEED_TO_TICKS
         return speed
 
@@ -101,7 +103,7 @@ class JointDrive(ServoAx12a):
 
     # Set speed value of servo
     # speed -> angle speed in rpm
-    def setSpeedValue(self, speed, trigger=False):
+    def setSpeedValue(self, speed: float, trigger: bool =False):
         speed_in_ticks = self.__convertSpeedToTicks(speed)
         success = self.setMovingSpeed(speed_in_ticks, trigger)
 

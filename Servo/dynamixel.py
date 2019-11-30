@@ -186,7 +186,7 @@ class Dynamixel:
     # register -> register address of servo
     # data     -> list of bytes to write
     # trigger  -> False -> command is directly executed, True -> command is delayed until action command
-    def _writeNBytePkt(self, register, byteData, trigger):
+    def _writeNBytePkt(self, register: int, byteData: list, trigger: bool):
         command                 = [255, 255, 0, 0, 0, 0]
         command[self.PKT_ID]    = self.id
         command[self.PKT_LEN]   = len(byteData) + 3
@@ -207,8 +207,8 @@ class Dynamixel:
     def _writeNWordPkt(self, register, wordData, trigger):
         byteData = []
         for word in wordData:
-            byteData.append(word & 0xFF)        # append fst. byte
-            byteData.append(word >> 8 & 0xFF)   # append snd. byte
+            byteData.append(word >> 8 & 0xFF)  # append fst. byte
+            byteData.append(word      & 0xFF)  # append snd. byte
 
         self._writeNBytePkt(register, byteData, trigger)
 
