@@ -17,7 +17,6 @@ def sendCommand(command):
     port.write(bytearray(command))                  # send command to serial line
     print("send:", command)
 
-
 # main programm
 servoId = 8                                         # Id of Servo
 

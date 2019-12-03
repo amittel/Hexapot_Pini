@@ -17,60 +17,94 @@ import time
 class JointDrive(ServoAx12a):
     # Definition of public class attributes
     # ----------------------------------------------------------------------
-    _ANGLE_RADIAN_ZERO = (
-                                     ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi / 360  # Zero angle offset of servo in radian
-    _ANGLE_UNIT = ServoAx12a._ANGLE_MAX_TICKS / ((ServoAx12a._ANGLE_MAX_DEGREE - \
-                                                  ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)  # Ticks per rad
+    _ANGLE_RADIAN_ZERO  = (ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi / 360  # Zero angle offset of servo in radian
+    _ANGLE_RADIAN_MAX   = ServoAx12a._ANGLE_MAX_DEGREE * math.pi / 360                                   # Max angle offset of servo in radian
+    _ANGLE_RADIAN_MIN   = ServoAx12a._ANGLE_MIN_DEGREE * math.pi / 360                                   # Min angle offset of servo in radian
+    _ANGLE_UNIT = ServoAx12a._ANGLE_MAX_TICKS / ((ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)  # Ticks per rad
+
+    _CONST_ANGLE_TO_TICKS = 1023 / (5 * math.pi / 3)
+    _CONST_SPEED_TO_TICKS = 1023 / super()._SPEED_MAX_RPM
 
     # Private methods
     # ----------------------------------------------------------------------
-    # Constructor, defines the folowing variables: counterClockWise, angleOffset, angleMax, angleMin
+    # Constructor, defines the following variables: counterClockWise, angleOffset, angleMax, angleMin
     # id -> id of servo, cw -> rotating direction, aOffset -> angle offset,
     # aMax -> maximum angle allowed, aMin -> minimum angle allowed
-    def __init__(self, id, ccw=False, aOffset=0.0, aMax=math.pi * 2, aMin=-math.pi * 2):
-        self.id = id
-        self.ccw = False
-        self.aOffset = 0.0
-        self.aMax = math.pi * 2
-        self.aMin = -math.pi * 2
+    def __init__(self, servoId, ccw = False, aOffset = 0.0, aMax = math.pi * 2, aMin = -math.pi * 2):
+        self.id = servoId
+        self.counterClockWise = ccw
+        self.angleMax = aMax if(aMax > self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_MAX
+        self.angleMin = aMin if(aMin < self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_MIN
+        self.aOffset = aOffset
+        self.curAngle = 0
+        super().__init__(servoId)
+
     # Converts angle in radian to servo ticks
     # angle -> in radian, returns angle in servo ticks
-    _CONST_ANGLE_TO_TICKS = 1023 / (5 * math.pi / 3)
     def __convertAngleToTicks(self, angle):
-        angleToTicks = self._CONST_ANGLE_TO_TICKS * angle
-        return angleToTicks
+        angle += self.aOffset
+        if self.counterClockWise:
+            angle += self._ANGLE_RADIAN_ZERO
+        else:
+            angle = self._ANGLE_RADIAN_ZERO - angle
+        return abs(self._CONST_ANGLE_TO_TICKS * angle)
+
     # Converts servo ticks to angle in radian
     # ticks -> servo ticks, returns angle in radian
-    def __convertTicksToAngle(self, ticks):
-        ticksToAngle = ticks/self._CONST_ANGLE_TO_TICKS
-        return ticksToAngle
+    def __convertTicksToAngle(self, ticks: int):
+        if self.counterClockWise:
+            ticks += self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO + self.aOffset)
+        else:
+            ticks += self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO - self.aOffset)
+
+        return ticks / self._CONST_ANGLE_TO_TICKS
+
     # Converts speed in rpm to servo ticks
     # speed -> value in rpm
-    _CONST_SPEED_TO_TICKS = 1023 / 114
-    def __convertSpeedToTicks(self, speed):
-        speedToTicks = self._CONST_SPEED_TO_TICKS * speed
-        return speedToTicks
+    def __convertSpeedToTicks(self, speed: float):
+        ticks = self._SPEED_MAX_TICKS if speed is self._SPEED_MAX_RPM else self._CONST_SPEED_TO_TICKS * speed
+        return ticks
+
     # Converts ticks to speed in rpm
     # ticks -> servo ticks
-    def __convertTicksToSpeed(self, ticks):
-        ticksToSpeed = ticks/self._CONST_SPEED_TO_TICKS
-        return ticksToSpeed
+    def __convertTicksToSpeed(self, ticks: int):
+        speed = (ticks * self._SPEED_MAX_RPM) / self._CONST_SPEED_TO_TICKS
+        return speed
+
     # Public methods
     # ----------------------------------------------------------------------
     # Get current angle of servo
     # returns angle in radian
     def getCurrentJointAngle(self):
-        return self.currentJointAngle
-    # Set servo to desired angle
-    # angle -> in radian,
-    # speed -> speed of movement, speed < 0 -> no speed set, speed = 0 -> maximum speed
-    def setDesiredJointAngle(self, angle, trigger=False):
+        self.curAngle = self.__convertTicksToAngle(self.getPresentPosition())
+        return self.curAngle
 
     # Set servo to desired angle
     # angle -> in radian,
+    def setDesiredJointAngle(self, angle: float, trigger: bool = False):
+        success = self.setGoalPosition(self.__convertAngleToTicks(angle), trigger)
+        if success:
+            self.curAngle -= angle
+
+        return success
+
+    # Set servo to desired angle speed
+    # angle -> in radian,
     # speed -> speed of movement in rpm, speed = 0 -> maximum speed
-    def setDesiredAngleSpeed(self, angle, speed=0, trigger=False):
+    def setDesiredAngleSpeed(self, angle: float, speed: int = 0, trigger: bool = False):
+        speed_in_ticks = self.__convertSpeedToTicks(speed)
+        angle_in_ticks = self.__convertAngleToTicks(angle)
+
+        success = self.setGoalPosSpeed(angle_in_ticks, speed_in_ticks, trigger)
+        if success :
+            self.curAngle -= angle
+
+        return success
 
     # Set speed value of servo
     # speed -> angle speed in rpm
-    def setSpeedValue(self, speed, trigger=False):
+    def setSpeedValue(self, speed: float, trigger: bool =False):
+        speed_in_ticks = self.__convertSpeedToTicks(speed)
+        success = self.setMovingSpeed(speed_in_ticks, trigger)
+
+        return success

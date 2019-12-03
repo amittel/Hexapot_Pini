@@ -69,15 +69,56 @@ class Leg:
 
         pass
 
+    def testStraightLeg(self):
+        '''Testing for a straight leg. All joints have zero degree'''
+        wa = wb = wg = 0
+        length = self.lc + self.lf + self.lt
+
+        print("\nTest gerades Bein")
+        print("Winkel (gegeben): a,b,g ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
+        pos = self.forKinAlphaJoint(wa, wb, wg)
+        print("Koord (fKin): x,y,z     ",pos[0] ,",",pos[1],",", pos[2])
+        print("Länge (gerechnet):      ",length)
+
+    def testTibia(self,w):
+        '''Testing for a angled leg. All joints have x degree'''
+        wa = w[0]
+        wb = w[1]
+        wg = w[2]
+
+        if wg == math.pi/2:
+            length = self.lc + self.lf + math.sin(0)*self.lt
+        else:
+            length = self.lc + self.lf + math.sin(wg)*self.lt
+
+        print("\nTest für Tibia")
+        print("Zwischenergebnis lc:",self.lc)
+        print("Zwischenergebnis lf:",self.lf)
+        print("Zwischenergebnis lt:",self.lt)
+        print("Zwischenergebnis:",math.sin(wg)*self.lt)
+     
+        
+        print("Winkel (gegeben): a,b,g ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
+        pos = self.forKinAlphaJoint(wa, wb, wg)
+        print("Koord (fKin): x,y,z     ",pos[0] ,",",pos[1],",", pos[2])
+        print("Länge (gerechnet):      ",length)
+
 
 def startFunction():
-    myLeg = Leg([0.043,0.04,0.053,0.062,0.02,0.005,0.096])
-    #myLeg = Leg([1,1,1,1,1,1,1])
-    #x = 0.10
-    #y= 0
-    #z= 0.1
-    wa = wb = wg = math.pi / 2;
-    print("Koord (G): ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
+    a = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
+    
+    myLeg = Leg(a)
+
+    
+    
+    myLeg.testStraightLeg()
+    w = (0,0,math.pi/4)
+    myLeg.testTibia(w)
+
+ 
+
+    
+    """print("Koord (G): ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
     pos = myLeg.forKinAlphaJoint(wa, wb, wg)
     wa, wb, wg = myLeg.invKinAlphaJoint([pos[0], pos[1], pos[2], 1])
 
@@ -85,7 +126,10 @@ def startFunction():
 
     print("Koord (W): " ,math.degrees(wa) ,",",math.degrees(wb),",", math.degrees(wg)) #math.radians()
     print("Koord (B): ",pos[0] ,",",pos[1],",", pos[2])
+    """
 
+
+    
 
 
 
