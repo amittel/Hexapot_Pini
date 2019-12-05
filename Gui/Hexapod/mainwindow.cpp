@@ -18,10 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    connect(ui->arrow_left_Button,SIGNAL(:on_arrow_left_Button_clicked),
-            ui->dial,SLOT(setValue(int)));
-
-
     ui->setupUi(this);
 }
 
@@ -110,14 +106,3 @@ void MainWindow::on_dial_valueChanged(int value)
     // for debugging purposes only
     qDebug() << value;
 }
-
-//void MainWindow::on_connectButton_clicked()
-//{
-//    // Connect to the RaspberryPi
-//    // Right now, just change the LED icon from red to green
-//    //ui->status_led->setStyleSheet("border-image: url(:/data/files/ui-elements/green-led-on.png);");
-//    //border-image: url(:/data/files/ui-elements/green-led-on.png);
-//    //QPixmap pix(":/data/files/ui-elements/green-led-on.png");
-//    //ui->status_led->setStyleSheet("border-image: url(:/data/files/ui-elements/green-led-on.png);");
-//    //ui->status_led->setPixmap(pix);
-//}

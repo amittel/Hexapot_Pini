@@ -65,74 +65,86 @@
      <property name="checkable">
       <bool>false</bool>
      </property>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QRadioButton" name="radioButton_3">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>50</y>
-        <width>261</width>
-        <height>161</height>
+        <x>11</x>
+        <y>165</y>
+        <width>89</width>
+        <height>26</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="lineEditGroup">
-       <item>
-        <widget class="QLineEdit" name="lineEdit_4">
-         <property name="text">
-          <string>/path/to/app/directory/subdir</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_2">
-         <property name="text">
-          <string>/usr/bin/netcat</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_3">
-         <property name="text">
-          <string>/usr/share/bin/zeromq</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <property name="text">
+       <string>zeroMQ</string>
+      </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QRadioButton" name="radioButton_2">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>50</y>
-        <width>171</width>
-        <height>161</height>
+        <x>11</x>
+        <y>116</y>
+        <width>117</width>
+        <height>26</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="netRadioButtons">
-       <item>
-        <widget class="QRadioButton" name="radioButton_1">
-         <property name="text">
-          <string>Hexapod Nativ</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="radioButton_2">
-         <property name="text">
-          <string>Linux Nativ</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="radioButton_3">
-         <property name="text">
-          <string>zeroMQ</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <property name="text">
+       <string>Linux Nativ</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioButton_1">
+      <property name="geometry">
+       <rect>
+        <x>11</x>
+        <y>67</y>
+        <width>143</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Hexapod Nativ</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="geometry">
+       <rect>
+        <x>201</x>
+        <y>165</y>
+        <width>261</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>/usr/share/bin/zeromq</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="geometry">
+       <rect>
+        <x>201</x>
+        <y>116</y>
+        <width>261</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>/usr/bin/netcat</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_4">
+      <property name="geometry">
+       <rect>
+        <x>201</x>
+        <y>67</y>
+        <width>261</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>/path/to/app/directory/subdir</string>
+      </property>
      </widget>
     </widget>
     <widget class="QGroupBox" name="gamepadGroupBox">
@@ -150,60 +162,60 @@
      <property name="checkable">
       <bool>false</bool>
      </property>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QRadioButton" name="radioButton">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>50</y>
-        <width>261</width>
-        <height>121</height>
+        <x>11</x>
+        <y>71</y>
+        <width>143</width>
+        <height>26</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLineEdit" name="lineEdit_1">
-         <property name="text">
-          <string>/path/to/app/directory/subdir</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_9">
-         <property name="text">
-          <string>/usr/share/bin/pygame</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <property name="text">
+       <string>Hexapod Nativ</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QRadioButton" name="radioButton_4">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>50</y>
-        <width>181</width>
-        <height>121</height>
+        <x>11</x>
+        <y>124</y>
+        <width>94</width>
+        <height>26</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="QRadioButton" name="radioButton">
-         <property name="text">
-          <string>Hexapod Nativ</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="radioButton_4">
-         <property name="text">
-          <string>PyGame</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <property name="text">
+       <string>PyGame</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_1">
+      <property name="geometry">
+       <rect>
+        <x>201</x>
+        <y>71</y>
+        <width>261</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>/path/to/app/directory/subdir</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_9">
+      <property name="geometry">
+       <rect>
+        <x>201</x>
+        <y>124</y>
+        <width>261</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>/usr/share/bin/pygame</string>
+      </property>
      </widget>
     </widget>
    </widget>

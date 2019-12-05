@@ -773,9 +773,9 @@
       <widget class="QPushButton" name="connectButton">
        <property name="geometry">
         <rect>
-         <x>219</x>
+         <x>183</x>
          <y>266</y>
-         <width>75</width>
+         <width>111</width>
          <height>23</height>
         </rect>
        </property>
@@ -788,7 +788,7 @@
         <rect>
          <x>51</x>
          <y>266</y>
-         <width>75</width>
+         <width>101</width>
          <height>23</height>
         </rect>
        </property>
@@ -848,7 +848,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDatei">
