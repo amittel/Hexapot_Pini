@@ -15,5 +15,14 @@
         <file>files/quickGamepad/xboxControllerRightThumbstick.png</file>
         <file>files/quickGamepad/xboxControllerRightTrigger.png</file>
         <file>files/quickGamepad/xboxControllerStart.png</file>
+        <file>files/ui-elements/arrow_down-01.png</file>
+        <file>files/ui-elements/arrow_left-up-01.png</file>
+        <file>files/ui-elements/arrow_left.png</file>
+        <file>files/ui-elements/arrow_right-01.png</file>
+        <file>files/ui-elements/arrow_right-up-01.png</file>
+        <file>files/ui-elements/arrow_up-01.png</file>
+        <file>files/ui-elements/green-led-on.png</file>
+        <file>files/ui-elements/kreisi-01-01.png</file>
+        <file>files/ui-elements/led-red-on.png</file>
     </qresource>
 </RCC>

@@ -19,14 +19,836 @@
   <property name="windowTitle">
    <string>Hexapod Steuerungssoftware</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="mainWindow_gridLayout">
+    <item row="1" column="0">
+     <widget class="QGroupBox" name="gamepadGroup">
+      <property name="title">
+       <string>Game Controller</string>
+      </property>
+      <widget class="QPushButton" name="lt_Button">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>40</y>
+         <width>51</width>
+         <height>101</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerLeftTrigger.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="startButton">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>160</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerStart.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rb_Button">
+       <property name="geometry">
+        <rect>
+         <x>490</x>
+         <y>200</y>
+         <width>121</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerRightShoulder.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="xboxButton">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>150</y>
+         <width>81</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerButtonGuide.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="lb_Button">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>200</y>
+         <width>121</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerLeftShoulder.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="x_Button">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>320</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerButtonX.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="analog_r_Button">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>290</y>
+         <width>101</width>
+         <height>101</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerRightThumbstick.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="analog_l_Button">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>290</y>
+         <width>101</width>
+         <height>101</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerLeftThumbstick.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rt_Button">
+       <property name="geometry">
+        <rect>
+         <x>550</x>
+         <y>40</y>
+         <width>51</width>
+         <height>111</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerRightTrigger.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="b_Button">
+       <property name="geometry">
+        <rect>
+         <x>560</x>
+         <y>320</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerButtonB.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="a_Button">
+       <property name="geometry">
+        <rect>
+         <x>520</x>
+         <y>360</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerButtonA.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="backButton">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>160</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerBack.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="y_Button">
+       <property name="geometry">
+        <rect>
+         <x>520</x>
+         <y>280</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerButtonY.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="d_pad_Button">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>290</y>
+         <width>111</width>
+         <height>111</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/quickGamepad/xboxControllerDPad.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QProgressBar" name="lt_progressBar">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>160</y>
+         <width>118</width>
+         <height>26</height>
+        </rect>
+       </property>
+       <property name="value">
+        <number>10</number>
+       </property>
+       <property name="textVisible">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QProgressBar" name="rt_progressBar">
+       <property name="geometry">
+        <rect>
+         <x>490</x>
+         <y>160</y>
+         <width>118</width>
+         <height>26</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="value">
+        <number>10</number>
+       </property>
+       <property name="textVisible">
+        <bool>false</bool>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="invertedAppearance">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="devie_name_label">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>60</y>
+         <width>121</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Gerät</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>90</y>
+         <width>341</width>
+         <height>32</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>XBOX 360 Gamepad (/dev/input/js0)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Playstation Gamepad (/dev/input/js1)</string>
+        </property>
+       </item>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="controlGroup">
+      <property name="title">
+       <string>Steuerung</string>
+      </property>
+      <widget class="QDial" name="dial">
+       <property name="geometry">
+        <rect>
+         <x>72</x>
+         <y>173</y>
+         <width>241</width>
+         <height>241</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>360</number>
+       </property>
+       <property name="value">
+        <number>180</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="invertedAppearance">
+        <bool>false</bool>
+       </property>
+       <property name="wrapping">
+        <bool>true</bool>
+       </property>
+       <property name="notchesVisible">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QGroupBox" name="preset_groupBox">
+       <property name="geometry">
+        <rect>
+         <x>400</x>
+         <y>30</y>
+         <width>211</width>
+         <height>281</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Presets</string>
+       </property>
+       <widget class="QRadioButton" name="default_radioButton">
+        <property name="geometry">
+         <rect>
+          <x>11</x>
+          <y>24</y>
+          <width>89</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Grundposition</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="walking_1_radioButton">
+        <property name="geometry">
+         <rect>
+          <x>11</x>
+          <y>47</y>
+          <width>69</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Walking 1</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="walking_2_radioButton">
+        <property name="geometry">
+         <rect>
+          <x>11</x>
+          <y>70</y>
+          <width>69</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Walking 2</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="walking_3_radioButton">
+        <property name="geometry">
+         <rect>
+          <x>11</x>
+          <y>93</y>
+          <width>69</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Walking 3</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QLabel" name="kreis">
+       <property name="geometry">
+        <rect>
+         <x>55</x>
+         <y>157</y>
+         <width>275</width>
+         <height>275</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/ui-elements/kreisi-01-01.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="arrow_left_Button">
+       <property name="geometry">
+        <rect>
+         <x>65</x>
+         <y>274</y>
+         <width>31</width>
+         <height>33</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/ui-elements/arrow_left.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="arrow_left_up_Button">
+       <property name="geometry">
+        <rect>
+         <x>99</x>
+         <y>198</y>
+         <width>31</width>
+         <height>33</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/ui-elements/arrow_left-up-01.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="arrow_up_Button">
+       <property name="geometry">
+        <rect>
+         <x>177</x>
+         <y>165</y>
+         <width>31</width>
+         <height>33</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/ui-elements/arrow_up-01.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="arrow_right_up_Button">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>200</y>
+         <width>31</width>
+         <height>33</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/ui-elements/arrow_right-up-01.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="arrow_right_Button">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>274</y>
+         <width>31</width>
+         <height>33</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/ui-elements/arrow_right-01.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="arrow_down_Button">
+       <property name="geometry">
+        <rect>
+         <x>177</x>
+         <y>390</y>
+         <width>31</width>
+         <height>33</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/ui-elements/arrow_down-01.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="leg_height_label">
+       <property name="geometry">
+        <rect>
+         <x>11</x>
+         <y>80</y>
+         <width>44</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Beinhöhe</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="speed_label">
+       <property name="geometry">
+        <rect>
+         <x>11</x>
+         <y>41</y>
+         <width>76</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Geschwindigkeit</string>
+       </property>
+      </widget>
+      <widget class="QSlider" name="speed_hSlider">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>41</y>
+         <width>141</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      <widget class="QSlider" name="leg_height_hSlider">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>80</y>
+         <width>141</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      <zorder>leg_height_label</zorder>
+      <zorder>speed_label</zorder>
+      <zorder>speed_hSlider</zorder>
+      <zorder>leg_height_hSlider</zorder>
+      <zorder>kreis</zorder>
+      <zorder>dial</zorder>
+      <zorder>preset_groupBox</zorder>
+      <zorder>arrow_left_Button</zorder>
+      <zorder>arrow_left_up_Button</zorder>
+      <zorder>arrow_up_Button</zorder>
+      <zorder>arrow_right_up_Button</zorder>
+      <zorder>arrow_right_Button</zorder>
+      <zorder>arrow_down_Button</zorder>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QGroupBox" name="fooGroup">
+      <property name="title">
+       <string>Foo</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QGroupBox" name="raspiGroup">
+      <property name="title">
+       <string>RaspberryPi Verbindung</string>
+      </property>
+      <widget class="QLabel" name="raspi_name_label">
+       <property name="geometry">
+        <rect>
+         <x>53</x>
+         <y>61</y>
+         <width>31</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Name:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="password_label">
+       <property name="geometry">
+        <rect>
+         <x>53</x>
+         <y>177</y>
+         <width>48</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Passwort:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="ip_address_label">
+       <property name="geometry">
+        <rect>
+         <x>53</x>
+         <y>100</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>IP:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="username_label">
+       <property name="geometry">
+        <rect>
+         <x>53</x>
+         <y>139</y>
+         <width>73</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Benutzername:</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="ip_address_line">
+       <property name="geometry">
+        <rect>
+         <x>221</x>
+         <y>107</y>
+         <width>133</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>192.168.0.1</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="raspi_name_line">
+       <property name="geometry">
+        <rect>
+         <x>221</x>
+         <y>71</y>
+         <width>133</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>MyRobot</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="password_line">
+       <property name="geometry">
+        <rect>
+         <x>221</x>
+         <y>179</y>
+         <width>133</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>MyRobot</string>
+       </property>
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="username_line">
+       <property name="geometry">
+        <rect>
+         <x>221</x>
+         <y>143</y>
+         <width>133</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>root</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="connectButton">
+       <property name="geometry">
+        <rect>
+         <x>219</x>
+         <y>266</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Verbinden</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="disconnectButton">
+       <property name="geometry">
+        <rect>
+         <x>51</x>
+         <y>266</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Trennen</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="connection_label">
+       <property name="geometry">
+        <rect>
+         <x>422</x>
+         <y>93</y>
+         <width>105</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00aa00;&quot;&gt;Verbunden&lt;/span&gt; | &lt;span style=&quot; color:#aa0000;&quot;&gt;Getrennt&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="status_label">
+       <property name="geometry">
+        <rect>
+         <x>422</x>
+         <y>62</y>
+         <width>35</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Status:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="led_Label">
+       <property name="geometry">
+        <rect>
+         <x>440</x>
+         <y>140</y>
+         <width>41</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/data/files/ui-elements/led-red-on.png);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>29</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDatei">

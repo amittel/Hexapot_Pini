@@ -22,6 +22,22 @@ private slots:
 
     void on_actionInfo_triggered();
 
+    void on_arrow_left_Button_clicked();
+
+    void on_arrow_left_up_Button_clicked();
+
+    void on_arrow_up_Button_clicked();
+
+    void on_arrow_right_up_Button_clicked();
+
+    void on_arrow_right_Button_clicked();
+
+    void on_arrow_down_Button_clicked();
+
+    void on_dial_valueChanged(int value);
+
+    //void on_connectButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

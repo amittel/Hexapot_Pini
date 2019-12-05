@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include <QDebug>
 #include "settingsdialog.h"
 #include "infodialog.h"
 
@@ -10,6 +11,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
     // Set the Window Icon
     setWindowIcon(QIcon(":/data/files/Decepticons-Logo.png"));
+
+    // Signal Slot part: SIGNAL from "Slider" to SLOT "Progressbar"
+    //    connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),
+    //            ui->progressBar,SLOT(setValue(int)));
+
+
+
+    connect(ui->arrow_left_Button,SIGNAL(:on_arrow_left_Button_clicked),
+            ui->dial,SLOT(setValue(int)));
 
 
     ui->setupUi(this);
@@ -58,3 +68,56 @@ void MainWindow::on_actionInfo_triggered()
     iDialog.setModal(false);
     iDialog.exec();
 }
+
+void MainWindow::on_arrow_left_Button_clicked()
+{
+    // Change value from QDial
+    ui->dial->setValue(90);
+}
+
+void MainWindow::on_arrow_left_up_Button_clicked()
+{
+    // Change value from QDial
+    ui->dial->setValue(135);
+}
+
+void MainWindow::on_arrow_up_Button_clicked()
+{
+    // Change value from QDial
+    ui->dial->setValue(180);
+}
+
+void MainWindow::on_arrow_right_up_Button_clicked()
+{
+    // Change value from QDial
+    ui->dial->setValue(225);
+}
+
+void MainWindow::on_arrow_right_Button_clicked()
+{
+    // Change value from QDial
+    ui->dial->setValue(270);
+}
+
+void MainWindow::on_arrow_down_Button_clicked()
+{
+    // Change value from QDial
+    ui->dial->setValue(360);
+}
+
+void MainWindow::on_dial_valueChanged(int value)
+{
+    // for debugging purposes only
+    qDebug() << value;
+}
+
+//void MainWindow::on_connectButton_clicked()
+//{
+//    // Connect to the RaspberryPi
+//    // Right now, just change the LED icon from red to green
+//    //ui->status_led->setStyleSheet("border-image: url(:/data/files/ui-elements/green-led-on.png);");
+//    //border-image: url(:/data/files/ui-elements/green-led-on.png);
+//    //QPixmap pix(":/data/files/ui-elements/green-led-on.png");
+//    //ui->status_led->setStyleSheet("border-image: url(:/data/files/ui-elements/green-led-on.png);");
+//    //ui->status_led->setPixmap(pix);
+//}
