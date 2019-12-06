@@ -38,7 +38,7 @@ class Dynamixel:
     PKT_LEN         = 3 # byte position for package length
     PKT_INS         = 4 # byte position for package instruction
     PKT_ERR         = 4 # byte position for package error
-    PKT_PARAM_FIRST = 5 # byte position for package param first
+    PKT_PARAM_FIRST = 5 # byte position for package first param
     PKT_REG         = 5 # byte position for package register
     PKT_DATA_LEN    = 6 # byte position for package read data's length
     PKT_CSUM        = -1 # byte position for package check sum
@@ -52,7 +52,7 @@ class Dynamixel:
     INS_RESET       = 6
     INS_SYNC_WRITE  = 83
 
-    # bit value for error
+    # value for error
     ERR_INPUT_VOLTAGE   = 2 ** 0
     ERR_ANGLE_LIMIT     = 2 ** 1
     ERR_OVERHEATING     = 2 ** 2

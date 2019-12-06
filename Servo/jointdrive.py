@@ -1,9 +1,6 @@
 import math
 from Servo.servo_ax12a import *
 
-import time
-
-
 # Class definition of ax12a-controller class, defines interface to the robot
 # ===============================================================================
 # Implements the interface between leg- and servo class
@@ -20,49 +17,50 @@ class JointDrive(ServoAx12a):
     _ANGLE_RADIAN_ZERO  = (ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi / 360  # Zero angle offset of servo in radian
     _ANGLE_RADIAN_MAX   = ServoAx12a._ANGLE_MAX_DEGREE * math.pi / 360                                   # Max angle offset of servo in radian
     _ANGLE_RADIAN_MIN   = ServoAx12a._ANGLE_MIN_DEGREE * math.pi / 360                                   # Min angle offset of servo in radian
-    _ANGLE_UNIT = ServoAx12a._ANGLE_MAX_TICKS / ((ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)  # Ticks per rad
+    _ANGLE_UNIT = ServoAx12a._ANGLE_MAX_TICKS / \
+                  ((ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)    # Ticks per rad
 
-    _CONST_ANGLE_TO_TICKS = 1023 / (5 * math.pi / 3)
-    _CONST_SPEED_TO_TICKS = 1023 / super()._SPEED_MAX_RPM
+    _CONST_ANGLE_TO_TICKS = ServoAx12a._ANGLE_MAX_TICKS / (5 * math.pi / 3)
+    _CONST_SPEED_TO_TICKS = ServoAx12a._ANGLE_MAX_TICKS / super()._SPEED_MAX_RPM
 
     # Private methods
     # ----------------------------------------------------------------------
     # Constructor, defines the following variables: counterClockWise, angleOffset, angleMax, angleMin
-    # id -> id of servo, cw -> rotating direction, aOffset -> angle offset,
+    # servoId -> id of servo, ccw -> rotating direction, aOffset -> angle offset,
     # aMax -> maximum angle allowed, aMin -> minimum angle allowed
     def __init__(self, servoId, ccw = False, aOffset = 0.0, aMax = math.pi * 2, aMin = -math.pi * 2):
         self.id = servoId
         self.counterClockWise = ccw
-        self.angleMax = aMax if(aMax > self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_MAX
-        self.angleMin = aMin if(aMin < self._ANGLE_RADIAN_ZERO) else self._ANGLE_RADIAN_MIN
-        self.aOffset = aOffset
+        self.angleMax = aMax if(aMax > aMin and aMax <= self._ANGLE_RADIAN_MAX and aMax >= self._ANGLE_RADIAN_MIN) else self._ANGLE_RADIAN_MAX
+        self.angleMin = aMin if(aMin < aMax and aMin <= self._ANGLE_RADIAN_MAX and aMin >= self._ANGLE_RADIAN_MIN) else self._ANGLE_RADIAN_MIN
+        self.angleOffset = aOffset
         self.curAngle = 0
         super().__init__(servoId)
 
     # Converts angle in radian to servo ticks
     # angle -> in radian, returns angle in servo ticks
     def __convertAngleToTicks(self, angle):
-        angle += self.aOffset
         if self.counterClockWise:
-            angle += self._ANGLE_RADIAN_ZERO
+            angle = self._ANGLE_RADIAN_ZERO + self.angleOffset + angle
         else:
-            angle = self._ANGLE_RADIAN_ZERO - angle
+            angle = self._ANGLE_RADIAN_ZERO - self.angleOffset - angle
+
         return abs(self._CONST_ANGLE_TO_TICKS * angle)
 
     # Converts servo ticks to angle in radian
     # ticks -> servo ticks, returns angle in radian
     def __convertTicksToAngle(self, ticks: int):
         if self.counterClockWise:
-            ticks += self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO + self.aOffset)
+            ticks += self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO + self.angleOffset)
         else:
-            ticks += self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO - self.aOffset)
+            ticks += self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO - self.angleOffset)
 
         return ticks / self._CONST_ANGLE_TO_TICKS
 
     # Converts speed in rpm to servo ticks
     # speed -> value in rpm
     def __convertSpeedToTicks(self, speed: float):
-        ticks = self._SPEED_MAX_TICKS if speed is self._SPEED_MAX_RPM else self._CONST_SPEED_TO_TICKS * speed
+        ticks = self._SPEED_MAX_TICKS if (speed == self._SPEED_MAX_RPM) else self._CONST_SPEED_TO_TICKS * speed
         return ticks
 
     # Converts ticks to speed in rpm
