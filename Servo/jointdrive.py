@@ -20,8 +20,8 @@ class JointDrive(ServoAx12a):
     _ANGLE_UNIT = ServoAx12a._ANGLE_MAX_TICKS / \
                   ((ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)    # Ticks per rad
 
-    _CONST_ANGLE_TO_TICKS = ServoAx12a._ANGLE_MAX_TICKS / (5 * math.pi / 3)
-    _CONST_SPEED_TO_TICKS = ServoAx12a._ANGLE_MAX_TICKS / super()._SPEED_MAX_RPM
+    _CONST_ANGLE_TO_TICKS = ServoAx12a._SPEED_MAX_TICKS / (5 * math.pi / 3)
+    _CONST_SPEED_TO_TICKS = ServoAx12a._SPEED_MAX_TICKS / super()._SPEED_MAX_RPM
 
     # Private methods
     # ----------------------------------------------------------------------
