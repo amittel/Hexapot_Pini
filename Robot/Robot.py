@@ -6,6 +6,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3
 import mpl_toolkits.mplot3d.art3d as art3d
+import enum
+
+#Enum to change walking modes
+class WalkingMode(enum.Enum):
+    COSINE = 0
+    TRAPEZOID = 1
 
 
 class Robot:
@@ -15,12 +21,17 @@ class Robot:
         self.stepSize = 0.1  # Spacing of trajectory points
         self.stepHeight = 0.5  # Working area from 0 to 1
         self.accuracy = 4  # Amount of decimals
+        self.walkingMode = WalkingMode.COSINE #Defualt Walkingmode
         self.trajectory = self.createTrajectory()
         self.cycleTime = 0.1  # Time for each step size
         self.walkingAngle = 0  # Current movement angle
         self.legs = []
-        self.legsGroup1 = [0, 2, 4]  # Group 1 starts swinging
-        self.legsGroup2 = [1, 3, 5]  # Group 2 starts stemming
+        # Group 1 starts swinging
+        # Consists of front right, middle left and back right
+        self.legsGroup1 = [0, 2, 4]
+        # Group 2 starts stemming
+        # Consists of front left, middle right and back left
+        self.legsGroup2 = [1, 3, 5]
 
         if not self.isReal:  # Only for animation
             self.fig = plt.figure()
@@ -29,32 +40,32 @@ class Robot:
             # Translation matrix for displacement of foot points in animation
             self.translationMatrix = np.array([
                 np.array([
-                    [1, 0, 0, 3],
+                    [1, 0, 0, 3],  # Leg front right
                     [0, 1, 0, -1],
                     [0, 0, 1, 0],
                     [0, 0, 0, 1]]),
                 np.array([
-                    [1, 0, 0, 3],
+                    [1, 0, 0, 3],  # Leg front left
                     [0, 1, 0, 1],
                     [0, 0, 1, 0],
                     [0, 0, 0, 1]]),
                 np.array([
-                    [1, 0, 0, 0],
+                    [1, 0, 0, 0],  # Leg middle left
                     [0, 1, 0, 2],
                     [0, 0, 1, 0],
                     [0, 0, 0, 1]]),
                 np.array([
-                    [1, 0, 0, -3],
+                    [1, 0, 0, -3],  # Leg back left
                     [0, 1, 0, 1],
                     [0, 0, 1, 0],
                     [0, 0, 0, 1]]),
                 np.array([
-                    [1, 0, 0, -3],
+                    [1, 0, 0, -3],  # Leg back right
                     [0, 1, 0, -1],
                     [0, 0, 1, 0],
                     [0, 0, 0, 1]]),
                 np.array([
-                    [1, 0, 0, 0],
+                    [1, 0, 0, 0],  # Leg middle right
                     [0, 1, 0, -2],
                     [0, 0, 1, 0],
                     [0, 0, 0, 1]])])
@@ -62,8 +73,8 @@ class Robot:
     def iterate(self):
         os.system("cls")  # Supposed to clear console
         indexLegs1 = -1  # Index in trajectory of three legs that start swinging (-1 cuz it starts to count up in loop)
-        indexLegs2 = int(len(
-            self.trajectory) / 2 - 1)  # Index in trajectory of three legs that start stemming  (-1 cuz it starts to count up in loop)
+        indexLegs2 = int(len(self.trajectory) / 2 - 1)  # Index in trajectory of three legs that start stemming  (-1
+        # cuz it starts to count up in loop)
         # Temporary variables for checking of read in values
         angle = self.walkingAngle
         height = self.stepHeight
@@ -82,14 +93,15 @@ class Robot:
                 indexLegs2 = 0
             # For animation. Changes only apply when three legs are at their highest position
             # TODO: COM OBJEKT AUSLESEN
+
             if (indexLegs1 == 0 or indexLegs2 == 0) and not self.isReal:
                 # Angle & Step height
                 try:
-                    input_data = open('Steuer.txt', 'r').read()
+                    input_data = open('Steuer.txt', 'r').read
                     lines = input_data.split('\n')
                     angle = lines[0]
                     height = lines[1]
-                except:
+                except IOError:
                     print('File error!')
                 # Angle
                 if is_number(angle):
@@ -98,7 +110,7 @@ class Robot:
                 if is_number(height):
                     if float(height) <= 1:
                         self.stepHeight = float(height)
-                        self.trajectory = self.createTrajectory()
+                        self.trajectory = self.createTrajectory()  # Recalculate trajectory
 
             #############
             #     V     #
@@ -141,11 +153,11 @@ class Robot:
         Starting with the topmost point of the swing phase for easy determination of the point for direction switching
         """
         trajectory = []
-        for i in np.arange(0, 1, (self.stepSize)):
+        for i in np.arange(0, 1, self.stepSize):
             trajectory.append([round(i, self.accuracy), 0, round(self.swingFunctionCalculation(i), self.accuracy), 1])
-        for i in np.arange(1, -1, -(self.stepSize)):
+        for i in np.arange(1, -1, -self.stepSize):
             trajectory.append([round(i, self.accuracy), 0, 0, 1])
-        for i in np.arange(-1, 0, (self.stepSize)):
+        for i in np.arange(-1, 0, self.stepSize):
             trajectory.append([round(i, self.accuracy), 0, round(self.swingFunctionCalculation(i), self.accuracy), 1])
         return trajectory
 
@@ -153,7 +165,15 @@ class Robot:
         """
         Returns a value depending on x. The function defines the movement of the legs during swing phase
         """
-        return np.abs(self.stepHeight * math.cos((math.pi / 2) * x))
+        if self.walkingMode == WalkingMode.COSINE:
+            return np.abs(self.stepHeight * math.cos((math.pi / 2) * x))
+        elif self.walkingMode == WalkingMode.TRAPEZOID:
+            if -1 <= x < -0.5:
+                return self.stepHeight * (2 * x + 2)
+            elif -0.5 <= x < 0.5:
+                return self.stepHeight
+            elif 0.5 <= x <= 1:
+                return self.stepHeight * (-2 * x + 2)
 
     def rotationMatrixZ(self, angle):
         """
@@ -174,12 +194,12 @@ class Robot:
         Reads the coordinates in self.legs, prints them and clears them afterwards
         """
         dots = []
-        for l in self.legs:
-            if l[2] > 0:  # Z-coordinate > 0 (swing phase)
+        for lg in self.legs:
+            if lg[2] > 0:  # Z-coordinate > 0 (swing phase)
                 c = 'red'
             else:
                 c = 'black'
-            dots.append(self.ax1.scatter(l[0], l[1], l[2], c=c))
+            dots.append(self.ax1.scatter(lg[0], lg[1], lg[2], c=c))
         plt.pause(0.0000001)
         for d in dots:
             d.remove()
@@ -189,10 +209,12 @@ class Robot:
         Initializes the coordinate system for the animation
         """
         # Plotting
+        # Axes labels
         self.ax1.set_xlabel('X', fontsize=14, fontweight='bold', color='b')
         self.ax1.set_ylabel('Y', fontsize=14, fontweight='bold', color='r')
         self.ax1.set_zlabel('Z', fontsize=14, fontweight='bold', color='g')
         self.ax1.set_title("Bewegungssimulation")
+        # Presentation area of axes
         self.ax1.set_xlim(-4.25, 4.25)
         self.ax1.set_ylim(-4.25, 4.25)
         self.ax1.set_zlim(0, 4.25)
