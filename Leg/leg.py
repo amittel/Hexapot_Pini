@@ -21,13 +21,15 @@ class Leg:
             [math.sin(alpha), 0, -math.cos(alpha), self.lc * math.sin(alpha)],
             [0, 1, 0, 0],
             [0, 0, 0, 1]])
-        betaPos = np.dot(A1, np.transpose(pos))
+        betaPos = np.dot(A1, np.transpose([0,0,0,1]))
         lct = np.linalg.norm(footPos[0:3] - betaPos[0:3])
         lctSquare = math.pow(lct, 2)
-        print("acos: " ,(self.ltSquare + self.lfSquare - lctSquare) / (2 * self.lt * self.lf))
-        gamma = math.acos((self.ltSquare + self.lfSquare - lctSquare) / (2 * self.lt * self.lf)) - math.pi
-        h1 = math.acos((self.lfSquare + lctSquare - self.ltSquare) / (2 * self.lf * lct))
+        
+        gamma = math.acos(round(self.ltSquare + self.lfSquare - lctSquare, 15) / round(2 * self.lt * self.lf, 15)) - math.pi
+        
+        h1 = math.acos(round(self.lfSquare + lctSquare - self.ltSquare, 15) / round(2 * self.lf * lct, 15))
         h2 = math.acos((lctSquare + self.lcSquare - math.pow(np.linalg.norm(footPos[0:3]), 2))/(2 * self.lc * lct))
+        
         if footPos[2] < 0:
             beta = (h1 + h2) - math.pi
         else:
@@ -111,22 +113,25 @@ def startFunction():
 
     
     
-    myLeg.testStraightLeg()
-    w = (0,0,math.pi/4)
-    myLeg.testTibia(w)
-
+    #myLeg.testStraightLeg()
+    #w = (0,0,math.pi/4)
+    #myLeg.testTibia(w)
+    wa=0
+    wb=0
+    wg=0
  
-
     
-    """print("Koord (G): ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
+    
+    print("Winkel gegeben (deg): ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
     pos = myLeg.forKinAlphaJoint(wa, wb, wg)
+    
+    print("Koord auf fKin:",[pos[0], pos[1], pos[2]])
+    
     wa, wb, wg = myLeg.invKinAlphaJoint([pos[0], pos[1], pos[2], 1])
 
-    #print("Koord (G): ", x, ",", y, ",", z)
+    print("Winkel aus iKin: " ,math.degrees(wa) ,",",math.degrees(wb),",", math.degrees(wg)) #math.radians()
 
-    print("Koord (W): " ,math.degrees(wa) ,",",math.degrees(wb),",", math.degrees(wg)) #math.radians()
-    print("Koord (B): ",pos[0] ,",",pos[1],",", pos[2])
-    """
+    
 
 
     
