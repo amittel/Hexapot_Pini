@@ -1,5 +1,5 @@
+from Servo.servo_ax12a import ServoAx12a
 import math
-from Servo.servo_ax12a import *
 
 # Class definition of ax12a-controller class, defines interface to the robot
 # ===============================================================================
@@ -11,6 +11,7 @@ from Servo.servo_ax12a import *
 # Servo uses ticks from 0 to 1023 for angle and speed
 # Leg uses angles in radian and rotation per minute for speed
 # Defines zero angle as average of min- and max value -> positive and negative angles are allowed
+
 class JointDrive(ServoAx12a):
     # Definition of public class attributes
     # ----------------------------------------------------------------------
@@ -21,7 +22,7 @@ class JointDrive(ServoAx12a):
                   ((ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)    # Ticks per rad
 
     _CONST_ANGLE_TO_TICKS = ServoAx12a._SPEED_MAX_TICKS / (5 * math.pi / 3)
-    _CONST_SPEED_TO_TICKS = ServoAx12a._SPEED_MAX_TICKS / super()._SPEED_MAX_RPM
+    _CONST_SPEED_TO_TICKS = ServoAx12a._SPEED_MAX_TICKS / ServoAx12a._SPEED_MAX_RPM
 
     # Private methods
     # ----------------------------------------------------------------------

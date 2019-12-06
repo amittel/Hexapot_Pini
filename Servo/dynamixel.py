@@ -62,8 +62,8 @@ class Dynamixel:
     ERR_INSTRUCTION     = 2 ** 6
     ERR_DEFAULT         = 0
 
-    portList = serialPorts.serialPortList()
-    port = serial.Serial(port=str(portList[0]), baudrate=1000000)
+    # portList = serialPorts.serialPortList()
+    # port = serial.Serial(port=str(portList[0]), baudrate=1000000)
 
     # ---------------------------------------------------------------------------
     # Definition of private methods with implicit servo-id
@@ -184,7 +184,7 @@ class Dynamixel:
     """
     # Sends packet to servo in order to write n data bytes into servo memory
     # register -> register address of servo
-    # data     -> list of bytes to write
+    # byteData     -> list of bytes to write
     # trigger  -> False -> command is directly executed, True -> command is delayed until action command
     def _writeNBytePkt(self, register: int, byteData: list, trigger: bool):
         command                 = [255, 255, 0, 0, 0, 0]
@@ -192,7 +192,8 @@ class Dynamixel:
         command[self.PKT_LEN]   = len(byteData) + 3
         command[self.PKT_INS]   = self.INS_REG_WRITE if trigger else self.INS_WRITE_DATA
         command[self.PKT_REG]   = register
-        command.extend(byteData.append(0))
+        command.extend(byteData)
+        command.append(0)
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
         self.__sendCommand(command)
@@ -204,7 +205,7 @@ class Dynamixel:
     # register -> register address of servo
     # data     -> list of words to write
     # trigger  -> False -> command is directly executed, True -> command is delayed until action command
-    def _writeNWordPkt(self, register, wordData, trigger):
+    def _writeNWordPkt(self, register: int, wordData: list, trigger: bool):
         byteData = []
         for word in wordData:
             byteData.append(word >> 8 & 0xFF)  # append fst. byte
@@ -231,5 +232,5 @@ class Dynamixel:
 
     # Get last error
     def getLastError(self):
-        self.__doReadStatusPkt(0)
+        # self.__doReadStatusPkt(0)
         return self.error

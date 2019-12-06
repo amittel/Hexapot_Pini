@@ -1,13 +1,11 @@
-import serial
-from Servo import serialPorts
-from Servo.dynamixel import *
-
+from Servo.dynamixel import Dynamixel
 
 # Definition of Servo-Ax12a-controller class, defines control and status methods
 # ===============================================================================
 # Implements communication commands to servo AX12A
 # ------------------------------------------------------------------------------
 # Uses the commands of Dynamixel class to send and receive the reqiered servo values
+
 class ServoAx12a(Dynamixel):
     # Definition of private class attributes
     # ----------------------------------------------------------------------
@@ -119,20 +117,26 @@ class ServoAx12a(Dynamixel):
     # Set time of return delay
     # delay: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
     def setReturnDelay(self, delay, trigger=False):
-        self._writeNBytePkt(self.__RETURN_DELAY_TIME, delay, trigger)
+        byteData = []
+        byteData.append(delay)
+        self._writeNBytePkt(self.__RETURN_DELAY_TIME, byteData, trigger)
         return True if self.getLastError() == self.ERR_DEFAULT else False
 
     # Set status return level
     # 0->No return against all commands (Except PING Command),
     # 1->Return only for the READ command, 2->Return for all commands
     def setReturnLevel(self, level, trigger=False):
-        self._writeNBytePkt(self.__RETURN_LEVEL, level, trigger)
+        byteData = []
+        byteData.append(level)
+        self._writeNBytePkt(self.__RETURN_LEVEL, byteData, trigger)
         return True if self.getLastError() == self.ERR_DEFAULT else False
 
     # Set goal position
     # position: 0 to 1023 is available. The unit is 0.29 degree.
     def setGoalPosition(self, position, trigger=False):
-        self._writeNWordPkt(self.__GOAL_POSITION, position, trigger)
+        wordData = []
+        wordData.append(position)
+        self._writeNWordPkt(self.__GOAL_POSITION, wordData, trigger)
         return True if self.getLastError() == self.ERR_DEFAULT else False
 
     # Set moving speed
@@ -140,6 +144,8 @@ class ServoAx12a(Dynamixel):
     #        If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #        If it is 1023, it is about 114rpm.
     def setMovingSpeed(self, speed, trigger=False):
+        wordData = []
+        wordData.append(speed)
         self._writeNWordPkt(self.__MOVING_SPEED, speed, trigger)
         return True if self.getLastError() == self.ERR_DEFAULT else False
 
