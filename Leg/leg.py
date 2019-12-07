@@ -25,11 +25,14 @@ class Leg:
         lct = np.linalg.norm(footPos[0:3] - betaPos[0:3])
         lctSquare = math.pow(lct, 2)
         
-        gamma = math.acos(round(self.ltSquare + self.lfSquare - lctSquare, 15) / round(2 * self.lt * self.lf, 15)) - math.pi
+        gamma = math.acos(round((self.ltSquare + self.lfSquare - lctSquare) / (2 * self.lt * self.lf), 15)) - math.pi
         
-        h1 = math.acos(round(self.lfSquare + lctSquare - self.ltSquare, 15) / round(2 * self.lf * lct, 15))
+        h1 = math.acos(round((self.lfSquare + lctSquare - self.ltSquare) / (2 * self.lf * lct), 15))
         h2 = math.acos((lctSquare + self.lcSquare - math.pow(np.linalg.norm(footPos[0:3]), 2))/(2 * self.lc * lct))
-        
+        print("h1: ", h1)
+        print("h2: ", h2)
+        print("pi: ", math.pi)
+        print("pi-h2:" , math.pi-h2)
         if footPos[2] < 0:
             beta = (h1 + h2) - math.pi
         else:
