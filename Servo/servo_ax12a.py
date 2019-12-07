@@ -51,7 +51,7 @@ class ServoAx12a(Dynamixel):
     # ----------------------------------------------------------------------
     # Get time of return delay
     # returns: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
-    def getReturnDelay(self):
+    def getReturnDelay(self)-> int:
         nByte = self._requestNByte(self.__RETURN_DELAY_TIME)
         return self.__convertByteToInt(nByte)
 
@@ -59,13 +59,13 @@ class ServoAx12a(Dynamixel):
     # returns:  0->No return against all commands (Except PING Command),
     #           1->Return only for the READ command,
     #           2->Return for all commands
-    def getReturnLevel(self):
+    def getReturnLevel(self)-> int:
         nByte = self._requestNByte(self.__RETURN_LEVEL)
         return self.__convertByteToInt(nByte)
 
     # Get goal position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
-    def getGoalPosition(self):
+    def getGoalPosition(self)-> int:
         nByte = self._requestNWord(self.__GOAL_POSITION)
         return self.__convertByteToInt(nByte)
 
@@ -79,7 +79,7 @@ class ServoAx12a(Dynamixel):
 
     # Get present position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
-    def getPresentPosition(self):
+    def getPresentPosition(self)-> int:
         nByte = self._requestNWord(self.__PRESENT_POSITION)
         return self.__convertByteToInt(nByte)
 
@@ -87,7 +87,7 @@ class ServoAx12a(Dynamixel):
     # returns: 0 to 1023, the unit is about 0.111rpm.
     #          If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #          If it is 1023, it is about 114rpm.
-    def getPresentSpeed(self):
+    def getPresentSpeed(self)-> int:
         nByte = self._requestNWord(self.__PRESENT_SPEED)
         return self.__convertByteToInt(nByte)
 
@@ -96,7 +96,7 @@ class ServoAx12a(Dynamixel):
     # speed:    0 to 1023, the unit is about 0.111rpm.
     #           If it is 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
-    def getGoalPosSpeed(self):
+    def getGoalPosSpeed(self)-> int:
         nByte_pos = self._requestNWord(self.__GOAL_POSITION)
         nByte_spd = self._requestNWord(self.__MOVING_SPEED)
         return [self.__convertByteToInt(nByte_pos), self.__convertByteToInt(nByte_spd)]
@@ -106,7 +106,7 @@ class ServoAx12a(Dynamixel):
     # speed:    0 to 1023, the unit is about 0.111rpm.
     #           If it 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
-    def getPresPosSpeed(self):
+    def getPresPosSpeed(self)-> int:
         nByte_pos = self._requestNWord(self.__PRESENT_POSITION)
         nByte_spd = self._requestNWord(self.__PRESENT_SPEED)
         return [self.__convertByteToInt(nByte_pos), self.__convertByteToInt(nByte_spd)]
@@ -116,14 +116,14 @@ class ServoAx12a(Dynamixel):
 
     # Set time of return delay
     # delay: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
-    def setReturnDelay(self, delay, trigger=False):
+    def setReturnDelay(self, delay: int, trigger: bool = False)-> bool:
         self._writeNBytePkt(self.__RETURN_DELAY_TIME, [delay], trigger)
         return True if self.getLastError() == self.ERR_DEFAULT else False
 
     # Set status return level
     # 0->No return against all commands (Except PING Command),
     # 1->Return only for the READ command, 2->Return for all commands
-    def setReturnLevel(self, level, trigger=False):
+    def setReturnLevel(self, level: int, trigger: bool = False)-> bool:
         self._writeNBytePkt(self.__RETURN_LEVEL, [level], trigger)
         return True if self.getLastError() == self.ERR_DEFAULT else False
 

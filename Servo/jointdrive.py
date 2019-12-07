@@ -40,17 +40,17 @@ class JointDrive(ServoAx12a):
 
     # Converts angle in radian to servo ticks
     # angle -> in radian, returns angle in servo ticks
-    def __convertAngleToTicks(self, angle):
+    def __convertAngleToTicks(self, angle: float)-> int:
         if self.counterClockWise:
             angle = self._ANGLE_RADIAN_ZERO + self.angleOffset + angle
         else:
             angle = self._ANGLE_RADIAN_ZERO - self.angleOffset - angle
 
-        return abs(self._CONST_ANGLE_TO_TICKS * angle)
+        return int(round(abs(self._CONST_ANGLE_TO_TICKS * angle)))
 
     # Converts servo ticks to angle in radian
     # ticks -> servo ticks, returns angle in radian
-    def __convertTicksToAngle(self, ticks: int):
+    def __convertTicksToAngle(self, ticks: int)-> float:
         if self.counterClockWise:
             ticks += self.__convertAngleToTicks(self._ANGLE_RADIAN_ZERO + self.angleOffset)
         else:
@@ -60,13 +60,13 @@ class JointDrive(ServoAx12a):
 
     # Converts speed in rpm to servo ticks
     # speed -> value in rpm
-    def __convertSpeedToTicks(self, speed: float):
-        ticks = self._SPEED_MAX_TICKS if (speed == self._SPEED_MAX_RPM) else self._CONST_SPEED_TO_TICKS * speed
+    def __convertSpeedToTicks(self, speed: float) -> int:
+        ticks = int(round(self._SPEED_MAX_TICKS if (speed == self._SPEED_MAX_RPM) else self._CONST_SPEED_TO_TICKS * speed))
         return ticks
 
     # Converts ticks to speed in rpm
     # ticks -> servo ticks
-    def __convertTicksToSpeed(self, ticks: int):
+    def __convertTicksToSpeed(self, ticks: int)-> float:
         speed = (ticks * self._SPEED_MAX_RPM) / self._CONST_SPEED_TO_TICKS
         return speed
 
@@ -74,13 +74,13 @@ class JointDrive(ServoAx12a):
     # ----------------------------------------------------------------------
     # Get current angle of servo
     # returns angle in radian
-    def getCurrentJointAngle(self):
+    def getCurrentJointAngle(self)-> float:
         self.curAngle = self.__convertTicksToAngle(self.getPresentPosition())
         return self.curAngle
 
     # Set servo to desired angle
     # angle -> in radian,
-    def setDesiredJointAngle(self, angle: float, trigger: bool = False):
+    def setDesiredJointAngle(self, angle: float, trigger: bool = False)-> bool:
         success = self.setGoalPosition(self.__convertAngleToTicks(angle), trigger)
         if success:
             self.curAngle -= angle
@@ -90,7 +90,7 @@ class JointDrive(ServoAx12a):
     # Set servo to desired angle speed
     # angle -> in radian,
     # speed -> speed of movement in rpm, speed = 0 -> maximum speed
-    def setDesiredAngleSpeed(self, angle: float, speed: int = 0, trigger: bool = False):
+    def setDesiredAngleSpeed(self, angle: float, speed: int = 0, trigger: bool = False)-> bool:
         speed_in_ticks = self.__convertSpeedToTicks(speed)
         angle_in_ticks = self.__convertAngleToTicks(angle)
 
@@ -102,7 +102,7 @@ class JointDrive(ServoAx12a):
 
     # Set speed value of servo
     # speed -> angle speed in rpm
-    def setSpeedValue(self, speed: float, trigger: bool =False):
+    def setSpeedValue(self, speed: float, trigger: bool = False)-> bool:
         speed_in_ticks = self.__convertSpeedToTicks(speed)
         success = self.setMovingSpeed(speed_in_ticks, trigger)
 
