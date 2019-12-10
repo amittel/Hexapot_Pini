@@ -12,6 +12,9 @@ class Leg:
         self.lt = math.sqrt(math.pow(self.a[5], 2) + math.pow(self.a[6],2))
         self.ltSquare = math.pow(self.lt, 2)
 
+    def getLegLength(self):
+        return (self.lc, self.lf, self.lt)
+
     def invKinAlphaJoint(self, pos):
         alpha = math.atan2(pos[1] , pos[0]) # y x
 
@@ -114,25 +117,33 @@ def startFunction():
     
     myLeg = Leg(a)
 
-    
+    #myLeg.testStraightLeg()
     
     #myLeg.testStraightLeg()
     #w = (0,0,math.pi/4)
     #myLeg.testTibia(w)
-    wa=0
-    wb=0
-    wg=0
- 
-    
-    
-    print("Winkel gegeben (deg): ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
-    pos = myLeg.forKinAlphaJoint(wa, wb, wg)
-    
-    print("Koord auf fKin:",[pos[0], pos[1], pos[2]])
-    
-    wa, wb, wg = myLeg.invKinAlphaJoint([pos[0], pos[1], pos[2], 1])
+    #wa=0
+    #wb=0
+    #wg=0
+    #pos=[0.214,0,0] #gestrecktes bein
 
-    print("Winkel aus iKin: " ,math.degrees(wa) ,",",math.degrees(wb),",", math.degrees(wg)) #math.radians()
+    Llength = myLeg.getLegLength()
+    pos=[round(Llength[0]+Llength[1],4),round(-Llength[2],4),0]
+    
+
+    print("Koord auf fKin:",[pos[0], pos[1], pos[2]])
+    wa, wb, wg = myLeg.invKinAlphaJoint([pos[0], pos[1], pos[2], 1])
+    
+    print("Winkel  (deg): ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
+    print("Winkel  (rad): ", wa, ",", wb, ",", wg)
+
+    pos = myLeg.forKinAlphaJoint(wa, wb, wg)
+    print("Koord auf fKin:",[round(pos[0],4), round(pos[1],4), round(pos[2],4)])
+    
+    
+    
+
+    #print("Winkel aus iKin: " ,math.degrees(wa) ,",",math.degrees(wb),",", math.degrees(wg)) #math.radians()
 
     
 
