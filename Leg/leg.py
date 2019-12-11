@@ -115,19 +115,17 @@ class Leg:
 
 
 
-def startFunction():
-    a = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
+def initRobot():
+    #ToDo: Two leg groups: L1,2,4,5 with a0=0.043m and L3,6 with a0= 0.030
+    legDims = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
+    #ToDo: Insert Offsets from origin
     
-    myLeg = Leg(a)
+    myLeg = Leg(legDims)
 
     wa=0
     wb=0
     wg=math.pi/2
-    #pos=[0.214,0,0] #gestrecktes bein
 
-    Llength = myLeg.getLegLength()
-    #pos=[round(Llength[0]+Llength[1],4),round(-Llength[2],4),0]
-    #pos=[0.05,0.05,0.05]
 
     pos = myLeg.forKinAlphaJoint(wa, wb, wg)
 
@@ -140,17 +138,12 @@ def startFunction():
     
     print("Koord auf fKin:",[round(pos[0],4), round(pos[1],4), round(pos[2],4)])
     
-    
-    
-
-    #print("Winkel aus iKin: " ,math.degrees(wa) ,",",math.degrees(wb),",", math.degrees(wg)) #math.radians()
-
-    
-
-
-    
-
 
 
 if __name__ == "__main__":
-    startFunction()
+    sim = False
+    
+    initRobot()
+
+    if(sim):
+        pass
