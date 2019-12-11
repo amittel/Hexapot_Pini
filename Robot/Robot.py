@@ -97,7 +97,7 @@ class Robot:
             if (indexLegs1 == 0 or indexLegs2 == 0) and not self.isReal:
                 # Angle & Step height
                 try:
-                    input_data = open('Steuer.txt', 'r').read
+                    input_data = open('Steuer.txt', 'r').read()
                     lines = input_data.split('\n')
                     angle = lines[0]
                     height = lines[1]
