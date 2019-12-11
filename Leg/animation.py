@@ -33,7 +33,7 @@ l_t = 0.096 * scalefactor
 
 
 
-def trajectory():
+def trajectory(x_,y_,z_):
     stepSize = 0.1
     stepHeight = 1
     accuracy = 4  # Amount of decimals
@@ -41,17 +41,17 @@ def trajectory():
     trajectory = []
 
     for i in np.arange(-1, 1, stepSize):
-        x = 0
+        x = x_
         y = round(i, accuracy)
-        z = round(stepHeight * math.cos((math.pi / 2) * i), accuracy)
+        z = round(stepHeight * math.cos((math.pi / 2) * i), accuracy) +z_
 
         trajectory.append([x,y,z])
         
 
     for i in np.arange(1, -1, -stepSize):
-        x = 0 #round(i, accuracy)
+        x = x_ #round(i, accuracy)
         y = round(i, accuracy)
-        z = 0 #round(stepHeight * math.cos((math.pi / 2) * i), accuracy)
+        z = z_ #round(stepHeight * math.cos((math.pi / 2) * i), accuracy)
 
         trajectory.append([x,y,z])
 
@@ -107,12 +107,12 @@ curve(alphaP, betaP, gammaP, footP,radius=0.3)
 
 
 # Testsuite Trajectory
-testF = sphere(radius=0.3, color = color.yellow)
-traj = trajectory()
+testF = sphere(pos=vector(14.88,0,-2.192),radius=0.3, color = color.yellow)
+traj = trajectory(14.88,0,-2.19)
 
 rounds = 0
 
-while (rounds <= 3):
+while (rounds <= 13):
     i =0
 
     while (i in range(0,len(traj),1)):
