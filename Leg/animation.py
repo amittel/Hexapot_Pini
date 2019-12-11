@@ -2,6 +2,8 @@ from vpython import *
 import numpy as np 
 import math
 
+
+
 scene = canvas(title='Leg Animation', width=800, height=800, background=color.white, forward=vector(0,1,0), up=vector(0,0,1))
 
 #x red y green z blue
@@ -17,7 +19,7 @@ text(text='z', pos=vec(0,0,2), color=color.blue, height=0.5,billboard=True)
 
 
 
-#0,0,-90 deg
+#0,45,-90 deg
 alpha= 0.0 
 beta=0.7854
 gamma= -1.5707963267948966
@@ -30,29 +32,30 @@ l_f = 0.065 * scalefactor
 l_t = 0.096 * scalefactor
 
 
-stepSize = 0.1
-stepHeight = 1
-accuracy = 4  # Amount of decimals
 
-trajectory = []
+def trajectory():
+    stepSize = 0.1
+    stepHeight = 1
+    accuracy = 4  # Amount of decimals
 
-for i in np.arange(-1, 1, stepSize):
-    #print(round(i, accuracy))
-    x = round(i, accuracy)
-    y = 0
-    z = round(stepHeight * math.cos((math.pi / 2) * i), accuracy)
+    trajectory = []
 
-    trajectory.append([x,y,z])
-    #                 [--------------x------- , y, -------------z----------------------------------------, 1] 
-    #trajectory.append([round(i, accuracy), 0, np.abs(stepHeight * math.cos((math.pi / 2) * i), accuracy), 1])
+    for i in np.arange(-1, 1, stepSize):
+        x = 0
+        y = round(i, accuracy)
+        z = round(stepHeight * math.cos((math.pi / 2) * i), accuracy)
 
-for i in np.arange(1, -1, -stepSize):
-    #print(round(i, accuracy))
-    x = round(i, accuracy)
-    y = 0
-    z = 0 #round(stepHeight * math.cos((math.pi / 2) * i), accuracy)
+        trajectory.append([x,y,z])
+        
 
-    trajectory.append([x,y,z])
+    for i in np.arange(1, -1, -stepSize):
+        x = 0 #round(i, accuracy)
+        y = round(i, accuracy)
+        z = 0 #round(stepHeight * math.cos((math.pi / 2) * i), accuracy)
+
+        trajectory.append([x,y,z])
+
+    return trajectory
 
 
 A1 = np.array([
@@ -75,43 +78,17 @@ A3 = np.array([
 
 betaMatrix = np.matmul(A1, A2)
 
-
-
-gammaP = vector(betaMatrix[0][3],betaMatrix[1][3],betaMatrix[2][3])
-#print("BetaP: ", betaP)
-
-#print("Tra :", trajectory)
-
-
+#ToDo: Selbe wie fKin -> aufrufen
 footX = math.cos(alpha) * (l_t * math.cos(beta + gamma) + l_f * math.cos(beta) + l_c)
 footY = math.sin(alpha) * (l_t * math.cos(beta + gamma) + l_f * math.cos(beta) + l_c)
 footZ = l_t * math.sin(beta + gamma) + l_f * math.sin(beta)
 
-footP= vector(footX, footY, footZ)
-
-
 
 alphaP = vector(0,0,0)
-#rod_lc.rotate(angle=alpha,axis=vector(0,0,1))
-
-
 betaP = vector(l_c*cos(alpha), l_c*sin(alpha),0)
+gammaP = vector(betaMatrix[0][3],betaMatrix[1][3],betaMatrix[2][3])
+footP= vector(footX, footY, footZ)
 
-
-#betaJoint=sphere(pos=betaP, radius=0.3, color= color.green)
-#rod_lf.pos=betaP
-#rod_lf.rotate(angle=alpha,axis=vector(0,0,1))
-#rod_lf.rotate(angle=-beta,axis=vector(1,0,0))
-#gammaP = vector(l_t*cos(gamma), -l_t*sin(gamma),0)
-#gammaJoint=sphere(pos=gammaP, radius=0.3, color= color.yellow)
-#rod_lt.pos=gammaP
-#rod_lt.rotate(angle=alpha,axis=vector(0,0,1))
-#rod_lt.rotate(angle=beta,axis=vector(0,1,0))
-#rod_lt.rotate(angle=gamma,axis=vector(1,0,0))
-
-
-
-#footP=vector(0.1181*scalefactor,-0.0961*scalefactor,0)
 
 length_lc = mag(betaP-alphaP)
 length_lf = mag(gammaP-betaP)
@@ -129,20 +106,19 @@ curve(alphaP, betaP, gammaP, footP,radius=0.3)
 
 
 
+# Testsuite Trajectory
+testF = sphere(radius=0.3, color = color.yellow)
+traj = trajectory()
 
-testF= sphere(radius=0.3, color = color.yellow)
-
-z=vector(0,0,1)
-angle = 0.1
 rounds = 0
 
 while (rounds <= 3):
     i =0
 
-    while (i in range(0,len(trajectory),1)):
+    while (i in range(0,len(traj),1)):
         rate(10)
   
-        testF.pos = vector(trajectory[i][0], trajectory[i][1], trajectory[i][2])
+        testF.pos = vector(traj[i][0], traj[i][1], traj[i][2])
         i = i+1
     rounds = rounds + 1
     

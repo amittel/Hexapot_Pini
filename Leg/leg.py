@@ -32,10 +32,10 @@ class Leg:
         
         h1 = math.acos(round((self.lfSquare + lctSquare - self.ltSquare) / (2 * self.lf * lct), 15))
         h2 = math.acos((lctSquare + self.lcSquare - math.pow(np.linalg.norm(footPos[0:3]), 2))/(2 * self.lc * lct))
-        print("h1: ", h1)
-        print("h2: ", h2)
-        print("pi: ", math.pi)
-        print("pi-h2:" , math.pi-h2)
+        #print("h1: ", h1)
+        #print("h2: ", h2)
+        #print("pi: ", math.pi)
+        #print("pi-h2:" , math.pi-h2)
         if footPos[2] < 0:
             beta = (h1 + h2) - math.pi
         else:
@@ -112,16 +112,14 @@ class Leg:
         print("Länge (gerechnet):      ",length)
 
 
+
+
+
 def startFunction():
     a = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
     
     myLeg = Leg(a)
 
-    #myLeg.testStraightLeg()
-    
-    #myLeg.testStraightLeg()
-    #w = (0,0,math.pi/4)
-    #myLeg.testTibia(w)
     wa=0
     wb=0
     wg=math.pi/2
