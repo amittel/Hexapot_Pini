@@ -122,14 +122,16 @@ def startFunction():
     #myLeg.testStraightLeg()
     #w = (0,0,math.pi/4)
     #myLeg.testTibia(w)
-    #wa=0
-    #wb=0
-    #wg=0
+    wa=0
+    wb=0
+    wg=math.pi/2
     #pos=[0.214,0,0] #gestrecktes bein
 
     Llength = myLeg.getLegLength()
-    pos=[round(Llength[0]+Llength[1],4),round(-Llength[2],4),0]
-    
+    #pos=[round(Llength[0]+Llength[1],4),round(-Llength[2],4),0]
+    #pos=[0.05,0.05,0.05]
+
+    pos = myLeg.forKinAlphaJoint(wa, wb, wg)
 
     print("Koord auf fKin:",[pos[0], pos[1], pos[2]])
     wa, wb, wg = myLeg.invKinAlphaJoint([pos[0], pos[1], pos[2], 1])
@@ -137,7 +139,7 @@ def startFunction():
     print("Winkel  (deg): ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
     print("Winkel  (rad): ", wa, ",", wb, ",", wg)
 
-    pos = myLeg.forKinAlphaJoint(wa, wb, wg)
+    
     print("Koord auf fKin:",[round(pos[0],4), round(pos[1],4), round(pos[2],4)])
     
     
