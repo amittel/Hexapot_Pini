@@ -17,7 +17,7 @@ class Dynamixel:
     # Definition of private class attributes, accessible only within own class
     # ---------------------------------------------------------------------------
     # Define dynamixel constants
-    __DYNAMIXEL_PORT_NR         = 2         # Index of dynamixel line in list
+    __DYNAMIXEL_PORT_NR         = 0         # Index of dynamixel line in list
     __BAUDRATE                  = 1000000   # Baud rate of dynamixel serial line
     __TIME_OUT_DEFAULT          = 2         # Default time out
     __DIRECT_ACTION             = 3         # Direct action command
@@ -62,6 +62,9 @@ class Dynamixel:
     ERR_OVERLOAD        = 2 ** 5
     ERR_INSTRUCTION     = 2 ** 6
     ERR_DEFAULT         = 0
+
+    # register's address
+    REG_STATUS      = 16
 
     # portList = serialPorts.serialPortList()
     # port = serial.Serial(port=str(portList[0]), baudrate=1000000)
@@ -134,6 +137,7 @@ class Dynamixel:
     # Read status packet, set error value and get return values from servo
     # nByte -> number of bytes to read
     def __doReadStatusPkt(self, nByte):
+        self.__requestStatusPkt()
         statusPkt = list(self.__serial_port.read(self.__STATUS_PACKET_BASE_LENGTH + nByte))
 
         if len(statusPkt) > 0 and statusPkt[self.PKT_CSUM] == self.__checkSum(statusPkt):
@@ -141,6 +145,8 @@ class Dynamixel:
         else:
             return None, self.ERR_CHECKSUM
 
+    def __requestStatusPkt(self):
+        self.__writeReadDataPkt(self.REG_STATUS, 1)
     """
         Checks the sum of the parameters to check for Errors
     """
