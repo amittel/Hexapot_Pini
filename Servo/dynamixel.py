@@ -121,7 +121,6 @@ class Dynamixel:
         command[self.PKT_CSUM]      = self.__checkSum(command)
 
         self.__sendCommand(command)
-        return self.__requestStatusPkt(nByte)
 
     """
         Same as __doReadStatusPkt ??
@@ -145,9 +144,8 @@ class Dynamixel:
         else:
             return None, self.ERR_CHECKSUM
 
-    def __requestStatusPkt(self, nByte):
-        self.__writeReadDataPkt(self.REG_STATUS, nByte)
-        return self.__readStatusPkt(nByte)
+    def __requestStatusPkt(self):
+        self.__writeReadDataPkt(self.REG_STATUS, 1)
     """
         Checks the sum of the parameters to check for Errors
     """
@@ -173,7 +171,9 @@ class Dynamixel:
     Requests NBytes from parameters n+1 to m
     """
     def _requestNByte(self, register, nByte = 1):
-        return self.__writeReadDataPkt(register, nByte)
+        self.__writeReadDataPkt(register, nByte)
+        return self.__readStatusPkt(nByte)
+
     """
         Requests NWords (16 bits) from parameters n+1 to m
     """
@@ -181,7 +181,8 @@ class Dynamixel:
     # register -> register address of servo
     # nWord   -> number of data words to read
     def _requestNWord(self, register, nWord=1):
-        return self.__writeReadDataPkt(register, nWord * 2)
+        self.__writeReadDataPkt(register, nWord * 2)
+        return self.__doReadStatusPkt(nWord * 2)
 
     """
     WRITE_DATA Write data bytes (8 bits) into the control table of the Dynamixel actuator
@@ -194,14 +195,14 @@ class Dynamixel:
         command                 = [255, 255, 0, 0, 0, 0]
         command[self.PKT_ID]    = self.id
         command[self.PKT_LEN]   = len(byteData) + 3
-        command[self.PKT_INS]   = self.INS_REG_WRITE if trigger else self.INS_WRITE_DATA
+        command[self.PKT_INS]   = self.INS_WRITE_DATA if trigger else self.INS_REG_WRITE
         command[self.PKT_REG]   = register
         command.extend(byteData)
         command.append(0)
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
         self.__sendCommand(command)
-        self.__requestStatusPkt(1)
+        self.__doAction()
 
     """
     WRITE_DATA Write data words (16 bits) into the control table of the Dynamixel actuator
@@ -213,8 +214,9 @@ class Dynamixel:
     def _writeNWordPkt(self, register: int, wordData: list, trigger: bool):
         byteData = []
         for word in wordData:
-            byteData.append(word >> 8 )  # append fst. byte
-            byteData.append(word & 0xFF)  # append snd. byte
+            byteData.append(word & 0xFF)  # append 1st byte
+            byteData.append(word >> 8 & 0xFF)  # append 2nd byte
+
 
         self._writeNBytePkt(register, byteData, trigger)
 
