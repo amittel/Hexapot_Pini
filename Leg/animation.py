@@ -6,11 +6,11 @@ import math
 
 
 def createScene():
-    scene = canvas(title='Leg Animation', width=800, height=800, background=color.white, forward=vector(0,1,0), up=vector(0,0,1))
+    scene = canvas(title='Leg Visualisation', width=800, height=800, background=color.white, forward=vector(0,1,0), up=vector(0,0,1))
 
     #x red y green z blue
     ref_x = arrow(pos= vector(0,0,0), axis=vector(2,0,0), shaftwidth=0.1, color= color.red)
-    text(text='x', pos=vec(2,0,0), color=color.red, height=0.5,billboard=True)
+    text(text='x', pos=vec(2,0,0.4), color=color.red, height=0.5,billboard=True)
     ref_y = arrow(pos= vector(0,0,0), axis=vector(0,2,0), shaftwidth=0.1, color= color.green)
     text(text='y', pos=vec(0,2,0), color=color.green, height=0.5,billboard=True)
     ref_z = arrow(pos= vector(0,0,0), axis=vector(0,0,2), shaftwidth=0.1, color= color.blue)
@@ -72,6 +72,12 @@ def drawLeg(angle, length, offset):
     print("Länge lt berechnet: ",length_lt)
     print("footP: ", footX,", ",footY,", ",footZ)
 
+
+    box(pos=origin, color = color.red)
+    sphere(pos=alphaP, color = color.green)
+    sphere(pos=betaP, color = color.cyan)
+    sphere(pos=gammaP, color = color.blue)
+    sphere(pos=footP, color = color.magenta)
 
     curve(origin, alphaP, betaP, gammaP, footP,radius=0.3)
 
