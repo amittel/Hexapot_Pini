@@ -148,7 +148,7 @@ class ServoAx12a(Dynamixel):
     #           If it is 1023, it is about 114rpm.
     def setGoalPosSpeed(self, position: int, speed: int, trigger: bool =False)-> bool:
         self._writeNWordPkt(self.__GOAL_POSITION, [position], trigger)
-        self._writeNWordPkt(self.__GOAL_POSITION, [speed], trigger)
+        self._writeNWordPkt(self.__MOVING_SPEED, [speed], trigger)
         return True if self.getLastError() == self.ERR_DEFAULT else False
 
     # ---------------------------------------------------------------------------

@@ -17,13 +17,14 @@ class Dynamixel:
     # Definition of private class attributes, accessible only within own class
     # ---------------------------------------------------------------------------
     # Define dynamixel constants
-    __DYNAMIXEL_PORT_NR         = 0         # Index of dynamixel line in list
+    __DYNAMIXEL_PORT_NR         = 2         # Index of dynamixel line in list
     __BAUDRATE                  = 1000000   # Baud rate of dynamixel serial line
     __TIME_OUT_DEFAULT          = 2         # Default time out
     __DIRECT_ACTION             = 3         # Direct action command
     __TRIGGER_ACTION            = 4         # Triggered action command
     __STATUS_PACKET_BASE_LENGTH = 6         # Base length of status packet
     __lines                     = serialPorts.serialPortList()  # Contains all available serial lines
+    print((__lines))
     __serial_port               = serial.Serial(__lines[__DYNAMIXEL_PORT_NR],
                                                 __BAUDRATE, timeout=__TIME_OUT_DEFAULT)  # Serial line object
     # Create templates of command packets
@@ -135,7 +136,7 @@ class Dynamixel:
     def __doReadStatusPkt(self, nByte):
         statusPkt = list(self.__serial_port.read(self.__STATUS_PACKET_BASE_LENGTH + nByte))
 
-        if statusPkt[self.PKT_CSUM] == self.__checkSum(statusPkt):
+        if len(statusPkt) > 0 and statusPkt[self.PKT_CSUM] == self.__checkSum(statusPkt):
             return statusPkt[self.PKT_PARAM_FIRST : self.PKT_CSUM], self.ERR_DEFAULT
         else:
             return None, self.ERR_CHECKSUM
@@ -147,7 +148,6 @@ class Dynamixel:
     def __checkSum(self, pkt: list) -> int:
         s = sum(pkt[2:-1])
         return (~s) & 0xFF
-
     # Send command to servo
     def __sendCommand(self, command):
         self.__serial_port.write(command)
@@ -232,5 +232,4 @@ class Dynamixel:
 
     # Get last error
     def getLastError(self):
-        # self.__doReadStatusPkt(0)
         return self.error
