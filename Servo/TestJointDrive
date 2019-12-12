@@ -1,0 +1,11 @@
+import math
+
+from Servo.jointdrive import JointDrive
+
+def main():
+    jointDrive = JointDrive(14)
+    # print(jointDrive.getCurrentJointAngle())
+    jointDrive.setGoalPosition(200,True)
+
+if __name__ == '__main__':
+    main()
