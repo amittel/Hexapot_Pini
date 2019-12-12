@@ -96,7 +96,7 @@ class ServoAx12a(Dynamixel):
     # speed:    0 to 1023, the unit is about 0.111rpm.
     #           If it is 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
-    def getGoalPosSpeed(self)-> int:
+    def getGoalPosSpeed(self)-> [int, int]:
         nByte_pos = self._requestNWord(self.__GOAL_POSITION)
         nByte_spd = self._requestNWord(self.__MOVING_SPEED)
         return [self.__convertByteToInt(nByte_pos), self.__convertByteToInt(nByte_spd)]
@@ -106,7 +106,7 @@ class ServoAx12a(Dynamixel):
     # speed:    0 to 1023, the unit is about 0.111rpm.
     #           If it 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
-    def getPresPosSpeed(self)-> int:
+    def getPresPosSpeed(self)-> [int, int]:
         nByte_pos = self._requestNWord(self.__PRESENT_POSITION)
         nByte_spd = self._requestNWord(self.__PRESENT_SPEED)
         return [self.__convertByteToInt(nByte_pos), self.__convertByteToInt(nByte_spd)]
