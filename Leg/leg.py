@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import animation
 
 
 class Leg:
@@ -16,32 +17,37 @@ class Leg:
         return (self.lc, self.lf, self.lt)
 
     def invKinAlphaJoint(self, pos):
-        alpha = math.atan2(pos[1] , pos[0]) # y x
+        try:
+            alpha = math.atan2(pos[1] , pos[0]) # y x
 
-        footPos = np.array(pos)
-        A1 = np.array([
-            [math.cos(alpha), 0, math.sin(alpha), self.lc * math.cos(alpha)],
-            [math.sin(alpha), 0, -math.cos(alpha), self.lc * math.sin(alpha)],
-            [0, 1, 0, 0],
-            [0, 0, 0, 1]])
-        betaPos = np.dot(A1, np.transpose([0,0,0,1]))
-        lct = np.linalg.norm(footPos[0:3] - betaPos[0:3])
-        lctSquare = math.pow(lct, 2)
-        
-        gamma = math.acos(round((self.ltSquare + self.lfSquare - lctSquare) / (2 * self.lt * self.lf), 15)) - math.pi
-        
-        h1 = math.acos(round((self.lfSquare + lctSquare - self.ltSquare) / (2 * self.lf * lct), 15))
-        h2 = math.acos((lctSquare + self.lcSquare - math.pow(np.linalg.norm(footPos[0:3]), 2))/(2 * self.lc * lct))
-        #print("h1: ", h1)
-        #print("h2: ", h2)
-        #print("pi: ", math.pi)
-        #print("pi-h2:" , math.pi-h2)
-        if footPos[2] < 0:
-            beta = (h1 + h2) - math.pi
-        else:
-            beta = (math.pi - h2) + h1
-
-        return (alpha, beta, gamma)
+            footPos = np.array(pos)
+            A1 = np.array([
+                [math.cos(alpha), 0, math.sin(alpha), self.lc * math.cos(alpha)],
+                [math.sin(alpha), 0, -math.cos(alpha), self.lc * math.sin(alpha)],
+                [0, 1, 0, 0],
+                [0, 0, 0, 1]])
+            betaPos = np.dot(A1, np.transpose([0,0,0,1]))
+            lct = np.linalg.norm(footPos[0:3] - betaPos[0:3])
+            lctSquare = math.pow(lct, 2)
+            #print("lctSquare ", lctSquare)
+            #print("Zähler ",round((self.ltSquare + self.lfSquare - lctSquare)))
+            #print("Nenner ",round(2 * self.lt * self.lf, 15))
+            gamma = math.acos(round((self.ltSquare + self.lfSquare - lctSquare) / (2 * self.lt * self.lf), 15)) - math.pi
+            
+            h1 = math.acos(round((self.lfSquare + lctSquare - self.ltSquare) / (2 * self.lf * lct), 15))
+            h2 = math.acos((lctSquare + self.lcSquare - math.pow(np.linalg.norm(footPos[0:3]), 2))/(2 * self.lc * lct))
+            print("h1: ", h1)
+            print("h2: ", h2)
+            print("pi: ", math.pi)
+            print("pi-h2:" , math.pi-h2)
+            if footPos[2] < 0:
+                beta = (h1 + h2) - math.pi
+            else:
+                beta = (math.pi - h2) + h1
+            print("beta", (h1 + h2) - math.pi, (math.pi - h2) + h1)
+            return (alpha, beta, gamma)
+        except:
+            print("Fehler")
 
     def forKinAlphaJoint(self, alpha, beta, gamma):
         pos = [0, 0, 0, 1]
@@ -120,30 +126,41 @@ def initRobot():
     legDims = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
     #ToDo: Insert Offsets from origin
     
-    myLeg = Leg(legDims)
-
-    wa=0
-    wb=0
-    wg=math.pi/2
-
-
-    pos = myLeg.forKinAlphaJoint(wa, wb, wg)
-
-    print("Koord auf fKin:",[pos[0], pos[1], pos[2]])
-    wa, wb, wg = myLeg.invKinAlphaJoint([pos[0], pos[1], pos[2], 1])
-    
-    print("Winkel  (deg): ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
-    print("Winkel  (rad): ", wa, ",", wb, ",", wg)
+    hexaLeg = Leg(legDims)
 
     
-    print("Koord auf fKin:",[round(pos[0],4), round(pos[1],4), round(pos[2],4)])
-    
+    #wa=0
+    #wb=math.pi/4
+    #wg=math.pi/2
+
+    #pos bei 0 45 90 deg
+    pos= (0.10,0.10,-0.05)
+    #Fehler
+    #pos= (0.031,0, 2)
+    #pos2= hexaLeg.forKinAlphaJoint(wa,wb,wg)
+    print("Koord gegeben: ",[pos[0], pos[1], pos[2]])
+    #print("Koord auf fKin: ",[pos2[0], pos2[1], pos2[2]])
+    #try:
+    alpha, beta, gamma = hexaLeg.invKinAlphaJoint([pos[0], pos[1], pos[2], 1])
+    print("Winkel  (deg): ", math.degrees(alpha), ",", math.degrees(beta), ",", math.degrees(gamma))
+    print("Winkel  (rad): ", alpha, ",", beta, ",", gamma)
+    pos2= hexaLeg.forKinAlphaJoint(alpha,beta,gamma)
+    print("Koord auf fKin: ",[pos2[0], pos2[1], pos2[2]])
+
+    angles = (alpha,beta,gamma)
+    legLength = hexaLeg.getLegLength()
+    offsetL1 = 0.043*100
+    animation.createScene()
+    animation.drawLeg(angles,legLength,offsetL1)
+
+    #except:
+     #   print("Fehler!\n-------\nPunkt nicht im Arbeitsbereich")
+
 
 
 if __name__ == "__main__":
-    sim = False
-    
     initRobot()
 
-    if(sim):
-        pass
+    
+            
+ 
