@@ -25,7 +25,7 @@ def testGetters(jointDrive: JointDrive):
 
 def testSetDesiredJointAngle(jointDrive: JointDrive):
     resetJointDrive(jointDrive)
-    jointDrive.setDes
+    jointDrive.setDesiredJointAngle()
 
 def main():
     jointDrive = JointDrive(14)
