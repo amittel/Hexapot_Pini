@@ -19,7 +19,7 @@ def createScene():
 
 
 
-def drawLeg(angle, length, offset):
+def drawLeg(angle, length, offsetx, offsetz):
     alpha = angle[0]
     beta = angle[1]
     gamma = angle[2]
@@ -55,10 +55,10 @@ def drawLeg(angle, length, offset):
     footZ = l_t * math.sin(beta + gamma) + l_f * math.sin(beta)
 
     origin = vector(0,0,0)
-    alphaP = vector(offset,0,0)
-    betaP = vector(l_c*cos(alpha)+offset, l_c*sin(alpha),0)
-    gammaP = vector(betaMatrix[0][3]+offset,betaMatrix[1][3],betaMatrix[2][3])
-    footP= vector(footX+offset, footY, footZ)
+    alphaP = vector(offsetx,0,offsetz)
+    betaP = vector(l_c*cos(alpha) + offsetx, l_c*sin(alpha),offsetz)
+    gammaP = vector(betaMatrix[0][3] + offsetx,betaMatrix[1][3],betaMatrix[2][3]+offsetz)
+    footP= vector(footX+offsetx, footY, footZ+offsetz)
 
 
     length_lc = mag(betaP-alphaP)
