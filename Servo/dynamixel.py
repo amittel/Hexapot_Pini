@@ -121,9 +121,10 @@ class Dynamixel:
 
     # Read status packet, set error value and get return values from servo
     # nByte -> number of bytes to read
+
     def __doReadStatusPkt(self, nByte: int):
         statusPkt = list(self.__serial_port.read(self.__STATUS_PACKET_BASE_LENGTH + nByte))
-
+        print('status: ', statusPkt)
         if len(statusPkt) > 0 and statusPkt[self.PKT_CSUM] == self.__checkSum(statusPkt):
             return statusPkt[self.PKT_PARAM_FIRST : self.PKT_CSUM], self.ERR_DEFAULT
         else:
@@ -178,7 +179,7 @@ class Dynamixel:
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
         self.__sendCommand(command)
-        self.__requestStatusPkt()
+        #self.__requestStatusPkt()
 
     """
     WRITE_DATA Write data words (16 bits) into the control table of the Dynamixel actuator
