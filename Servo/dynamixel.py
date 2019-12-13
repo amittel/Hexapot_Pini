@@ -75,16 +75,10 @@ class Dynamixel:
     # ---------------------------------------------------------------------------
     # Constructor, sets id and defines error variable
     # id -> id of attached servo
-    """
-        Constructor sets ID and error
-    """
     def __init__(self, servoId):
         self.id = servoId
         self.error = self.ERR_DEFAULT
 
-    """
-        Trigger the action if the data was written via REG_WRITE
-    """
     # Start predefined action on servo
     # id -> id of servo, without id -> broadcast action
     def __doAction(self, servoId = _ID_BROADCAST):
@@ -105,9 +99,6 @@ class Dynamixel:
 
         self.__sendCommand(command)
 
-    """
-        Read data from the control table of an actuator
-    """
     # Prepares and sends packet to servo in order to read data from servo memory
     # register -> register address of servo
     # nByte    -> number of bytes to read
@@ -122,21 +113,15 @@ class Dynamixel:
 
         self.__sendCommand(command)
 
-    """
-        Same as __doReadStatusPkt ??
-    """
     # Read status packet, set error value and get return values from servo
     # nByte    -> number of bytes to read
-    def __readStatusPkt(self, nByte):
+    def __readStatusPkt(self, nByte: int)-> list:
         parameter, self.error = self.__doReadStatusPkt(nByte)
         return parameter
 
-    """
-        Read the status packet and return parameter values
-    """
     # Read status packet, set error value and get return values from servo
     # nByte -> number of bytes to read
-    def __doReadStatusPkt(self, nByte):
+    def __doReadStatusPkt(self, nByte: int):
         statusPkt = list(self.__serial_port.read(self.__STATUS_PACKET_BASE_LENGTH + nByte))
 
         if len(statusPkt) > 0 and statusPkt[self.PKT_CSUM] == self.__checkSum(statusPkt):
@@ -144,15 +129,16 @@ class Dynamixel:
         else:
             return None, self.ERR_CHECKSUM
 
+    # Request status packet
     def __requestStatusPkt(self):
         self.__writeReadDataPkt(self.REG_STATUS, 1)
-    """
-        Checks the sum of the parameters to check for Errors
-    """
+        self.__readStatusPkt(1)
+
     # Calculates check sum of packet list
     def __checkSum(self, pkt: list) -> int:
         s = sum(pkt[2:-1])
         return (~s) & 0xFF
+
     # Send command to servo
     def __sendCommand(self, command):
         self.__serial_port.write(command)
@@ -161,36 +147,26 @@ class Dynamixel:
     # Definition of protected methods
     # Accessible within own and derived classes
     # ---------------------------------------------------------------------------
-    """
-        Requests NBytes (8 bits) from parameters n+1 to m
-    """
+
     # Read data byte from servo memory
     # register -> register address of servo
     # nByte    -> number of data bytes to read
-    """
-    Requests NBytes from parameters n+1 to m
-    """
-    def _requestNByte(self, register, nByte = 1):
+    def _requestNByte(self, register: int, nByte: int = 1):
         self.__writeReadDataPkt(register, nByte)
         return self.__readStatusPkt(nByte)
 
-    """
-        Requests NWords (16 bits) from parameters n+1 to m
-    """
     # Read data word from servo memory
-    # register -> register address of servo
-    # nWord   -> number of data words to read
-    def _requestNWord(self, register, nWord=1):
+    # register  -> register address of servo
+    # nWord     -> number of data words to read (1 Word = 2 Bytes)
+    def _requestNWord(self, register: int, nWord: int = 1):
         self.__writeReadDataPkt(register, nWord * 2)
         return self.__doReadStatusPkt(nWord * 2)
 
-    """
-    WRITE_DATA Write data bytes (8 bits) into the control table of the Dynamixel actuator
-    """
     # Sends packet to servo in order to write n data bytes into servo memory
-    # register -> register address of servo
-    # byteData     -> list of bytes to write
-    # trigger  -> False -> command is directly executed, True -> command is delayed until action command
+    # register  -> register address of servo
+    # byteData  -> list of bytes to write
+    # trigger   ->  False   -> command is directly executed
+    #               True    -> command is delayed until action command
     def _writeNBytePkt(self, register: int, byteData: list, trigger: bool):
         command                 = [255, 255, 0, 0, 0, 0]
         command[self.PKT_ID]    = self.id
@@ -202,7 +178,7 @@ class Dynamixel:
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
         self.__sendCommand(command)
-        self.__doAction()
+        self.__requestStatusPkt()
 
     """
     WRITE_DATA Write data words (16 bits) into the control table of the Dynamixel actuator
@@ -210,13 +186,13 @@ class Dynamixel:
     # Sends packet to servo in order to write data dword into servo memory
     # register -> register address of servo
     # data     -> list of words to write
-    # trigger  -> False -> command is directly executed, True -> command is delayed until action command
+    # trigger  ->   False   -> command is directly executed
+    #               True    -> command is delayed until action command
     def _writeNWordPkt(self, register: int, wordData: list, trigger: bool):
         byteData = []
         for word in wordData:
-            byteData.append(word & 0xFF)  # append 1st byte
-            byteData.append(word >> 8 & 0xFF)  # append 2nd byte
-
+            byteData.append(word        & 0xFF)  # append 1st byte
+            byteData.append(word >> 8   & 0xFF)  # append 2nd byte
 
         self._writeNBytePkt(register, byteData, trigger)
 

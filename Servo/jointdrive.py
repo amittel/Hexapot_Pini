@@ -107,3 +107,6 @@ class JointDrive(ServoAx12a):
         success = self.setMovingSpeed(speed_in_ticks, trigger)
 
         return success
+
+    def setCounterClockWise(self, ccw: bool):
+        self.counterClockWise = ccw

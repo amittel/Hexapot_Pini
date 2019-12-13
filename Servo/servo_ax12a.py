@@ -42,8 +42,8 @@ class ServoAx12a(Dynamixel):
     # Definition of private methods
     # ----------------------------------------------------------------------
     # Constructor, return level and return delay are set
-    def __init__(self, id):
-        super().__init__(id)
+    def __init__(self, servoId):
+        super().__init__(servoId)
         self.setReturnLevel(self.RETURN_LEVEL_ALL_COMMANDS)
         self.setReturnDelay(self.RETURN_DELAY_VALUE)
 
@@ -52,7 +52,7 @@ class ServoAx12a(Dynamixel):
     # Get time of return delay
     # returns: 0 to 254 (0xFE) can be used, and the delay time per data value is 2 usec.
     def getReturnDelay(self)-> int:
-        nByte = self._requestNByte(self.__RETURN_DELAY_TIME)
+        nByte = self._requestNByte(self.__RETURN_DELAY_TIME).reverse()
         return self.__convertByteToInt(nByte)
 
     # Get status return level
@@ -60,13 +60,13 @@ class ServoAx12a(Dynamixel):
     #           1->Return only for the READ command,
     #           2->Return for all commands
     def getReturnLevel(self)-> int:
-        nByte = self._requestNByte(self.__RETURN_LEVEL)
+        nByte = self._requestNByte(self.__RETURN_LEVEL).reverse()
         return self.__convertByteToInt(nByte)
 
     # Get goal position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
     def getGoalPosition(self)-> int:
-        nByte = self._requestNWord(self.__GOAL_POSITION)
+        nByte = self._requestNWord(self.__GOAL_POSITION).reverse()
         return self.__convertByteToInt(nByte)
 
     # Get moving speed
@@ -74,13 +74,13 @@ class ServoAx12a(Dynamixel):
     #          If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #          If it is 1023, it is about 114rpm.
     def getMovingSpeed(self):
-        nByte = self._requestNWord(self.__MOVING_SPEED)
+        nByte = self._requestNWord(self.__MOVING_SPEED).reverse()
         return self.__convertByteToInt(nByte)
 
     # Get present position
     # returns: value of 0 to 1023, the unit is 0.29 degree.
     def getPresentPosition(self)-> int:
-        nByte = self._requestNWord(self.__PRESENT_POSITION)
+        nByte = self._requestNWord(self.__PRESENT_POSITION).reverse()
         return self.__convertByteToInt(nByte)
 
     # Get present speed
@@ -88,7 +88,7 @@ class ServoAx12a(Dynamixel):
     #          If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #          If it is 1023, it is about 114rpm.
     def getPresentSpeed(self)-> int:
-        nByte = self._requestNWord(self.__PRESENT_SPEED)
+        nByte = self._requestNWord(self.__PRESENT_SPEED).reverse()
         return self.__convertByteToInt(nByte)
 
     # Get goal position and speed, returns: [position, speed]
@@ -96,9 +96,9 @@ class ServoAx12a(Dynamixel):
     # speed:    0 to 1023, the unit is about 0.111rpm.
     #           If it is 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
-    def getGoalPosSpeed(self)-> int:
-        nByte_pos = self._requestNWord(self.__GOAL_POSITION)
-        nByte_spd = self._requestNWord(self.__MOVING_SPEED)
+    def getGoalPosSpeed(self)-> [int, int]:
+        nByte_pos = self._requestNWord(self.__GOAL_POSITION).reverse()
+        nByte_spd = self._requestNWord(self.__MOVING_SPEED).reverse()
         return [self.__convertByteToInt(nByte_pos), self.__convertByteToInt(nByte_spd)]
 
     # Get present position and speed, returns: [position, speed]
@@ -106,9 +106,9 @@ class ServoAx12a(Dynamixel):
     # speed:    0 to 1023, the unit is about 0.111rpm.
     #           If it 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
-    def getPresPosSpeed(self)-> int:
-        nByte_pos = self._requestNWord(self.__PRESENT_POSITION)
-        nByte_spd = self._requestNWord(self.__PRESENT_SPEED)
+    def getPresPosSpeed(self)-> [int, int]:
+        nByte_pos = self._requestNWord(self.__PRESENT_POSITION).reverse()
+        nByte_spd = self._requestNWord(self.__PRESENT_SPEED).reverse()
         return [self.__convertByteToInt(nByte_pos), self.__convertByteToInt(nByte_spd)]
 
     # Setter methods for servo Ax12a
@@ -129,7 +129,7 @@ class ServoAx12a(Dynamixel):
 
     # Set goal position
     # position: 0 to 1023 is available. The unit is 0.29 degree.
-    def setGoalPosition(self, position: int, trigger: bool =False)-> bool:
+    def setGoalPosition(self, position: int, trigger: bool = False)-> bool:
         self._writeNWordPkt(self.__GOAL_POSITION, [position], trigger)
         return True if self.getLastError() == self.ERR_DEFAULT else False
 
@@ -146,7 +146,7 @@ class ServoAx12a(Dynamixel):
     # speed:    0~1023 can be used, and the unit is about 0.111rpm.
     #           If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #           If it is 1023, it is about 114rpm.
-    def setGoalPosSpeed(self, position: int, speed: int, trigger: bool =False)-> bool:
+    def setGoalPosSpeed(self, position: int, speed: int, trigger: bool = False)-> bool:
         self._writeNWordPkt(self.__GOAL_POSITION, [position], trigger)
         self._writeNWordPkt(self.__MOVING_SPEED, [speed], trigger)
         return True if self.getLastError() == self.ERR_DEFAULT else False
@@ -159,7 +159,8 @@ class ServoAx12a(Dynamixel):
     # Convert byte array to integer
     # nByte:    -> number of bytes to convert
     # return    integer
-    def __convertByteToInt(self, nByte: list) -> int:
+    @staticmethod
+    def __convertByteToInt(nByte: list) -> int:
         if nByte is not None and isinstance(nByte, list):
             n = len(nByte)
             res = 0

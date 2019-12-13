@@ -2,10 +2,35 @@ import math
 
 from Servo.jointdrive import JointDrive
 
+STD_POS     = 0     # standard position in ticks
+STD_SPD     = 500   # standard speed in ticks
+STD_CCW     = False # standard counter clock wise
+
+def resetJointDrive(jointDrive: JointDrive):
+    if jointDrive is JointDrive:
+        jointDrive.setGoalPosition(STD_POS, True)
+        jointDrive.setMovingSpeed(STD_SPD, True)
+        jointDrive.setCounterClockWise(STD_CCW)
+        print("Reset servo")
+
+def testGetters(jointDrive: JointDrive):
+    print("Get current angle of servo: ", jointDrive.getCurrentJointAngle())
+    print("Get time of return delay: ",   jointDrive.getReturnDelay())
+    print("Get status return level: ",    jointDrive.getReturnLevel())
+    print("Get goal position: ",          jointDrive.getGoalPosition())
+    print("Get moving speed: ",           jointDrive.getMovingSpeed())
+    print("Get present speed: ",          jointDrive.getPresentSpeed())
+    print("Get time of return delay: ",   jointDrive.getReturnDelay())
+    print("Get time of return delay: ",   jointDrive.getReturnDelay())
+
+def testSetDesiredJointAngle(jointDrive: JointDrive):
+    pass
+
 def main():
     jointDrive = JointDrive(14)
     # print(jointDrive.getCurrentJointAngle())
-    jointDrive.setGoalPosition(200,True)
+    jointDrive.setGoalPosition(200, True)
+
 
 if __name__ == '__main__':
     main()
