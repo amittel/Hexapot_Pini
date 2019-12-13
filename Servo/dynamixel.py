@@ -160,7 +160,7 @@ class Dynamixel:
     # nWord     -> number of data words to read (1 Word = 2 Bytes)
     def _requestNWord(self, register: int, nWord: int = 1):
         self.__writeReadDataPkt(register, nWord * 2)
-        return self.__doReadStatusPkt(nWord * 2)
+        return self.__readStatusPkt(nWord * 2)
 
     # Sends packet to servo in order to write n data bytes into servo memory
     # register  -> register address of servo

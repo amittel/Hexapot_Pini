@@ -24,7 +24,8 @@ def testGetters(jointDrive: JointDrive):
     print("Get time of return delay: ",   jointDrive.getReturnDelay())
 
 def testSetDesiredJointAngle(jointDrive: JointDrive):
-    pass
+    resetJointDrive(jointDrive)
+    jointDrive.setDes
 
 def main():
     jointDrive = JointDrive(14)
