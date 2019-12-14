@@ -51,10 +51,13 @@ class Leg:
             return (0, 0, 0)
 
     def forKinAlphaJoint(self, alpha, beta, gamma):
-        return [math.cos(alpha) * (self.lt * math.cos(beta + gamma) + self.lf * math.cos(beta) + self.lc),
-               math.sin(alpha) * (self.lt * math.cos(beta + gamma) + self.lf * math.cos(beta) + self.lc),
-               self.lt * math.sin(beta + gamma) + self.lf * math.sin(beta),
-                1]
+        try:
+            return [math.cos(alpha) * (self.lt * math.cos(beta + gamma) + self.lf * math.cos(beta) + self.lc),
+                   math.sin(alpha) * (self.lt * math.cos(beta + gamma) + self.lf * math.cos(beta) + self.lc),
+                   self.lt * math.sin(beta + gamma) + self.lf * math.sin(beta),
+                    1]
+        except Exception as e:
+            print("Error forward kinematics: " + str(e))
 
     def calcJointAngles(self):
         ''' Leg hat u.a. eine Abfragemethode (calcJointAngles), der x,y und z-Koordinaten
@@ -121,32 +124,38 @@ class Leg:
 
 def drawRobot():
     #ToDo: Two leg groups: L1,2,4,5 with a0=0.043m and L3,6 with a0= 0.030
-    legDims = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
+    #ToDo: Do other values change too?
+
+    legDimsA = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
+    legDimsB = [0.030,0.04,0.053,0.062,0.02,0.005,0.096]
+
     #ToDo: Insert Offsets from origin
     
-    hexaLeg = Leg(legDims)
+    hexaLegA = Leg(legDimsA)
+    hexaLegB = Leg(legDimsB) #not used
 
     colors = [color.red, color.green, color.blue]
 
     pos = [(0.18,0.10,-0.05), (0,0.10,-0.05)]
     animation.createScene()
+
     for i in range(len(pos)):
-
+        print("-------------------------------Bein " + str(i) + "----------------------------------")
         print("Koord gegeben: ",[pos[i][0], pos[i][1], pos[i][2]])
-
         try:
-            alpha, beta, gamma = hexaLeg.invKinAlphaJoint([pos[i][0], pos[i][1], pos[i][2], 1])
+            alpha, beta, gamma = hexaLegA.invKinAlphaJoint([pos[i][0], pos[i][1], pos[i][2], 1])
             print("Winkel  (deg): ", math.degrees(alpha), ",", math.degrees(beta), ",", math.degrees(gamma))
             print("Winkel  (rad): ", alpha, ",", beta, ",", gamma)
-            pos2= hexaLeg.forKinAlphaJoint(alpha,beta,gamma)
+            pos2= hexaLegA.forKinAlphaJoint(alpha,beta,gamma)
             print("Koord auf fKin: ",[pos2[0], pos2[1], pos2[2]])
 
+
             angles = (alpha,beta,gamma)
-            legLength = hexaLeg.getLegLength()
             offsetL1x = 0.043*100
             offsetL1z = -0.040*100
 
-            animation.drawLeg(angles,legLength,offsetL1x, offsetL1z, colors[i%3])
+            animation.drawLeg(angles, hexaLegA.getLegLength(), offsetL1x, offsetL1z, colors[i%3])
+
         except Exception as e:
             print(e)
 

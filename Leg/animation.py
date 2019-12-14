@@ -1,12 +1,11 @@
 from vpython import *
-from decimal import *
 import numpy as np 
 import math
 
 
 
 def createScene():
-    scene = canvas(title='Leg Visualisation', width=800, height=800, background=color.white, forward=vector(0,1,0), up=vector(0,0,1))
+    canvas(title='Leg Visualisation', width=800, height=800, background=color.white, forward=vector(0,1,0), up=vector(0,0,1))
 
     #x red y green z blue
     ref_x = arrow(pos= vector(0,0,0), axis=vector(2,0,0), shaftwidth=0.1, color= color.red)
@@ -16,7 +15,6 @@ def createScene():
     ref_z = arrow(pos= vector(0,0,0), axis=vector(0,0,2), shaftwidth=0.1, color= color.blue)
     text(text='z', pos=vec(0,0,2), color=color.blue, height=0.5,billboard=True)
     print("Scene created.")
-
 
 
 def drawLeg(angle, length, offsetx, offsetz, legColor):
@@ -54,8 +52,8 @@ def drawLeg(angle, length, offsetx, offsetz, legColor):
     footY = math.sin(alpha) * (l_t * math.cos(beta + gamma) + l_f * math.cos(beta) + l_c)
     footZ = l_t * math.sin(beta + gamma) + l_f * math.sin(beta)
 
-    origin = vector(0,0,0)
-    alphaP = vector(offsetx,0,offsetz)
+    origin = vector(0, 0, 0)
+    alphaP = vector(offsetx,0 ,offsetz)
     betaP = vector(l_c*cos(alpha) + offsetx, l_c*sin(alpha),offsetz)
     gammaP = vector(betaMatrix[0][3] + offsetx,betaMatrix[1][3],betaMatrix[2][3]+offsetz)
     footP= vector(footX+offsetx, footY, footZ+offsetz)
@@ -80,7 +78,7 @@ def drawLeg(angle, length, offsetx, offsetz, legColor):
     sphere(pos=gammaP, color = color.blue)
     sphere(pos=footP, color = color.magenta)
 
-    curve(origin, alphaP, betaP, gammaP, footP,radius=0.3, color = legColor)
+    curve(origin, alphaP, betaP, gammaP, footP, radius=0.3, color=legColor)
 
 
 def testTraj():
