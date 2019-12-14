@@ -19,7 +19,7 @@ def createScene():
 
 
 
-def drawLeg(angle, length, offsetx, offsetz):
+def drawLeg(angle, length, offsetx, offsetz, legColor):
     alpha = angle[0]
     beta = angle[1]
     gamma = angle[2]
@@ -64,6 +64,7 @@ def drawLeg(angle, length, offsetx, offsetz):
     length_lc = mag(betaP-alphaP)
     length_lf = mag(gammaP-betaP)
     length_lt = mag(gammaP-footP)
+    '''
     print("Länge lc gemessen: ",l_c)
     print("Länge lc berechnet: ",length_lc)
     print("Länge lf gemessen: ",l_f)
@@ -71,7 +72,7 @@ def drawLeg(angle, length, offsetx, offsetz):
     print("Länge lt gemessen: ",l_t)
     print("Länge lt berechnet: ",length_lt)
     print("footP: ", footX,", ",footY,", ",footZ)
-
+    '''
 
     box(pos=origin, color = color.red)
     sphere(pos=alphaP, color = color.green)
@@ -79,7 +80,7 @@ def drawLeg(angle, length, offsetx, offsetz):
     sphere(pos=gammaP, color = color.blue)
     sphere(pos=footP, color = color.magenta)
 
-    curve(origin, alphaP, betaP, gammaP, footP,radius=0.3)
+    curve(origin, alphaP, betaP, gammaP, footP,radius=0.3, color = legColor)
 
 
 def testTraj():

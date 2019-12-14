@@ -1,7 +1,7 @@
 import math
 import numpy as np
 import animation
-
+from vpython import color
 
 class Leg:
     def __init__(self, a):
@@ -46,17 +46,15 @@ class Leg:
                 beta = (math.pi - h2) + h1
             #print("beta", (h1 + h2) - math.pi, (math.pi - h2) + h1)
             return (alpha, beta, gamma)
-        except:
-            print("Fehler:\n Punkt nicht im Arbeitsbereich.")
+        except Exception as e:
+            print("FEHLER: Punkt nicht im Arbeitsbereich. Description: " + str(e))
+            return (0, 0, 0)
 
     def forKinAlphaJoint(self, alpha, beta, gamma):
-        pos = [0, 0, 0, 1]
-
-        pos[0] = math.cos(alpha) * (self.lt * math.cos(beta + gamma) + self.lf * math.cos(beta) + self.lc)
-        pos[1] = math.sin(alpha) * (self.lt * math.cos(beta + gamma) + self.lf * math.cos(beta) + self.lc)
-        pos[2] = self.lt * math.sin(beta + gamma) + self.lf * math.sin(beta)
-
-        return pos
+        return [math.cos(alpha) * (self.lt * math.cos(beta + gamma) + self.lf * math.cos(beta) + self.lc),
+               math.sin(alpha) * (self.lt * math.cos(beta + gamma) + self.lf * math.cos(beta) + self.lc),
+               self.lt * math.sin(beta + gamma) + self.lf * math.sin(beta),
+                1]
 
     def calcJointAngles(self):
         ''' Leg hat u.a. eine Abfragemethode (calcJointAngles), der x,y und z-Koordinaten
@@ -65,7 +63,7 @@ class Leg:
         '''
         pass
 
-    def calcFootCoordinate(self):
+    def calcFootCoordinate(self, alpha, beta, gamma):
         ''' Leg hat u.a. eine Abfragemethode (calcFootCoordinate), der 3 Gelenkwinkel
             (Winkelkoordinaten) geschickt werden. Die Methode liefert die kartesischen
             Koordinaten des Fußpunkts im Basiskoordinatensystem (x 0 ,y 0 ,z 0 ) des Beins zurück
@@ -121,35 +119,38 @@ class Leg:
 
 
 
-def initRobot():
+def drawRobot():
     #ToDo: Two leg groups: L1,2,4,5 with a0=0.043m and L3,6 with a0= 0.030
     legDims = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
     #ToDo: Insert Offsets from origin
     
     hexaLeg = Leg(legDims)
-   
-    
-    pos= (0.10,0.10,-0.05)
- 
-    print("Koord gegeben: ",[pos[0], pos[1], pos[2]])
-  
-    try:
-        alpha, beta, gamma = hexaLeg.invKinAlphaJoint([pos[0], pos[1], pos[2], 1])
-        print("Winkel  (deg): ", math.degrees(alpha), ",", math.degrees(beta), ",", math.degrees(gamma))
-        print("Winkel  (rad): ", alpha, ",", beta, ",", gamma)
-        pos2= hexaLeg.forKinAlphaJoint(alpha,beta,gamma)
-        print("Koord auf fKin: ",[pos2[0], pos2[1], pos2[2]])
 
-        angles = (alpha,beta,gamma)
-        legLength = hexaLeg.getLegLength()
-        offsetL1x = 0.043*100
-        offsetL1z = -0.040*100
-        animation.createScene()
-        animation.drawLeg(angles,legLength,offsetL1x, offsetL1z)
-    except:
-        print("Fehler!")
+    colors = [color.red, color.green, color.blue]
+
+    pos = [(0.18,0.10,-0.05), (0,0.10,-0.05)]
+    animation.createScene()
+    for i in range(len(pos)):
+
+        print("Koord gegeben: ",[pos[i][0], pos[i][1], pos[i][2]])
+
+        try:
+            alpha, beta, gamma = hexaLeg.invKinAlphaJoint([pos[i][0], pos[i][1], pos[i][2], 1])
+            print("Winkel  (deg): ", math.degrees(alpha), ",", math.degrees(beta), ",", math.degrees(gamma))
+            print("Winkel  (rad): ", alpha, ",", beta, ",", gamma)
+            pos2= hexaLeg.forKinAlphaJoint(alpha,beta,gamma)
+            print("Koord auf fKin: ",[pos2[0], pos2[1], pos2[2]])
+
+            angles = (alpha,beta,gamma)
+            legLength = hexaLeg.getLegLength()
+            offsetL1x = 0.043*100
+            offsetL1z = -0.040*100
+
+            animation.drawLeg(angles,legLength,offsetL1x, offsetL1z, colors[i%3])
+        except Exception as e:
+            print(e)
 
 
 
 if __name__ == "__main__":
-    initRobot()
+    drawRobot()
