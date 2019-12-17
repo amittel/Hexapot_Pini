@@ -1,4 +1,4 @@
-# Leg
+## Leg
 
 ## Radiant <-> Degree
 deg  | rad
@@ -9,3 +9,23 @@ deg  | rad
 180  | pi
 270  | 3pi/2
 360  | 2pi
+
+
+## Winkel müssen tatsächlich sein 
+Von Gruppe Robot, Rückmeldung ob ok oder nicht
+
+## Koordinatensystem drehen
+
+## Offsetwinkel Beine Fusspunkte
+
+## Geschwindigkeit Motoren Winkel Delta
+
+## ServoIDs an den Beinen + Koordinatensystem
+
+## Objectorientiert Rototer/Bein/Servo -> Bein instanzieren
+
+
+
+
+
+
