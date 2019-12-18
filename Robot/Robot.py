@@ -21,7 +21,7 @@ class Robot:
         self.stepSize = 0.1  # Spacing of trajectory points
         self.stepHeight = 0.5  # Working area from 0 to 1
         self.accuracy = 4  # Amount of decimals
-        self.walkingMode = WalkingMode.COSINE #Defualt Walkingmode
+        self.walkingMode = WalkingMode.COSINE #Default Walkingmode
         self.trajectory = self.createTrajectory()
         self.cycleTime = 0.1  # Time for each step size
         self.walkingAngle = 0  # Current movement angle

@@ -1,17 +1,33 @@
 import math
 import numpy as np
 import animation
+import servoDummy as sD
 from vpython import color
 
 class Leg:
-    def __init__(self, a):
-        self.a = [a[0], a[1], a[2], a[3], a[4], a[5], a[6]]
+    def __init__(self, startPos_, dimensions_, bodyLoc_ , servoIds_):
+        self.a = dimensions_.copy()
         self.lc = self.a[2]
         self.lcSquare = math.pow(self.lc,2)
         self.lf = math.sqrt(math.pow(self.a[3], 2) + math.pow(self.a[4],2))
         self.lfSquare = math.pow(self.lf,2)
         self.lt = math.sqrt(math.pow(self.a[5], 2) + math.pow(self.a[6],2))
         self.ltSquare = math.pow(self.lt, 2)
+
+        # Used to define which leg and if it's coordinates need to be rotated
+        self.bodyLoc = bodyLoc_;
+
+        # Servo init position
+        self.startPos = startPos_
+
+        # Vector of 3 ints, servos from body to tibia
+        self.cox = sD.servo(servoIds_[0])
+        self.fem = sD.servo(servoIds_[1])
+        self.tib = sD.servo(servoIds_[2])
+
+        # moves to init position
+        self.moveTo(startPos_)
+
 
     def getLegLength(self):
         return (self.lc, self.lf, self.lt)
@@ -59,6 +75,9 @@ class Leg:
         except Exception as e:
             print("Error forward kinematics: " + str(e))
 
+    def moveTo(self, pos_):
+        pass
+
     def calcJointAngles(self):
         ''' Leg hat u.a. eine Abfragemethode (calcJointAngles), der x,y und z-Koordinaten
             (kartesische Koordinaten) des Fußpunkts des Beins geschickt werden.
@@ -83,6 +102,8 @@ class Leg:
         '''
 
         pass
+    def printId(self):
+        print("Coxa/Femur/Tibia: "+ str(self.cox.gievId()) + "/" +str(self.fem.gievId())+ "/" + str(self.tib.gievId()))
 
     def testStraightLeg(self):
         '''Testing for a straight leg. All joints have zero degree'''
@@ -118,10 +139,6 @@ class Leg:
         print("Koord (fKin): x,y,z     ",pos[0] ,",",pos[1],",", pos[2])
         print("Länge (gerechnet):      ",length)
 
-
-
-
-
 def drawRobot():
     #ToDo: Two leg groups: L1,2,4,5 with a0=0.043m and L3,6 with a0= 0.030
     #ToDo: Do other values change too?
@@ -131,8 +148,8 @@ def drawRobot():
 
     #ToDo: Insert Offsets from origin
     
-    hexaLegA = Leg(legDimsA)
-    hexaLegB = Leg(legDimsB) #not used
+    hexaLegA = Leg(1, legDimsA, 1, [0, 1, 2])
+    hexaLegB = Leg(1, legDimsB, 1, [0, 1, 2]) #not used
 
     colors = [color.red, color.green, color.blue]
 
@@ -140,7 +157,8 @@ def drawRobot():
     animation.createScene()
 
     for i in range(len(pos)):
-        print("-------------------------------Bein " + str(i) + "----------------------------------")
+        print("-------------------------------Position " + str(i) + "----------------------------------")
+        print(hexaLegA.printId())
         print("Koord gegeben: ",[pos[i][0], pos[i][1], pos[i][2]])
         try:
             alpha, beta, gamma = hexaLegA.invKinAlphaJoint([pos[i][0], pos[i][1], pos[i][2], 1])
