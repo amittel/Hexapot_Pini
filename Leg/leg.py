@@ -5,8 +5,19 @@ import servoDummy as sD
 from vpython import color
 
 class Leg:
-    def __init__(self, startPos_, dimensions_, bodyLoc_ , servoIds_):
-        self.a = dimensions_.copy()
+    def __init__(self, startPos_, bodyLoc_ , servoIds_):
+
+        if bodyLoc_ in (3,6):
+            print("Bein 3 & 6")
+            legDimsB = [0.030,0.04,0.053,0.062,0.02,0.005,0.096]
+            self.a = legDimsB.copy()
+        else:
+            print("Bein 1, 2, 4, 5")
+            legDimsA = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
+            self.a = legDimsA.copy()
+        
+
+        
         self.lc = self.a[2]
         self.lcSquare = math.pow(self.lc,2)
         self.lf = math.sqrt(math.pow(self.a[3], 2) + math.pow(self.a[4],2))
@@ -148,8 +159,8 @@ def drawRobot():
 
     #ToDo: Insert Offsets from origin
     
-    hexaLegA = Leg(1, legDimsA, 1, [0, 1, 2])
-    hexaLegB = Leg(1, legDimsB, 1, [0, 1, 2]) #not used
+    hexaLegA = Leg(1, 1, [0, 1, 2])
+    hexaLegB = Leg(1, 1, [0, 1, 2]) #not used
 
     colors = [color.red, color.green, color.blue]
 
