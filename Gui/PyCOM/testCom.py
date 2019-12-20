@@ -32,6 +32,8 @@ class testCom:
             self.leghight = self.data['Angehoben']
             self.initPos = self.data['InitPosition']
             #print("Init:", self.initPos)
+            
+            # TODO: Change print to return for the walking group
             print("Winkel:", self.direction ,"," , "Geschwindigkeit: ", self.velocity, ",", "Angehoben: ", self.leghight, ",", "Init-Position: ", self.initPos)
             
             # TODO: Tweek this, for performance
