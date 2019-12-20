@@ -32,7 +32,12 @@ class Robot:
         # Group 2 starts stemming
         # Consists of front left, middle right and back left
         self.legsGroup2 = [1, 3, 5]
-
+        self.legs[0] = Leg( 1, [1,3,5])
+        self.legs[1] = Leg( 2, [2,4,6])
+        self.legs[2] = Leg( 3, [8,10,12])
+        self.legs[3] = Leg( 4, [14,16,18])
+        self.legs[4] = Leg( 5, [13,15,17])
+        self.legs[5] = Leg( 6, [7,9,11])
         if not self.isReal:  # Only for animation
             self.fig = plt.figure()
             self.ax1 = p3.Axes3D(self.fig)
