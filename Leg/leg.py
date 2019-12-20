@@ -8,21 +8,19 @@ class Leg:
     def __init__(self, startPos_, bodyLoc_ , servoIds_):
 
         if bodyLoc_ in (3,6):
-            print("Bein 3 & 6")
-            legDimsB = [0.030,0.04,0.053,0.062,0.02,0.005,0.096]
-            self.a = legDimsB.copy()
+            print("Bein 3 or 6")
+            self.dims = [0.030,0.04,0.053,0.062,0.02,0.005,0.096]
         else:
-            print("Bein 1, 2, 4, 5")
-            legDimsA = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
-            self.a = legDimsA.copy()
+            print("Bein 1, 2, 4 or 5")
+            self.dims = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
         
 
         
-        self.lc = self.a[2]
+        self.lc = self.dims[2]
         self.lcSquare = math.pow(self.lc,2)
-        self.lf = math.sqrt(math.pow(self.a[3], 2) + math.pow(self.a[4],2))
+        self.lf = math.sqrt(math.pow(self.dims[3], 2) + math.pow(self.dims[4],2))
         self.lfSquare = math.pow(self.lf,2)
-        self.lt = math.sqrt(math.pow(self.a[5], 2) + math.pow(self.a[6],2))
+        self.lt = math.sqrt(math.pow(self.dims[5], 2) + math.pow(self.dims[6],2))
         self.ltSquare = math.pow(self.lt, 2)
 
         # Used to define which leg and if it's coordinates need to be rotated
