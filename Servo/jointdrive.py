@@ -82,30 +82,34 @@ class JointDrive(ServoAx12a):
     # Set servo to desired angle
     # angle -> in radian,
     def setDesiredJointAngle(self, angle: float, trigger: bool = False)-> bool:
-        if self.angleMin <= angle <= self.angleMax:
-            success = self.setGoalPosition(self.__convertAngleToTicks(angle), trigger)
-            if success:
-                self.curAngle -= angle
+        if angle > self.angleMax:
+            angle = self.angleMax
+        if angle < self.angleMin:
+            angle = self.angleMin
 
-            return success
-        else:
-            return False
+        success = self.setGoalPosition(self.__convertAngleToTicks(angle), trigger)
+        if success:
+            self.curAngle -= angle
+
+        return success
 
     # Set servo to desired angle and speed
     # angle -> in radian,
     # speed -> speed of movement in rpm, speed = 0 -> maximum speed
     def setDesiredAngleSpeed(self, angle: float, speed: int = 0, trigger: bool = False)-> bool:
-        if self.angleMin <= angle <= self.angleMax:
-            speed_in_ticks = self.__convertSpeedToTicks(speed)
-            angle_in_ticks = self.__convertAngleToTicks(angle)
+        if angle > self.angleMax:
+            angle = self.angleMax
+        if angle < self.angleMin:
+            angle = self.angleMin
 
-            success = self.setGoalPosSpeed(angle_in_ticks, speed_in_ticks, trigger)
-            if success :
-                self.curAngle -= angle
+        speed_in_ticks = self.__convertSpeedToTicks(speed)
+        angle_in_ticks = self.__convertAngleToTicks(angle)
 
-            return success
-        else:
-            return False
+        success = self.setGoalPosSpeed(angle_in_ticks, speed_in_ticks, trigger)
+        if success :
+            self.curAngle -= angle
+
+        return success
 
     # Set speed value of servo
     # speed -> speed of movement in rpm, speed = 0 -> maximum speed
