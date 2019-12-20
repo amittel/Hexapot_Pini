@@ -1,3 +1,4 @@
+from Servo.dynamixel import Dynamixel
 from Servo.servo_ax12a import ServoAx12a
 import math
 
@@ -32,8 +33,8 @@ class JointDrive(ServoAx12a):
     def __init__(self, servoId, ccw = False, aOffset = 0.0, aMax = math.pi * 2, aMin = -math.pi * 2):
         self.id = servoId
         self.counterClockWise = ccw
-        self.angleMax = aMax if(aMax > aMin and aMax <= self._ANGLE_RADIAN_MAX and aMax >= self._ANGLE_RADIAN_MIN) else self._ANGLE_RADIAN_MAX
-        self.angleMin = aMin if(aMin < aMax and aMin <= self._ANGLE_RADIAN_MAX and aMin >= self._ANGLE_RADIAN_MIN) else self._ANGLE_RADIAN_MIN
+        self.angleMax = aMax if(aMin < aMax <= self._ANGLE_RADIAN_MAX and aMax >= self._ANGLE_RADIAN_MIN) else self._ANGLE_RADIAN_MAX
+        self.angleMin = aMin if(aMax > aMin >= self._ANGLE_RADIAN_MIN and aMin <= self._ANGLE_RADIAN_MAX) else self._ANGLE_RADIAN_MIN
         self.angleOffset = aOffset
         self.curAngle = 0
         super().__init__(servoId)
@@ -81,27 +82,33 @@ class JointDrive(ServoAx12a):
     # Set servo to desired angle
     # angle -> in radian,
     def setDesiredJointAngle(self, angle: float, trigger: bool = False)-> bool:
-        success = self.setGoalPosition(self.__convertAngleToTicks(angle), trigger)
-        if success:
-            self.curAngle -= angle
+        if self.angleMin <= angle <= self.angleMax:
+            success = self.setGoalPosition(self.__convertAngleToTicks(angle), trigger)
+            if success:
+                self.curAngle -= angle
 
-        return success
+            return success
+        else:
+            return False
 
-    # Set servo to desired angle speed
+    # Set servo to desired angle and speed
     # angle -> in radian,
     # speed -> speed of movement in rpm, speed = 0 -> maximum speed
     def setDesiredAngleSpeed(self, angle: float, speed: int = 0, trigger: bool = False)-> bool:
-        speed_in_ticks = self.__convertSpeedToTicks(speed)
-        angle_in_ticks = self.__convertAngleToTicks(angle)
+        if self.angleMin <= angle <= self.angleMax:
+            speed_in_ticks = self.__convertSpeedToTicks(speed)
+            angle_in_ticks = self.__convertAngleToTicks(angle)
 
-        success = self.setGoalPosSpeed(angle_in_ticks, speed_in_ticks, trigger)
-        if success :
-            self.curAngle -= angle
+            success = self.setGoalPosSpeed(angle_in_ticks, speed_in_ticks, trigger)
+            if success :
+                self.curAngle -= angle
 
-        return success
+            return success
+        else:
+            return False
 
     # Set speed value of servo
-    # speed -> angle speed in rpm
+    # speed -> speed of movement in rpm, speed = 0 -> maximum speed
     def setSpeedValue(self, speed: float, trigger: bool = False)-> bool:
         speed_in_ticks = self.__convertSpeedToTicks(speed)
         success = self.setMovingSpeed(speed_in_ticks, trigger)
@@ -110,3 +117,8 @@ class JointDrive(ServoAx12a):
 
     def setCounterClockWise(self, ccw: bool):
         self.counterClockWise = ccw
+
+    @staticmethod
+    def doActionAllServo():
+        dynamixel_broadcast = Dynamixel(Dynamixel.ID_BROADCAST)
+        dynamixel_broadcast.action()

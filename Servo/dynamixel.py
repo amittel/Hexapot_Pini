@@ -12,7 +12,7 @@ class Dynamixel:
     # Definition of protected class attributes
     # Accessible only within own and derived classes
     # ---------------------------------------------------------------------------
-    _ID_BROADCAST = 0xFE
+    ID_BROADCAST = 0xFE
 
     # Definition of private class attributes, accessible only within own class
     # ---------------------------------------------------------------------------
@@ -81,7 +81,7 @@ class Dynamixel:
 
     # Start predefined action on servo
     # id -> id of servo, without id -> broadcast action
-    def __doAction(self, servoId = _ID_BROADCAST):
+    def __doAction(self, servoId = ID_BROADCAST):
         command                 = [255, 255, 0, 0, 0, 0]
         command[self.PKT_ID]    = servoId
         command[self.PKT_LEN]   = 2
@@ -132,7 +132,7 @@ class Dynamixel:
 
     # Request status packet
     def __requestStatusPkt(self):
-        self.__writeReadDataPkt(self.REG_STATUS, 1)
+        self.__writeReadDataPkt(self.REG_STATUS, 0)
         self.__readStatusPkt(1)
 
     # Calculates check sum of packet list
@@ -202,7 +202,7 @@ class Dynamixel:
     # ---------------------------------------------------------------------------
     # Show available serial lines
     def showSerialLines(self):
-        print(Dynamixel.__lines)
+        print(self.__lines)
 
     # Start predefined action on servo with assigned id
     def action(self):
@@ -217,3 +217,5 @@ class Dynamixel:
     # Get last error
     def getLastError(self):
         return self.error
+
+
