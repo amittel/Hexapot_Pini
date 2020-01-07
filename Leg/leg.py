@@ -34,6 +34,9 @@ class Leg:
         self.fem = sD.servo(servoIds_[1])
         self.tib = sD.servo(servoIds_[2])
 
+        # Set servo speeds
+  
+
         # moves to init position
         self.moveTo(startPos_)
 
@@ -114,39 +117,34 @@ class Leg:
     def printId(self):
         print("Coxa/Femur/Tibia: "+ str(self.cox.gievId()) + "/" +str(self.fem.gievId())+ "/" + str(self.tib.gievId()))
 
-    def testStraightLeg(self):
-        '''Testing for a straight leg. All joints have zero degree'''
-        wa = wb = wg = 0
-        length = self.lc + self.lf + self.lt
 
-        print("\nTest gerades Bein")
-        print("Winkel (gegeben): a,b,g ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
-        pos = self.forKinAlphaJoint(wa, wb, wg)
-        print("Koord (fKin): x,y,z     ",pos[0] ,",",pos[1],",", pos[2])
-        print("Länge (gerechnet):      ",length)
-
-    def testTibia(self,w):
-        '''Testing for a angled leg. All joints have x degree'''
-        wa = w[0]
-        wb = w[1]
-        wg = w[2]
-
-        if wg == math.pi/2:
-            length = self.lc + self.lf + math.sin(0)*self.lt
-        else:
-            length = self.lc + self.lf + math.sin(wg)*self.lt
-
-        print("\nTest für Tibia")
-        print("Zwischenergebnis lc:",self.lc)
-        print("Zwischenergebnis lf:",self.lf)
-        print("Zwischenergebnis lt:",self.lt)
-        print("Zwischenergebnis:",math.sin(wg)*self.lt)
-     
+    def setVelocity(self, oldAngle, newAngle, velocity = 100):
         
-        print("Winkel (gegeben): a,b,g ", math.degrees(wa), ",", math.degrees(wb), ",", math.degrees(wg))
-        pos = self.forKinAlphaJoint(wa, wb, wg)
-        print("Koord (fKin): x,y,z     ",pos[0] ,",",pos[1],",", pos[2])
-        print("Länge (gerechnet):      ",length)
+        # Calc'ing the diff between new and old angle
+        a = abs(newAngle[0] - oldAngle[0])
+        b = abs(newAngle[1] - oldAngle[1])
+        c = abs(newAngle[2] - oldAngle[2])
+        
+        # Checking for the largest angle and then setting speed relations accordingly
+        if a >= b and a >= c and a!=0:
+            servoSpeedAlpha = velocity
+            servoSpeedBeta = math.ceil((b / a) * velocity)
+            servoSpeedGamma = math.ceil((c / a) * velocity)
+        elif b >= a and b >= c and b!=0:
+            servoSpeedBeta = velocity
+            servoSpeedAlpha = math.ceil((a / b) * velocity)
+            servoSpeedGamma = math.ceil((c / b) * velocity)
+        elif c >= a and c >= b and c!=0:
+            servoSpeedGamma = velocity
+            servoSpeedAlpha = math.ceil((a / c) * velocity)
+            servoSpeedBeta = math.ceil((b / c) * velocity)
+        else:
+            servoSpeedAlpha = velocity
+            servoSpeedBeta = velocity
+            servoSpeedGamma = velocity
+
+        return (servoSpeedAlpha, servoSpeedBeta, servoSpeedGamma)
+
 
 def drawRobot():
     #ToDo: Two leg groups: L1,2,4,5 with a0=0.043m and L3,6 with a0= 0.030
