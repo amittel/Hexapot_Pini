@@ -6,6 +6,7 @@ from vpython import color
 
 class Leg:
     def __init__(self, startPos_, bodyLoc_ , servoIds_):
+    #def __init__(self, legID, legServos):
 
         if bodyLoc_ in (3,6):
             print("Bein 3 or 6")
@@ -13,8 +14,9 @@ class Leg:
         else:
             print("Bein 1, 2, 4 or 5")
             self.dims = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
-        
 
+        
+        self.legID = 1
         
         self.lc = self.dims[2]
         self.lcSquare = math.pow(self.lc,2)
@@ -24,7 +26,7 @@ class Leg:
         self.ltSquare = math.pow(self.lt, 2)
 
         # Used to define which leg and if it's coordinates need to be rotated
-        self.bodyLoc = bodyLoc_;
+        self.bodyLoc = bodyLoc_
 
         # Servo init position
         self.startPos = startPos_
@@ -144,6 +146,32 @@ class Leg:
             servoSpeedGamma = velocity
 
         return (servoSpeedAlpha, servoSpeedBeta, servoSpeedGamma)
+
+    def rotateLegKoord(self, pos):
+        #dims are our offsets?! 
+        # Are they already in?!
+
+        if self.legID == 1:
+            pass
+        elif self.legID == 2:
+            pass
+        elif self.legID == 3: # Rotate -90 deg (cw)
+            cos = 0
+            sin = -1
+        elif self.legID == 4 or self.legID == 5: # Rotate -180 deg (cw)
+            cos = -1
+            sin = 0
+        elif self.legID == 6: # Rotate 90 deg (ccw)
+            cos = 0
+            sin = 1
+        
+        pos[0] = cos * pos[0] - sin * pos[1] # rotated X
+        pos[1] = sin * pos[0] + cos * pos[1] # rotated Y 
+
+        return pos
+
+
+
 
 
 def drawRobot():
