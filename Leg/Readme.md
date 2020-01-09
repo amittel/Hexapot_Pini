@@ -1,6 +1,6 @@
 # Leg
 
-## Radiant <-> Degree
+## Radiant &#8596; Degree
 |deg  | rad   |
 |-----|-------|
 |0    | 0     |
@@ -18,6 +18,7 @@
 - [ ] Geschwindigkeit Motoren Winkel Delta
 - [ ] ServoIDs an den Beinen + Koordinatensystem
 - [ ] Objectorientiert Rototer/Bein/Servo -> Bein instanzieren
+- [ ] Servo Drehrichtung
 
 
 
