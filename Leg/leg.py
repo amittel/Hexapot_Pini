@@ -4,19 +4,22 @@ import animation
 import servoDummy as sD
 from vpython import color
 
-class Leg:
-    def __init__(self, startPos_, bodyLoc_ , servoIds_):
-    #def __init__(self, legID, legServos):
+from Servo import jointdrive
 
-        if bodyLoc_ in (3,6):
+class Leg:
+    #def __init__(self, startPos_, bodyLoc_ , servoIds_):
+    def __init__(self, legID, legServos):
+        self.legID = legID
+        self.servoID = legServos
+
+        #Init Pos is zero deg for all servos!
+
+        if self.legID == 3 or self.legID == 6:
             print("Bein 3 or 6")
             self.dims = [0.030,0.04,0.053,0.062,0.02,0.005,0.096]
         else:
             print("Bein 1, 2, 4 or 5")
             self.dims = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
-
-        
-        self.legID = 1
         
         self.lc = self.dims[2]
         self.lcSquare = math.pow(self.lc,2)
@@ -26,21 +29,21 @@ class Leg:
         self.ltSquare = math.pow(self.lt, 2)
 
         # Used to define which leg and if it's coordinates need to be rotated
-        self.bodyLoc = bodyLoc_
+        #self.bodyLoc = bodyLoc_
 
         # Servo init position
-        self.startPos = startPos_
+        #self.startPos = startPos_
 
         # Vector of 3 ints, servos from body to tibia
-        self.cox = sD.servo(servoIds_[0])
-        self.fem = sD.servo(servoIds_[1])
-        self.tib = sD.servo(servoIds_[2])
+        #self.cox = sD.servo(servoIds_[0])
+        #self.fem = sD.servo(servoIds_[1])
+        #self.tib = sD.servo(servoIds_[2])
 
         # Set servo speeds
-  
+
 
         # moves to init position
-        self.moveTo(startPos_)
+        #self.moveTo(startPos_)
 
 
     def getLegLength(self):
@@ -51,31 +54,30 @@ class Leg:
             alpha = math.atan2(pos[1] , pos[0]) # y x
 
             footPos = np.array(pos)
+
             A1 = np.array([
                 [math.cos(alpha), 0, math.sin(alpha), self.lc * math.cos(alpha)],
                 [math.sin(alpha), 0, -math.cos(alpha), self.lc * math.sin(alpha)],
                 [0, 1, 0, 0],
                 [0, 0, 0, 1]])
+
             betaPos = np.dot(A1, np.transpose([0,0,0,1]))
+
             lct = np.linalg.norm(footPos[0:3] - betaPos[0:3])
             lctSquare = math.pow(lct, 2)
-            #print("lctSquare ", lctSquare)
-            #print("Zähler ",round((self.ltSquare + self.lfSquare - lctSquare)))
-            #print("Nenner ",round(2 * self.lt * self.lf, 15))
+
             gamma = math.acos(round((self.ltSquare + self.lfSquare - lctSquare) / (2 * self.lt * self.lf), 15)) - math.pi
-            
+
             h1 = math.acos(round((self.lfSquare + lctSquare - self.ltSquare) / (2 * self.lf * lct), 15))
             h2 = math.acos((lctSquare + self.lcSquare - math.pow(np.linalg.norm(footPos[0:3]), 2))/(2 * self.lc * lct))
-            #print("h1: ", h1)
-            #print("h2: ", h2)
-            #print("pi: ", math.pi)
-            #print("pi-h2:" , math.pi-h2)
+
             if footPos[2] < 0:
                 beta = (h1 + h2) - math.pi
             else:
                 beta = (math.pi - h2) + h1
-            #print("beta", (h1 + h2) - math.pi, (math.pi - h2) + h1)
+
             return (alpha, beta, gamma)
+
         except Exception as e:
             print("FEHLER: Punkt nicht im Arbeitsbereich. Description: " + str(e))
             return (0, 0, 0)
@@ -116,8 +118,8 @@ class Leg:
         '''
 
         pass
-    def printId(self):
-        print("Coxa/Femur/Tibia: "+ str(self.cox.gievId()) + "/" +str(self.fem.gievId())+ "/" + str(self.tib.gievId()))
+    #def printId(self):
+    #    print("Coxa/Femur/Tibia: "+ str(self.cox.gievId()) + "/" +str(self.fem.gievId())+ "/" + str(self.tib.gievId()))
 
 
     def setVelocity(self, oldAngle, newAngle, velocity = 100):
@@ -174,6 +176,11 @@ class Leg:
 
 
 
+'''
+
+Just used for animation with vpython
+
+
 def drawRobot():
     #ToDo: Two leg groups: L1,2,4,5 with a0=0.043m and L3,6 with a0= 0.030
     #ToDo: Do other values change too?
@@ -216,3 +223,4 @@ def drawRobot():
 
 if __name__ == "__main__":
     drawRobot()
+'''
