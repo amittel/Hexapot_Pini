@@ -1,15 +1,22 @@
-import math
-import numpy as np
+# Used for animation only
 #import animation
 #import servoDummy as sD
 #from vpython import color
 
+import math
+import numpy as np
+
+# Getting the imports right.
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 import Servo.jointdrive as servo
 
 class Leg:
     def __init__(self, legID, legServos):
         self.legID = legID
         self.servoID = legServos
+
+        self.initAngle = 0.0
 
         # Offset from base to leg [m]
         self.leg_X = (0.033, 0.033, 0, -0.033,-0.033,0)
@@ -34,6 +41,22 @@ class Leg:
         self.servoBeta = servo.JointDrive(self.servoID[1])
         self.servoGamma = servo.JointDrive(self.servoID[2])
 
+        #Move leg into init Position
+        print("A")
+        #print("Current angle: ", self.servoAlpha.getCurrentJointAngle())
+        self.servoAlpha.setMovingSpeed(50,True)
+        self.servoAlpha.setDesiredJointAngle(self.initAngle)
+        sleep(1)
+        print("B")
+        #print("Current angle: ", self.servoBeta.getCurrentJointAngle())
+        self.servoBeta.setMovingSpeed(50,True)
+        self.servoBeta.setDesiredJointAngle(self.initAngle)
+        sleep(1)
+        print("Moving G")
+        self.servoGamma.setMovingSpeed(50,True)
+        self.servoGamma.setDesiredJointAngle(self.initAngle)
+
+        servo.JointDrive.doActionAllServo()
 
         # Used to define which leg and if it's coordinates need to be rotated
         #self.bodyLoc = bodyLoc_
@@ -111,6 +134,8 @@ class Leg:
         # Send angles to servos
         #servo.JointDrive.setDesiredJointAngle()
         self.servoAlpha.setDesiredJointAngle(alpha)
+        self.servoBeta.setDesiredJointAngle(beta)
+        self.servoGamma.setDesiredJointAngle(gamma)
 
 
     def calcFootCoordinate(self, alpha, beta, gamma):
@@ -137,6 +162,7 @@ class Leg:
             pos[0] = pos[0] + self.leg_X[self.legID-1] + self.dims[0] # X
             pos[2] = pos[2] - self.dims[1] # Z
 
+        # ToDo: rotate koord with rotateLegKoord
         self.calcJointAngles(pos)
         
 
@@ -200,10 +226,8 @@ class Leg:
 
 
 '''
-
 Just used for animation with vpython
-
-
+------------------------------------
 def drawRobot():
     #ToDo: Two leg groups: L1,2,4,5 with a0=0.043m and L3,6 with a0= 0.030
     #ToDo: Do other values change too?
@@ -241,9 +265,9 @@ def drawRobot():
 
         except Exception as e:
             print(e)
-
+'''
 
 
 if __name__ == "__main__":
-    drawRobot()
-'''
+    #drawRobot()
+    tableLeg = Leg(1, [1, 3, 5])
