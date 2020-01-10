@@ -179,7 +179,6 @@ class Dynamixel:
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
         self.__sendCommand(command)
-        #self.__requestStatusPkt()
 
     """
     WRITE_DATA Write data words (16 bits) into the control table of the Dynamixel actuator

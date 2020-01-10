@@ -82,6 +82,10 @@ class JointDrive(ServoAx12a):
     # Set servo to desired angle
     # angle -> in radian,
     def setDesiredJointAngle(self, angle: float, trigger: bool = False)-> bool:
+        # convert angle to positive if needed
+        if angle < 0:
+            angle += 2 * math.pi
+
         if angle > self.angleMax:
             angle = self.angleMax
         if angle < self.angleMin:
@@ -94,9 +98,13 @@ class JointDrive(ServoAx12a):
         return success
 
     # Set servo to desired angle and speed
-    # angle -> in radian,
+    # angle -> in radian
     # speed -> speed of movement in rpm, speed = 0 -> maximum speed
     def setDesiredAngleSpeed(self, angle: float, speed: int = 0, trigger: bool = False)-> bool:
+        #convert angle to positive if needed
+        if angle < 0:
+            angle += 2*math.pi
+
         if angle > self.angleMax:
             angle = self.angleMax
         if angle < self.angleMin:
