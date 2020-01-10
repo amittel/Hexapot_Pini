@@ -4,16 +4,18 @@ import numpy as np
 #import servoDummy as sD
 #from vpython import color
 
-from Servo import jointdrive
+import Servo.jointdrive as servo
 
 class Leg:
-    #def __init__(self, startPos_, bodyLoc_ , servoIds_):
     def __init__(self, legID, legServos):
         self.legID = legID
         self.servoID = legServos
 
-        #Init Pos is zero deg for all servos!
+        # Offset from base to leg [m]
+        self.leg_X = (0.033, 0.033, 0, -0.033,-0.033,0)
+        self.leg_Y = (-0.033, 0.033, 0.044, 0.033, -0.033, -0.044)
 
+        # Length of legs
         if self.legID == 3 or self.legID == 6:
             print("Bein 3 or 6")
             self.dims = [0.030,0.04,0.053,0.062,0.02,0.005,0.096]
@@ -27,6 +29,11 @@ class Leg:
         self.lfSquare = math.pow(self.lf,2)
         self.lt = math.sqrt(math.pow(self.dims[5], 2) + math.pow(self.dims[6],2))
         self.ltSquare = math.pow(self.lt, 2)
+
+        self.servoAlpha = servo.JointDrive(self.servoID[0])
+        self.servoBeta = servo.JointDrive(self.servoID[1])
+        self.servoGamma = servo.JointDrive(self.servoID[2])
+
 
         # Used to define which leg and if it's coordinates need to be rotated
         #self.bodyLoc = bodyLoc_
@@ -94,12 +101,17 @@ class Leg:
     def moveTo(self, pos_):
         pass
 
-    def calcJointAngles(self):
+    def calcJointAngles(self, pos):
         ''' Leg hat u.a. eine Abfragemethode (calcJointAngles), der x,y und z-Koordinaten
             (kartesische Koordinaten) des Fußpunkts des Beins geschickt werden.
             Die Methode liefert die entsprechenden 3 Gelenkwinkel (a,b,g) zurück.
         '''
-        pass
+        alpha, beta, gamma = self.invKinAlphaJoint(pos)
+
+        # Send angles to servos
+        #servo.JointDrive.setDesiredJointAngle()
+        self.servoAlpha.setDesiredJointAngle(alpha)
+
 
     def calcFootCoordinate(self, alpha, beta, gamma):
         ''' Leg hat u.a. eine Abfragemethode (calcFootCoordinate), der 3 Gelenkwinkel
@@ -109,13 +121,24 @@ class Leg:
         '''
         pass
 
-    def setFootCoordinate(self):
+    def setFootCoordinate(self, pos):
         ''' Leg hat u.a. eine Setzmethode (setFootCoordinate), der die im nächsten Zeitschritt
             anzufahrende Fußposition (x,y,z) übergeben wird. Diese wird mit Hilfe der anderen
             Methoden der Klassen in entsprechende Gelenkwinkel umgewandelt und an die drei
             Instanzen der Gelenkantriebe (Klasse JointDrive, Gruppe Antriebskommunikation)
             übergeben.
         '''
+        if self.legID == 3 or self.legID == 6:
+            
+            # X: pos[0] = pos[0] + 0
+            pos[1] = pos[1] + self.leg_Y[self.legID-1] + self.dims[0] # Y
+            pos[2] = pos[2] - self.dims[1] # Z
+        else:
+            pos[0] = pos[0] + self.leg_X[self.legID-1] + self.dims[0] # X
+            pos[2] = pos[2] - self.dims[1] # Z
+
+        self.calcJointAngles(pos)
+        
 
         pass
     #def printId(self):

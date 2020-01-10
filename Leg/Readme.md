@@ -19,6 +19,8 @@
 - [ ] ServoIDs an den Beinen + Koordinatensystem
 - [ ] Objectorientiert Rototer/Bein/Servo -> Bein instanzieren
 - [ ] Servo Drehrichtung
+- [ ] Finale Offsets berechnen im Konstruktor
+- [ ] konstruktor Init Pos Null
 
 
 
