@@ -2,6 +2,7 @@
 #import animation
 #import servoDummy as sD
 #from vpython import color
+import time
 
 import math
 import numpy as np
@@ -52,8 +53,7 @@ class Leg:
         #Move leg into init Position
         print("A")
         #print("Current angle: ", self.servoAlpha.getCurrentJointAngle())
-        self.servoAlpha.setMovingSpeed(50,True)
-        self.servoAlpha.setDesiredJointAngle(self.initAngle)
+        self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 20.0, False)
         #self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 50.0, True)
         #sleep(1)
         print("B")
@@ -65,8 +65,8 @@ class Leg:
         print("Moving G")
         #self.servoGamma.setMovingSpeed(50,True)
         #self.servoGamma.setDesiredJointAngle(self.initAngle)
-        self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 50.0)
-        
+        self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 50.0,False)
+        time.sleep(3)
         
         #Robots has to do it.
         servo.JointDrive.doActionAllServo()
