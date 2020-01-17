@@ -1,6 +1,5 @@
-from Com import Com
+from Gui.PyCOM import Com
 from threading import Thread
-import msgpack
 import time
 
 

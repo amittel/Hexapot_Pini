@@ -41,9 +41,10 @@ class Robot:
         # Group 2 starts stemming
         # Consists of front left, middle right and back left
         self.legsGroup2 = [1, 3, 5]
-        #COM-Object for input from GUI
-        self.com = testCom()
+
         if self.isReal:
+            # COM-Object for input from GUI
+            self.com = testCom.testCom()
             #Legs
             self.legs.append(Leg( 1, [1,3,5], [True,True,True]))
             self.legs.append(Leg( 2, [2,4,6], [True,True,True]))
