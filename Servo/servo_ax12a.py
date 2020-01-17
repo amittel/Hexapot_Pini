@@ -137,7 +137,7 @@ class ServoAx12a(Dynamixel):
     # speed: 0~1023 can be used, and the unit is about 0.111rpm.
     #        If it is set to 0, it means the maximum rpm of the motor is used without controlling the speed.
     #        If it is 1023, it is about 114rpm.
-    def setMovingSpeed(self, speed: int, trigger: bool =False)-> bool:
+    def setMovingSpeed(self, speed: int, trigger: bool = False)-> bool:
         self._writeNWordPkt(self.__MOVING_SPEED, [speed], trigger)
         return True if self.getLastError() == self.ERR_DEFAULT else False
 
