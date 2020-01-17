@@ -8,7 +8,7 @@ class Com:
    # vm ip:            172.16.137.133
    # server ip:        172.16.137.1
    # localhost ip:     127.0.0.1
-    def __init__(self, ip="127.0.0.1", port="5557", server=True):
+    def __init__(self, ip="192.168.137.61", port="5557", server=True):
 
         self.data = {"Winkelrichtung": 0, "Geschwindigkeit": 0, "Angehoben": 0, 'InitPosition': 0}
         context = zmq.Context()

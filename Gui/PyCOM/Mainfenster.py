@@ -79,7 +79,7 @@ class MyWindow(QtWidgets.QMainWindow):
 
     # Connect to server
     def connect(self):
-        self.client = Com(ip="127.0.0.1", server=False)
+        self.client = Com(ip="192.168.137.61", server=False)
         self.send_thread.start()
 
     # Set direction
