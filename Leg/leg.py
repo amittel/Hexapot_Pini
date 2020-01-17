@@ -17,13 +17,6 @@ class Leg:
         self.servoID = legServos
         self.rotation = rotation
 
-        #Setting rotation of servos for joints (cw, ccw)
-        self.rotAlpha = rotation[0]
-        self.rotBeta = rotation[1]
-        self.rotGamma = rotation[2]
-
-        self.initAngle = 0.0
-
         # Offset from base to leg [m]
         self.leg_X = (0.033, 0.033, 0, -0.033,-0.033,0)
         self.leg_Y = (-0.033, 0.033, 0.044, 0.033, -0.033, -0.044)
@@ -43,6 +36,15 @@ class Leg:
         self.lt = math.sqrt(math.pow(self.dims[5], 2) + math.pow(self.dims[6],2))
         self.ltSquare = math.pow(self.lt, 2)
 
+
+
+        #Setting rotation of servos for joints (cw, ccw)
+        self.rotAlpha = rotation[0]
+        self.rotBeta = rotation[1]
+        self.rotGamma = rotation[2]
+
+        self.initAngle = 0.0
+
         self.servoAlpha = servo.JointDrive(self.servoID[0])
         self.servoBeta = servo.JointDrive(self.servoID[1])
         self.servoGamma = servo.JointDrive(self.servoID[2])
@@ -52,18 +54,22 @@ class Leg:
         #print("Current angle: ", self.servoAlpha.getCurrentJointAngle())
         self.servoAlpha.setMovingSpeed(50,True)
         self.servoAlpha.setDesiredJointAngle(self.initAngle)
+        #self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 50.0, True)
         #sleep(1)
         print("B")
         #print("Current angle: ", self.servoBeta.getCurrentJointAngle())
-        self.servoBeta.setMovingSpeed(50,True)
-        self.servoBeta.setDesiredJointAngle(self.initAngle)
+        #self.servoBeta.setMovingSpeed(50,True)
+        #self.servoBeta.setDesiredJointAngle(self.initAngle)
+        self.servoBeta.setDesiredAngleAndMotorLoad(self.initAngle, 50.0, True)
         #sleep(1)
         print("Moving G")
-        self.servoGamma.setMovingSpeed(50,True)
-        self.servoGamma.setDesiredJointAngle(self.initAngle)
-
+        #self.servoGamma.setMovingSpeed(50,True)
+        #self.servoGamma.setDesiredJointAngle(self.initAngle)
+        self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 50.0)
+        
+        
         #Robots has to do it.
-        #servo.JointDrive.doActionAllServo()
+        servo.JointDrive.doActionAllServo()
 
         # Used to define which leg and if it's coordinates need to be rotated
         #self.bodyLoc = bodyLoc_
@@ -278,4 +284,4 @@ def drawRobot():
 
 if __name__ == "__main__":
     #drawRobot()
-    tableLeg = Leg(1, [1, 3, 5])
+    tableLeg = Leg(1, [1, 3, 5], [True, True, True])
