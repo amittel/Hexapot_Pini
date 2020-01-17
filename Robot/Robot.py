@@ -10,6 +10,7 @@ import enum
 
 from Leg.leg import Leg
 import Servo.jointdrive
+from Gui.PyCOM import testCom
 #Enum to change walking modes
 class WalkingMode(enum.Enum):
     COSINE = 0
@@ -26,6 +27,8 @@ class Robot:
         self.walkingMode = WalkingMode.COSINE #Default Walkingmode
         self.trajectory = self.createTrajectory()
         self.cycleTime = 0.1  # Time for each step size
+        self.CYCLETIMEMIN = 0.05 # Highest possible speed # TODO Testen was geht
+        self.CYCLETIMEMAX = 1 # Lowest desired speed
         self.walkingAngle = 0  # Current movement angle
         self.legs = []
         # Group 1 starts swinging
@@ -34,14 +37,16 @@ class Robot:
         # Group 2 starts stemming
         # Consists of front left, middle right and back left
         self.legsGroup2 = [1, 3, 5]
+        #COM-Object for input from GUI
+        self.com = testCom()
         if self.isReal:
             #Legs
-            self.legs.append(Leg( 1, [1,3,5]))
-            self.legs.append(Leg( 2, [2,4,6]))
-            self.legs.append(Leg( 3, [8,10,12]))
-            self.legs.append(Leg( 4, [14,16,18]))
-            self.legs.append(Leg( 5, [13,15,17]))
-            self.legs.append(Leg( 6, [7,9,11]))
+            self.legs.append(Leg( 1, [1,3,5], [True,True,True]))
+            self.legs.append(Leg( 2, [2,4,6], [True,True,True]))
+            self.legs.append(Leg( 3, [8,10,12], [True,True,True]))
+            self.legs.append(Leg( 4, [14,16,18], [True,True,True]))
+            self.legs.append(Leg( 5, [13,15,17], [True,True,True]))
+            self.legs.append(Leg( 6, [7,9,11], [True,True,True]))
         if not self.isReal:#Animation
             self.fig = plt.figure()
             self.ax1 = p3.Axes3D(self.fig)
@@ -103,24 +108,39 @@ class Robot:
             # For animation. Changes only apply when three legs are at their highest position
             # TODO: COM OBJEKT AUSLESEN
 
-            if (indexLegs1 == 0 or indexLegs2 == 0) and not self.isReal:
-                # Angle & Step height
-                try:
-                    input_data = open('Steuer.txt', 'r').read()
-                    lines = input_data.split('\n')
-                    angle = lines[0]
-                    height = lines[1]
-                except IOError:
-                    print('File error!')
-                # Angle
-                if is_number(angle):
-                    self.walkingAngle = np.radians(float(angle))
-                # Step height
-                if is_number(height):
-                    if float(height) <= 1:
-                        self.stepHeight = float(height)
-                        self.trajectory = self.createTrajectory()  # Recalculate trajectory
+            if (indexLegs1 == 0 or indexLegs2 == 0):
+                if not self.isReal:
+                    # Angle & Step height
+                    try:
+                        input_data = open('Steuer.txt', 'r').read()
+                        lines = input_data.split('\n')
+                        angle = lines[0]
+                        height = lines[1]
+                    except IOError:
+                        print('File error!')
+                    # Angle
+                    if is_number(angle):
+                        self.walkingAngle = np.radians(float(angle))
+                    # Step height
+                    if is_number(height):
+                        if float(height) <= 1:
+                            self.stepHeight = float(height)
+                            self.trajectory = self.createTrajectory()  # Recalculate trajectory
+                else:
+                    # Read COM Data
+                    comData = self.com.readData()
+                    # {'Winkelrichtung': 0, 'Geschwindigkeit': 0, 'Angehoben': 0, 'InitPosition': 0}
+                    if is_number(comData["Winkelrichtung"]):
+                        self.walkingAngle = comData["Winkelrichtung"]
+                    if is_number(comData["Geschwindigkeit"]):
+                        # TODO Umrechnen von Prozent in cycleTime
+                        percentValue = comData["Geschwindigkeit"]
+                        self.cycleTime = self.CYCLETIMEMIN - percentValue * (self.CYCLETIMEMIN - self.CYCLETIMEMAX)
 
+                    if is_number(comData["Angehoben"]):
+                        if float(comData["Angehoben"]) <= 1:
+                            self.stepHeight = float(comData["Angehoben"])
+                            self.trajectory = self.createTrajectory()  # Recalculate trajectory
             #############
             #     V     #
             #############
