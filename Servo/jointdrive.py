@@ -27,6 +27,8 @@ class JointDrive(ServoAx12a):
     _CONST_ANGLE_TO_TICKS = ServoAx12a._SPEED_MAX_TICKS / (5 * math.pi / 3)
     _CONST_SPEED_TO_TICKS = ServoAx12a._SPEED_MAX_TICKS / ServoAx12a._SPEED_MAX_RPM
 
+    _CONST_CIRCLE_RADIAN  = math.pi * 2
+
     # Private methods
     # ----------------------------------------------------------------------
     # Constructor, defines the following variables: counterClockWise, angleOffset, angleMax, angleMin
@@ -89,8 +91,9 @@ class JointDrive(ServoAx12a):
     def setDesiredJointAngle(self, angle: float, trigger: bool = False) -> bool:
         # convert angle to positive if needed
         if angle < 0:
-            angle += 2 * math.pi
+            angle += abs(angle // self._CONST_CIRCLE_RADIAN + 1) * self._CONST_CIRCLE_RADIAN
 
+        angle = angle // self._CONST_CIRCLE_RADIAN
         if angle > self.angleMax:
             angle = self.angleMax
         if angle < self.angleMin:
@@ -108,8 +111,9 @@ class JointDrive(ServoAx12a):
     def setDesiredAngleSpeed(self, angle: float, speed: float = 0, trigger: bool = False) -> bool:
         # convert angle to positive if needed
         if angle < 0:
-            angle += 2 * math.pi
+            angle += abs(angle // self._CONST_CIRCLE_RADIAN + 1) * self._CONST_CIRCLE_RADIAN
 
+        angle = angle // self._CONST_CIRCLE_RADIAN
         if angle > self.angleMax:
             angle = self.angleMax
         if angle < self.angleMin:
@@ -130,8 +134,9 @@ class JointDrive(ServoAx12a):
     def setDesiredAngleAndMotorLoad(self, angle: float, motor_load: float = 0, trigger: bool = False) -> bool:
         # convert angle to positive if needed
         if angle < 0:
-            angle += 2 * math.pi
+            angle += abs(angle // self._CONST_CIRCLE_RADIAN + 1) * self._CONST_CIRCLE_RADIAN
 
+        angle = angle // self._CONST_CIRCLE_RADIAN
         if angle > self.angleMax:
             angle = self.angleMax
         if angle < self.angleMin:
