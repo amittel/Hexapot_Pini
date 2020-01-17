@@ -28,13 +28,10 @@ def testGetters(jointDrive: JointDrive):
     sleep(1)
     print("Get present speed: ",          jointDrive.getPresentSpeed())
     sleep(1)
-    print("Get time of return delay: ",   jointDrive.getReturnDelay())
-    sleep(1)
-    print("Get time of return delay: ",   jointDrive.getReturnDelay())
-    sleep(1)
 
-def testSetDesiredJointAngle(jointDrive: JointDrive):
-    resetJointDrive(jointDrive)
+
+
+
 
 def main():
 
@@ -43,8 +40,8 @@ def main():
     jointDriveBC = JointDrive(254)
 
     print('jd8 test moving max speed, angle 2.61')
-    jointDrive8.setMovingSpeed(0, True)
-    jointDrive8.setDesiredJointAngle(2.61, True)
+    #jointDrive8.setMovingSpeed(0, True)
+    #jointDrive8.setDesiredJointAngle(2.61, True)
     sleep(2)
     print('jd8 test moving speed 300, angle -2.61')
     jointDrive8.setMovingSpeed(300, True)
@@ -107,6 +104,17 @@ def main():
     sleep(1)
     jointDriveBC.action()
 
-
+    sleep(2)
+    print("-----------------------")
+    print('test getter jd8')
+    #jointDrive8.setMovingSpeed(20, True)
+    #jointDrive8.setDesiredJointAngle(2.5, True)
+    #sleep(0.4)
+    #print('Present speed: ', jointDrive8.getPresentSpeed())
+    testGetters(jointDrive8)
+    sleep(2)
+    print("-----------------------")
+    print("test getter jd13")
+    testGetters(jointDrive13)
 if __name__ == '__main__':
     main()
