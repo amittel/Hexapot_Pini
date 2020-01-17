@@ -12,9 +12,15 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 import Servo.jointdrive as servo
 
 class Leg:
-    def __init__(self, legID, legServos):
+    def __init__(self, legID, legServos, rotation):
         self.legID = legID
         self.servoID = legServos
+        self.rotation = rotation
+
+        #Setting rotation of servos for joints (cw, ccw)
+        self.rotAlpha = rotation[0]
+        self.rotBeta = rotation[1]
+        self.rotGamma = rotation[2]
 
         self.initAngle = 0.0
 
@@ -24,10 +30,10 @@ class Leg:
 
         # Length of legs
         if self.legID == 3 or self.legID == 6:
-            print("Bein 3 or 6")
+            print("Länge Bein 3 or 6")
             self.dims = [0.030,0.04,0.053,0.062,0.02,0.005,0.096]
         else:
-            print("Bein 1, 2, 4 or 5")
+            print("Länge Bein 1, 2, 4 or 5")
             self.dims = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
         
         self.lc = self.dims[2]
@@ -46,17 +52,18 @@ class Leg:
         #print("Current angle: ", self.servoAlpha.getCurrentJointAngle())
         self.servoAlpha.setMovingSpeed(50,True)
         self.servoAlpha.setDesiredJointAngle(self.initAngle)
-        sleep(1)
+        #sleep(1)
         print("B")
         #print("Current angle: ", self.servoBeta.getCurrentJointAngle())
         self.servoBeta.setMovingSpeed(50,True)
         self.servoBeta.setDesiredJointAngle(self.initAngle)
-        sleep(1)
+        #sleep(1)
         print("Moving G")
         self.servoGamma.setMovingSpeed(50,True)
         self.servoGamma.setDesiredJointAngle(self.initAngle)
 
-        servo.JointDrive.doActionAllServo()
+        #Robots has to do it.
+        #servo.JointDrive.doActionAllServo()
 
         # Used to define which leg and if it's coordinates need to be rotated
         #self.bodyLoc = bodyLoc_
@@ -153,16 +160,19 @@ class Leg:
             Instanzen der Gelenkantriebe (Klasse JointDrive, Gruppe Antriebskommunikation)
             übergeben.
         '''
+
+        # Setting offset for leg from origin B
         if self.legID == 3 or self.legID == 6:
-            
-            # X: pos[0] = pos[0] + 0
             pos[1] = pos[1] + self.leg_Y[self.legID-1] + self.dims[0] # Y
             pos[2] = pos[2] - self.dims[1] # Z
         else:
             pos[0] = pos[0] + self.leg_X[self.legID-1] + self.dims[0] # X
             pos[2] = pos[2] - self.dims[1] # Z
 
-        # ToDo: rotate koord with rotateLegKoord
+        # Rotating local coordinates, so X is equal to our origin B
+        self.rotateLegKoord(pos)
+
+
         self.calcJointAngles(pos)
         
 
@@ -199,9 +209,7 @@ class Leg:
         return (servoSpeedAlpha, servoSpeedBeta, servoSpeedGamma)
 
     def rotateLegKoord(self, pos):
-        #dims are our offsets?! 
-        # Are they already in?!
-
+        
         if self.legID == 1:
             pass
         elif self.legID == 2:
