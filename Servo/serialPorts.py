@@ -15,8 +15,7 @@ if os.name == 'nt':
         try:
             key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path)
         except WindowsError:
-            #raise IterationError
-            pass
+            raise IterationError
         for i in itertools.count():
             try:
                 val = winreg.EnumValue(key, i)
