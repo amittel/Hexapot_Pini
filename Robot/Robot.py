@@ -287,7 +287,7 @@ def is_number(s):
 def testFunction():
     myRobot = Robot(True)
     
-    myRobot.iterate()
+    #myRobot.iterate()
 
 
 if __name__ == "__main__":
