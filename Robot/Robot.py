@@ -30,7 +30,7 @@ class Robot:
         self.accuracy = 4  # Amount of decimals
         self.walkingMode = WalkingMode.COSINE #Default Walkingmode
         self.trajectory = self.createTrajectory()
-        self.cycleTime = 0.1  # Time for each step size
+        self.cycleTime = 1  # Time for each step size
         self.CYCLETIMEMIN = 0.05 # Highest possible speed # TODO Testen was geht
         self.CYCLETIMEMAX = 1 # Lowest desired speed
         self.walkingAngle = 0  # Current movement angle
@@ -160,7 +160,7 @@ class Robot:
                         self.legs[i].setFootCoordinate(np.dot(rotationMatrix, curPos1))
                     elif i in self.legsGroup2:
                         self.legs[i].setFootCoordinate(np.dot(rotationMatrix, curPos2))
-                Servo.JointDrive.doActionAllServo()
+                Servo.jointdrive.JointDrive.doActionAllServo()
             else:
                 self.legs = []  # Clear legs for new positions
                 for i in range(0, 6):
