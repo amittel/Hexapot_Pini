@@ -52,7 +52,7 @@ class Robot:
             self.legs.append(Leg( 4, [14,16,18], [True,True,True]))
             self.legs.append(Leg( 5, [13,15,17], [True,True,True]))
             self.legs.append(Leg( 6, [7,9,11], [True,True,True]))
-            Servo.jointdrive.JointDrive.doActionAllServo()
+            #Servo.jointdrive.JointDrive.doActionAllServo()
 
         if not self.isReal:#Animation
             self.fig = plt.figure()
