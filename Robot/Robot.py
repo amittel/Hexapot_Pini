@@ -283,7 +283,7 @@ def is_number(s):
 #           TEST           #
 ############################
 def testFunction():
-    myRobot = Robot(False)
+    myRobot = Robot(True)
     myRobot.iterate()
 
 
