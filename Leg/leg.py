@@ -197,7 +197,7 @@ class Leg:
             Instanzen der Gelenkantriebe (Klasse JointDrive, Gruppe Antriebskommunikation)
             übergeben.
         '''
-
+        print("Pos before Offset: ", pos)
         # Setting offset for leg from origin B
         if self.legID == 3 or self.legID == 6:
             pos[1] = pos[1] + self.leg_Y[self.legID-1] + self.dims[0] # Y
@@ -206,6 +206,7 @@ class Leg:
             pos[0] = pos[0] + self.leg_X[self.legID-1] + self.dims[0] # X
             pos[2] = pos[2] - self.dims[1] # Z
 
+        print("Pos after Offset: ", pos)
         # Rotating local coordinates, so X is equal to our origin B
         self.rotateLegKoord(pos)
 
