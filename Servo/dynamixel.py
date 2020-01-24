@@ -112,7 +112,7 @@ class Dynamixel:
         command[self.PKT_CSUM]      = self.__checkSum(command)
 
         self.__sendCommand(command)
-        time.sleep(0.01)
+        
 
     # Read status packet, set error value and get return values from servo
     # nByte    -> number of bytes to read
@@ -180,7 +180,7 @@ class Dynamixel:
         command[self.PKT_CSUM]  = self.__checkSum(command)
 
         self.__sendCommand(command)
-        time.sleep(0.02)
+        
 
     """
     WRITE_DATA Write data words (16 bits) into the control table of the Dynamixel actuator

@@ -84,11 +84,11 @@ class Leg:
         
         #Robots has to do it.
         print(" Sending Cmds...")
-        servo.JointDrive.doActionAllServo()
+        #servo.JointDrive.doActionAllServo()
         #print("Current angle A: ", self.servoAlpha.getCurrentJointAngle())
         #print("Current angle B: ", self.servoBeta.getCurrentJointAngle())
         #print("Current angle G: ", self.servoGamma.getCurrentJointAngle())
-        time.sleep(3)
+        #time.sleep(3)
         print("--- End Init ---")
         # Used to define which leg and if it's coordinates need to be rotated
         #self.bodyLoc = bodyLoc_
