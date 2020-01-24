@@ -54,6 +54,7 @@ class Leg:
         self.servoBeta = servo.JointDrive(self.servoID[1])
         self.servoGamma = servo.JointDrive(self.servoID[2])
 
+        print("--- Leg ", self.legID )
         #Move leg into init Position
         print("Moving A")
         #print("Current angle: ", self.servoAlpha.getCurrentJointAngle())
