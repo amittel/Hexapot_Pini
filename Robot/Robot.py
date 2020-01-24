@@ -160,7 +160,7 @@ class Robot:
                         self.legs[i].setFootCoordinate(np.dot(rotationMatrix, curPos1))
                     elif i in self.legsGroup2:
                         self.legs[i].setFootCoordinate(np.dot(rotationMatrix, curPos2))
-                Servo.JointDrive.doActionAllServo()
+                Servo.jointdrive.JointDrive.doActionAllServo()
             else:
                 self.legs = []  # Clear legs for new positions
                 for i in range(0, 6):
