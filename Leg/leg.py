@@ -55,7 +55,7 @@ class Leg:
         self.servoBeta = servo.JointDrive(self.servoID[1])
         self.servoGamma = servo.JointDrive(self.servoID[2])
 
-        Servo.servo_ax12a.setReturnDelay(2, True)
+        #Servo.servo_ax12a.setReturnLevel(2, True)
 
         print("--- Leg ", self.legID )
         #Move leg into init Position
