@@ -65,7 +65,7 @@ class Leg:
         #Move leg into init Position
         print(" Moving A")
         
-        self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 100.0, True)
+        self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 25.0, True)
         
         #self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 50.0, True)
         #time.sleep(2)
@@ -73,12 +73,12 @@ class Leg:
         #print("Current angle: ", self.servoBeta.getCurrentJointAngle())
         #self.servoBeta.setMovingSpeed(50,True)
         #self.servoBeta.setDesiredJointAngle(self.initAngle)
-        self.servoBeta.setDesiredAngleAndMotorLoad(self.initAngle, 100.0, True)
+        self.servoBeta.setDesiredAngleAndMotorLoad(self.initAngle, 25.0, True)
         #time.sleep(2)
         print(" Moving G")
         #self.servoGamma.setMovingSpeed(50,True)
         #self.servoGamma.setDesiredJointAngle(self.initAngle)
-        self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 100.0, True)
+        self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 25.0, True)
         #time.sleep(2)
 
         
