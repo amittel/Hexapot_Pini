@@ -29,12 +29,14 @@ class Leg:
         self.leg_X = (0.033, 0.033, 0, -0.033,-0.033,0)
         self.leg_Y = (-0.033, 0.033, 0.044, 0.033, -0.033, -0.044)
 
+        print("--- Leg ", self.legID )
+
         # Length of legs
         if self.legID == 3 or self.legID == 6:
-            print("Länge Bein 3 or 6")
+            print(" Länge Bein 3 or 6")
             self.dims = [0.030,0.04,0.053,0.062,0.02,0.005,0.096]
         else:
-            print("Länge Bein 1, 2, 4 or 5")
+            print(" Länge Bein 1, 2, 4 or 5")
             self.dims = [0.043,0.04,0.053,0.062,0.02,0.005,0.096]
         
         self.lc = self.dims[2]
@@ -52,28 +54,28 @@ class Leg:
         self.rotGamma = rotation[2]
 
         
-
+        print(" Init Servos")
         self.servoAlpha = servo.JointDrive(self.servoID[0])
         self.servoBeta = servo.JointDrive(self.servoID[1])
         self.servoGamma = servo.JointDrive(self.servoID[2])
 
         #Servo.servo_ax12a.setReturnLevel(2, True)
 
-        print("--- Leg ", self.legID )
+        
         #Move leg into init Position
-        print("Moving A")
+        print(" Moving A")
         
         self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 100.0, False)
         
         #self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 50.0, True)
         #time.sleep(2)
-        print("Moving B")
+        print(" Moving B")
         #print("Current angle: ", self.servoBeta.getCurrentJointAngle())
         #self.servoBeta.setMovingSpeed(50,True)
         #self.servoBeta.setDesiredJointAngle(self.initAngle)
         self.servoBeta.setDesiredAngleAndMotorLoad(self.initAngle, 100.0, False)
         #time.sleep(2)
-        print("Moving G")
+        print(" Moving G")
         #self.servoGamma.setMovingSpeed(50,True)
         #self.servoGamma.setDesiredJointAngle(self.initAngle)
         self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 100.0, False)
@@ -81,7 +83,7 @@ class Leg:
 
         
         #Robots has to do it.
-        print("Sending Cmds...")
+        print(" Sending Cmds...")
         servo.JointDrive.doActionAllServo()
         #print("Current angle A: ", self.servoAlpha.getCurrentJointAngle())
         #print("Current angle B: ", self.servoBeta.getCurrentJointAngle())
