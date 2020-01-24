@@ -37,10 +37,20 @@ class JointDrive(ServoAx12a):
     def __init__(self, servoId, ccw=False, aOffset=0.0, aMax=math.pi * 2, aMin=-math.pi * 2):
         self.id = servoId
         self.counterClockWise = ccw
+        """        
         self.angleMax = aMax if (
                 aMin < aMax <= self._ANGLE_RADIAN_MAX and aMax >= self._ANGLE_RADIAN_MIN) else self._ANGLE_RADIAN_MAX
         self.angleMin = aMin if (
                 aMax > aMin >= self._ANGLE_RADIAN_MIN and aMin <= self._ANGLE_RADIAN_MAX) else self._ANGLE_RADIAN_MIN
+        """
+        self.angleMax = + JointDrive._ANGLE_RADIAN_ZERO
+        self.angleMin = - JointDrive._ANGLE_RADIAN_ZERO
+        if aMax < aMin or aMax > self.angleMax:
+            aMax = self.angleMax
+        self.angleMax = aMax
+        if aMin > aMax or aMin < self.angleMin:
+            aMin = self.angleMin
+        self.angleMin = aMin
         self.angleOffset = aOffset
         self.curAngle = 0
         super().__init__(servoId)
@@ -48,6 +58,11 @@ class JointDrive(ServoAx12a):
     # Converts angle in radian to servo ticks
     # angle -> in radian, returns angle in servo ticks
     def __convertAngleToTicks(self, angle: float) -> int:
+        if angle < self.angleMin:
+            angle = self.angleMin
+        if angle > self.angleMax:
+            angle = self.angleMax
+
         if self.counterClockWise:
             angle = self._ANGLE_RADIAN_ZERO + self.angleOffset + angle
         else:
@@ -90,15 +105,6 @@ class JointDrive(ServoAx12a):
     # angle -> in radian,
     def setDesiredJointAngle(self, angle: float, trigger: bool = False) -> bool:
         # convert angle to positive if needed
-        if angle < 0:
-            angle += abs(angle // self._CONST_CIRCLE_RADIAN + 1) * self._CONST_CIRCLE_RADIAN
-
-        angle = angle // self._CONST_CIRCLE_RADIAN
-        if angle > self.angleMax:
-            angle = self.angleMax
-        if angle < self.angleMin:
-            angle = self.angleMin
-
         success = self.setGoalPosition(self.__convertAngleToTicks(angle), trigger)
         if success:
             self.curAngle -= angle
@@ -110,14 +116,6 @@ class JointDrive(ServoAx12a):
     # speed -> speed of movement in rpm, speed = 0 -> maximum speed
     def setDesiredAngleSpeed(self, angle: float, speed: float = 0, trigger: bool = False) -> bool:
         # convert angle to positive if needed
-        if angle < 0:
-            angle += abs(angle // self._CONST_CIRCLE_RADIAN + 1) * self._CONST_CIRCLE_RADIAN
-
-        angle = angle // self._CONST_CIRCLE_RADIAN
-        if angle > self.angleMax:
-            angle = self.angleMax
-        if angle < self.angleMin:
-            angle = self.angleMin
 
         speed_in_ticks = self.__convertSpeedToTicks(speed)
         angle_in_ticks = self.__convertAngleToTicks(angle)
@@ -132,18 +130,8 @@ class JointDrive(ServoAx12a):
     # angle -> in radian
     # motor_load -> in radian
     def setDesiredAngleAndMotorLoad(self, angle: float, motor_load: float = 0, trigger: bool = False) -> bool:
-        # convert angle to positive if needed
-        if angle < 0:
-            angle += abs(angle // self._CONST_CIRCLE_RADIAN + 1) * self._CONST_CIRCLE_RADIAN
-
-        angle = angle // self._CONST_CIRCLE_RADIAN
-        if angle > self.angleMax:
-            angle = self.angleMax
-        if angle < self.angleMin:
-            angle = self.angleMin
-
         if 0 < motor_load <= 100:
-            speed_in_ticks = int(round(motor_load * self._SPEED_MAX_TICKS))
+            speed_in_ticks = int(round(motor_load * self._SPEED_MAX_TICKS / 100))
             angle_in_ticks = self.__convertAngleToTicks(angle)
 
             success = self.setGoalPosSpeed(angle_in_ticks, speed_in_ticks, trigger)
