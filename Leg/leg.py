@@ -5,6 +5,7 @@
 
 import math
 import numpy as np
+import time
 
 # Getting the imports right.
 import os, sys
@@ -16,6 +17,9 @@ class Leg:
         self.legID = legID
         self.servoID = legServos
         self.rotation = rotation
+
+        self.initAngle = 0.0
+        self.oldAngles = (0,0,0)
 
         # Offset from base to leg [m]
         self.leg_X = (0.033, 0.033, 0, -0.033,-0.033,0)
@@ -43,7 +47,7 @@ class Leg:
         self.rotBeta = rotation[1]
         self.rotGamma = rotation[2]
 
-        self.initAngle = 0.0
+        
 
         self.servoAlpha = servo.JointDrive(self.servoID[0])
         self.servoBeta = servo.JointDrive(self.servoID[1])
@@ -55,13 +59,13 @@ class Leg:
         self.servoAlpha.setMovingSpeed(50,True)
         self.servoAlpha.setDesiredJointAngle(self.initAngle)
         #self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 50.0, True)
-        #sleep(1)
+        time.sleep(1)
         print("B")
         #print("Current angle: ", self.servoBeta.getCurrentJointAngle())
         #self.servoBeta.setMovingSpeed(50,True)
         #self.servoBeta.setDesiredJointAngle(self.initAngle)
         self.servoBeta.setDesiredAngleAndMotorLoad(self.initAngle, 50.0, True)
-        #sleep(1)
+        time.sleep(1)
         print("Moving G")
         #self.servoGamma.setMovingSpeed(50,True)
         #self.servoGamma.setDesiredJointAngle(self.initAngle)
@@ -134,8 +138,24 @@ class Leg:
         except Exception as e:
             print("Error forward kinematics: " + str(e))
 
-    def moveTo(self, pos_):
-        pass
+    def moveTo(self, angles, speeds):
+
+        #Copying angles for next step to calc velocity
+        self.oldAngles = angles
+
+        alphaAngle = angles[0]
+        betaAngle = angles[1]
+        gammaAngle = angles[2]
+
+        alphaSpeed = speeds[0]
+        betaSpeed = speeds[1]
+        gammaSpeed = speeds[2]
+
+        self.servoAlpha.setDesiredAngleAndMotorLoad(alphaAngle, alphaSpeed, True)
+        self.servoBeta.setDesiredAngleAndMotorLoad(betaAngle, betaSpeed, True)
+        self.servoGamma.setDesiredAngleAndMotorLoad(gammaAngle, gammaSpeed, True)
+
+
 
     def calcJointAngles(self, pos):
         ''' Leg hat u.a. eine Abfragemethode (calcJointAngles), der x,y und z-Koordinaten
@@ -144,11 +164,13 @@ class Leg:
         '''
         alpha, beta, gamma = self.invKinAlphaJoint(pos)
 
+        return (alpha, beta, gamma)
+
         # Send angles to servos
         #servo.JointDrive.setDesiredJointAngle()
-        self.servoAlpha.setDesiredJointAngle(alpha)
-        self.servoBeta.setDesiredJointAngle(beta)
-        self.servoGamma.setDesiredJointAngle(gamma)
+        #self.servoAlpha.setDesiredJointAngle(alpha)
+        #self.servoBeta.setDesiredJointAngle(beta)
+        #self.servoGamma.setDesiredJointAngle(gamma)
 
 
     def calcFootCoordinate(self, alpha, beta, gamma):
@@ -178,11 +200,14 @@ class Leg:
         # Rotating local coordinates, so X is equal to our origin B
         self.rotateLegKoord(pos)
 
+        # calc angles from pos
+        curAngles= self.calcJointAngles(pos)
 
-        self.calcJointAngles(pos)
-        
+        speeds = self.setVelocity(self.oldAngles, curAngles)
 
-        pass
+        self.moveTo(curAngles, speeds)
+
+
     #def printId(self):
     #    print("Coxa/Femur/Tibia: "+ str(self.cox.gievId()) + "/" +str(self.fem.gievId())+ "/" + str(self.tib.gievId()))
 
@@ -281,7 +306,8 @@ def drawRobot():
             print(e)
 '''
 
-
+'''
 if __name__ == "__main__":
     #drawRobot()
     tableLeg = Leg(1, [1, 3, 5], [True, True, True])
+'''
