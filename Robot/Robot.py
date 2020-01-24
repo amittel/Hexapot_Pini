@@ -284,7 +284,7 @@ def is_number(s):
 ############################
 def testFunction():
     myRobot = Robot(True)
-    time.sleep(15)
+    
     myRobot.iterate()
 
 
