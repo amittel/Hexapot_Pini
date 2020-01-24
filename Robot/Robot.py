@@ -153,7 +153,6 @@ class Robot:
             curPos1 = copy.deepcopy(self.trajectory[indexLegs1])
             curPos2 = copy.deepcopy(self.trajectory[indexLegs2])
             rotationMatrix = self.rotationMatrixZ(self.walkingAngle)
-            self.legs = []  # Clear legs for new positions
             # Append current coordinates for each leg
             if self.isReal:
                 for i in range(0, 6):
@@ -163,6 +162,7 @@ class Robot:
                         self.legs[i].setFootCoordinate(np.dot(rotationMatrix, curPos2))
                 Servo.JointDrive.doActionAllServo()
             else:
+                self.legs = []  # Clear legs for new positions
                 for i in range(0, 6):
                     if i in self.legsGroup1:
                         self.legs.append(np.dot(np.dot(self.translationMatrix[i], rotationMatrix), curPos1))
