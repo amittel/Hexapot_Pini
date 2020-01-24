@@ -140,7 +140,7 @@ class Robot:
                     if is_number(comData["Geschwindigkeit"]):
                         # TODO Umrechnen von Prozent in cycleTime
                         percentValue = comData["Geschwindigkeit"]
-                        self.cycleTime = self.CYCLETIMEMIN - percentValue * (self.CYCLETIMEMIN - self.CYCLETIMEMAX)
+                        self.cycleTime = self.CYCLETIMEMIN + (1-percentValue) * (self.CYCLETIMEMAX - self.CYCLETIMEMIN)
 
                     if is_number(comData["Angehoben"]):
                         if float(comData["Angehoben"]) <= 1:
