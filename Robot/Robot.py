@@ -46,12 +46,12 @@ class Robot:
             # COM-Object for input from GUI
             self.com = testCom.testCom()
             #Legs
-            self.legs.append(Leg( 1, [1,3,5], [True,True,True]))
+            #self.legs.append(Leg( 1, [1,3,5], [True,True,True]))
             self.legs.append(Leg( 2, [2,4,6], [True,True,True]))
-            self.legs.append(Leg( 3, [8,10,12], [True,True,True]))
-            self.legs.append(Leg( 4, [14,16,18], [True,True,True]))
+            #self.legs.append(Leg( 3, [8,10,12], [True,True,True]))
+            #self.legs.append(Leg( 4, [14,16,18], [True,True,True]))
             self.legs.append(Leg( 5, [13,15,17], [True,True,True]))
-            self.legs.append(Leg( 6, [7,9,11], [True,True,True]))
+            #self.legs.append(Leg( 6, [7,9,11], [True,True,True]))
         if not self.isReal:#Animation
             self.fig = plt.figure()
             self.ax1 = p3.Axes3D(self.fig)
