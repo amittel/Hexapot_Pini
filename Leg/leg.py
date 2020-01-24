@@ -12,6 +12,7 @@ import time
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 import Servo.jointdrive as servo
+import Servo.servo_ax12a
 
 class Leg:
     def __init__(self, legID, legServos, rotation):
@@ -53,6 +54,8 @@ class Leg:
         self.servoAlpha = servo.JointDrive(self.servoID[0])
         self.servoBeta = servo.JointDrive(self.servoID[1])
         self.servoGamma = servo.JointDrive(self.servoID[2])
+
+        Servo.servo_ax12a.setReturnDelay(2, True)
 
         print("--- Leg ", self.legID )
         #Move leg into init Position
