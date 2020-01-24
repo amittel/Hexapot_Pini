@@ -43,8 +43,8 @@ class JointDrive(ServoAx12a):
         self.angleMin = aMin if (
                 aMax > aMin >= self._ANGLE_RADIAN_MIN and aMin <= self._ANGLE_RADIAN_MAX) else self._ANGLE_RADIAN_MIN
         """
-        self.angleMax = + JointDrive._ANGLE_RADIAN_ZERO
-        self.angleMin = - JointDrive._ANGLE_RADIAN_ZERO
+        self.angleMax = self._ANGLE_RADIAN_MAX
+        self.angleMin = self._ANGLE_RADIAN_MIN
         if aMax < aMin or aMax > self.angleMax:
             aMax = self.angleMax
         self.angleMax = aMax
@@ -64,9 +64,9 @@ class JointDrive(ServoAx12a):
             angle = self.angleMax
 
         if self.counterClockWise:
-            angle = self._ANGLE_RADIAN_ZERO + self.angleOffset + angle
+            angle = angle + self.angleOffset
         else:
-            angle = self._ANGLE_RADIAN_ZERO - self.angleOffset - angle
+            angle = angle - self.angleOffset
 
         return int(round(abs(self._CONST_ANGLE_TO_TICKS * angle)))
 
