@@ -44,7 +44,7 @@ class ServoAx12a(Dynamixel):
     # Constructor, return level and return delay are set
     def __init__(self, servoId):
         super().__init__(servoId)
-        self.setReturnLevel(self.RETURN_LEVEL_ALL_COMMANDS)
+        self.setReturnLevel(self.RETURN_LEVEL_READ_COMMANDS)
         self.setReturnDelay(self.RETURN_DELAY_VALUE)
 
     # Getter methods for servo Ax12a
