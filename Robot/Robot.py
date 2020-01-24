@@ -46,10 +46,10 @@ class Robot:
             # COM-Object for input from GUI
             self.com = testCom.testCom()
             #Legs
-            #self.legs.append(Leg( 1, [1,3,5], [True,True,True]))
+            self.legs.append(Leg( 1, [1,3,5], [True,True,True]))
             self.legs.append(Leg( 2, [2,4,6], [True,True,True]))
-            #self.legs.append(Leg( 3, [8,10,12], [True,True,True]))
-            #self.legs.append(Leg( 4, [14,16,18], [True,True,True]))
+            self.legs.append(Leg( 3, [8,10,12], [True,True,True]))
+            self.legs.append(Leg( 4, [14,16,18], [True,True,True]))
             self.legs.append(Leg( 5, [13,15,17], [True,True,True]))
             #self.legs.append(Leg( 6, [7,9,11], [True,True,True]))
         if not self.isReal:#Animation
@@ -90,7 +90,7 @@ class Robot:
                     [0, 0, 0, 1]])])
 
     def iterate(self):
-        os.system("cls")  # Supposed to clear console
+        #os.system("cls")  # Supposed to clear console
         indexLegs1 = -1  # Index in trajectory of three legs that start swinging (-1 cuz it starts to count up in loop)
         indexLegs2 = int(len(self.trajectory) / 2 - 1)  # Index in trajectory of three legs that start stemming  (-1
         # cuz it starts to count up in loop)
