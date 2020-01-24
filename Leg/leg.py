@@ -77,6 +77,7 @@ class Leg:
         #Robots has to do it.
         print("Sending Cmds...")
         servo.JointDrive.doActionAllServo()
+        time.sleep(2)
         print("--- End Init ---")
         # Used to define which leg and if it's coordinates need to be rotated
         #self.bodyLoc = bodyLoc_
