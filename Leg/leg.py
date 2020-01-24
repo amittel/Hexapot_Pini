@@ -249,9 +249,9 @@ class Leg:
     def rotateLegKoord(self, pos):
         
         if self.legID == 1:
-            pass
+            return
         elif self.legID == 2:
-            pass
+            return
         elif self.legID == 3: # Rotate -90 deg (cw)
             cos = 0
             sin = -1
