@@ -59,18 +59,18 @@ class Leg:
         #print("Current angle: ", self.servoAlpha.getCurrentJointAngle())
         self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 100.0, False)
         #self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 50.0, True)
-        time.sleep(0.5)
+        time.sleep(2)
         print("Moving B")
         #print("Current angle: ", self.servoBeta.getCurrentJointAngle())
         #self.servoBeta.setMovingSpeed(50,True)
         #self.servoBeta.setDesiredJointAngle(self.initAngle)
         self.servoBeta.setDesiredAngleAndMotorLoad(self.initAngle, 100.0, False)
-        time.sleep(0.5)
+        time.sleep(2)
         print("Moving G")
         #self.servoGamma.setMovingSpeed(50,True)
         #self.servoGamma.setDesiredJointAngle(self.initAngle)
         self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 100.0,False)
-        time.sleep(0.5)
+        time.sleep(2)
 
         
         #Robots has to do it.
