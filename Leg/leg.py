@@ -55,12 +55,12 @@ class Leg:
         self.servoGamma = servo.JointDrive(self.servoID[2])
 
         #Move leg into init Position
-        print("A")
+        print("Moving A")
         #print("Current angle: ", self.servoAlpha.getCurrentJointAngle())
         self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 100.0, False)
         #self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 50.0, True)
         time.sleep(0.5)
-        print("B")
+        print("Moving B")
         #print("Current angle: ", self.servoBeta.getCurrentJointAngle())
         #self.servoBeta.setMovingSpeed(50,True)
         #self.servoBeta.setDesiredJointAngle(self.initAngle)
@@ -71,10 +71,12 @@ class Leg:
         #self.servoGamma.setDesiredJointAngle(self.initAngle)
         self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 100.0,False)
         time.sleep(0.5)
+
         
         #Robots has to do it.
+        print("Sending Cmds...")
         servo.JointDrive.doActionAllServo()
-
+        print("--- End Init ---")
         # Used to define which leg and if it's coordinates need to be rotated
         #self.bodyLoc = bodyLoc_
 
