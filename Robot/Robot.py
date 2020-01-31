@@ -35,6 +35,8 @@ class Robot:
         self.CYCLETIMEMAX = 1 # Lowest desired speed
         self.walkingAngle = 0  # Current movement angle
         self.legs = []
+        self.Homepositions= [(0.15,-0.08,-0.08),(0.15,0.08,-0.08),(0,0.16,-0.08),
+                             (-0.13,0.06,-0.08),(-0.13,-0.06,-0.08),(0,-0.08,-0.08)]
         # Group 1 starts swinging
         # Consists of front right, middle left and back right
         self.legsGroup1 = [0, 2, 4]
@@ -46,12 +48,12 @@ class Robot:
             # COM-Object for input from GUI
             self.com = testCom.testCom()
             #Legs
-            self.legs.append(Leg( 1, [1,3,5], [True,True,True]))
-            self.legs.append(Leg( 2, [2,4,6], [True,True,True]))
-            self.legs.append(Leg( 3, [8,10,12], [True,True,True]))
-            self.legs.append(Leg( 4, [14,16,18], [True,True,True]))
-            self.legs.append(Leg( 5, [13,15,17], [True,True,True]))
-            self.legs.append(Leg( 6, [7,9,11], [True,True,True]))
+            self.legs.append(Leg( 1, [1,3,5], [True,False,True]))
+            self.legs.append(Leg( 2, [2,4,6], [True,True,False]))
+            self.legs.append(Leg( 3, [8,10,12], [True,False,True]))
+            self.legs.append(Leg( 4, [14,16,18], [False,False,True]))
+            self.legs.append(Leg( 5, [13,15,17], [False,True,False]))
+            self.legs.append(Leg( 6, [7,9,11], [True,True,False]))    #[True,True,False] vlt. besser
             #Servo.jointdrive.JointDrive.doActionAllServo()
 
         if not self.isReal:#Animation
@@ -157,12 +159,27 @@ class Robot:
             rotationMatrix = self.rotationMatrixZ(self.walkingAngle)
             # Append current coordinates for each leg
             if self.isReal:
+
                 for i in range(0, 6):
+                    print("Leg",i+1)
+
+                    m1 = 0.05* np.dot(rotationMatrix, curPos1)
+                    m2 = 0.05*np.dot(rotationMatrix, curPos2)
+                    print("m2", m2)
+                    print("m1", m1)
                     if i in self.legsGroup1:
-                        self.legs[i].setFootCoordinate(0.05*np.dot(rotationMatrix, curPos1))
+                        m1[0] += self.Homepositions[i][0]
+                        m1[1] += self.Homepositions[i][1]
+                        m1[2] += self.Homepositions[i][2]
+                        self.legs[i].setFootCoordinate(m1)
+
                     elif i in self.legsGroup2:
-                        self.legs[i].setFootCoordinate(0.05*np.dot(rotationMatrix, curPos2))
+                        m2[0] += self.Homepositions[i][0]
+                        m2[1] += self.Homepositions[i][1]
+                        m2[2] += self.Homepositions[i][2]
+                        self.legs[i].setFootCoordinate(m2)
                 Servo.jointdrive.JointDrive.doActionAllServo()
+
             else:
                 self.legs = []  # Clear legs for new positions
                 for i in range(0, 6):
@@ -287,7 +304,7 @@ def is_number(s):
 def testFunction():
     myRobot = Robot(True)
     
-    #myRobot.iterate()
+    myRobot.iterate()
 
 
 if __name__ == "__main__":

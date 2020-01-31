@@ -29,11 +29,12 @@ class Leg:
         self.leg_X = (0.033, 0.033, 0, -0.033,-0.033,0)
         self.leg_Y = (-0.033, 0.033, 0.044, 0.033, -0.033, -0.044)
 
-        #Offset angles for leg to reach zero degree
-        self.offsetBetaAngle = math.radians(30.0)  # 17.87 + 11.76
-        self.offsetGammaAngle = math.radians(12.0) # 11.76
+        # Offset angles for leg to reach zero degree
+        offsetBetaAngle = math.radians(17)
+        offsetAlphaAngle = 0
+        offsetGammaAngle = math.radians(75)  # 11.76
 
-        print("--- Leg ", self.legID )
+        print("--- Leg ", self.legID)
 
         # Length of legs
         if self.legID == 3 or self.legID == 6:
@@ -59,9 +60,9 @@ class Leg:
 
         
         print(" Init Servos")
-        self.servoAlpha = servo.JointDrive(self.servoID[0])
-        self.servoBeta = servo.JointDrive(self.servoID[1])
-        self.servoGamma = servo.JointDrive(self.servoID[2])
+        self.servoAlpha = servo.JointDrive(self.servoID[0],rotation[0], offsetAlphaAngle)
+        self.servoBeta = servo.JointDrive(self.servoID[1],rotation[1],offsetBetaAngle )
+        self.servoGamma = servo.JointDrive(self.servoID[2],rotation[2],offsetGammaAngle)
 
         #Servo.servo_ax12a.setReturnLevel(2, True)
         time.sleep(0.1)
@@ -210,10 +211,10 @@ class Leg:
         print("Pos before Offset: ", pos)
         # Setting offset for leg from origin B
         if self.legID == 3 or self.legID == 6:
-            pos[1] = pos[1] + self.leg_Y[self.legID-1] + self.dims[0] # Y
+            pos[1] = pos[1] - self.leg_Y[self.legID-1] - self.dims[0] # Y
             pos[2] = pos[2] - self.dims[1] # Z
         else:
-            pos[0] = pos[0] + self.leg_X[self.legID-1] + self.dims[0] # X
+            pos[0] = pos[0] - self.leg_X[self.legID-1] - self.dims[0] # X
             pos[2] = pos[2] - self.dims[1] # Z
 
         print("Pos after Offset: ", pos)
@@ -232,7 +233,7 @@ class Leg:
     #    print("Coxa/Femur/Tibia: "+ str(self.cox.gievId()) + "/" +str(self.fem.gievId())+ "/" + str(self.tib.gievId()))
 
 
-    def setVelocity(self, oldAngle, newAngle, velocity = 100):
+    def setVelocity(self, oldAngle, newAngle, velocity = 25):
         
         # Calc'ing the diff between new and old angle
         a = abs(newAngle[0] - oldAngle[0])
