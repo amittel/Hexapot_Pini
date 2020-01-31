@@ -159,9 +159,9 @@ class Robot:
             if self.isReal:
                 for i in range(0, 6):
                     if i in self.legsGroup1:
-                        self.legs[i].setFootCoordinate(np.dot(rotationMatrix, curPos1))
+                        self.legs[i].setFootCoordinate(0.05*np.dot(rotationMatrix, curPos1))
                     elif i in self.legsGroup2:
-                        self.legs[i].setFootCoordinate(np.dot(rotationMatrix, curPos2))
+                        self.legs[i].setFootCoordinate(0.05*np.dot(rotationMatrix, curPos2))
                 Servo.jointdrive.JointDrive.doActionAllServo()
             else:
                 self.legs = []  # Clear legs for new positions
