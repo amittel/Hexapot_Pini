@@ -29,6 +29,10 @@ class Leg:
         self.leg_X = (0.033, 0.033, 0, -0.033,-0.033,0)
         self.leg_Y = (-0.033, 0.033, 0.044, 0.033, -0.033, -0.044)
 
+        #Offset angles for leg to reach zero degree
+        self.offsetBetaAngle = math.radians(30.0)  # 17.87 + 11.76
+        self.offsetGammaAngle = math.radians(12.0) # 11.76
+
         print("--- Leg ", self.legID )
 
         # Length of legs
