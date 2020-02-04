@@ -70,7 +70,7 @@ class Leg:
         #Move leg into init Position
         print(" Moving A")
         
-        self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 5.0, True)
+        self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 25.0, True)
         
         #self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 50.0, True)
         #time.sleep(2)
@@ -78,12 +78,12 @@ class Leg:
         #print("Current angle: ", self.servoBeta.getCurrentJointAngle())
         #self.servoBeta.setMovingSpeed(50,True)
         #self.servoBeta.setDesiredJointAngle(self.initAngle)
-        self.servoBeta.setDesiredAngleAndMotorLoad(self.initAngle, 5.0, True)
+        self.servoBeta.setDesiredAngleAndMotorLoad(self.initAngle, 25.0, True)
         #time.sleep(2)
         print(" Moving G")
         #self.servoGamma.setMovingSpeed(50,True)
         #self.servoGamma.setDesiredJointAngle(self.initAngle)
-        self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 5.0, True)
+        self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 25.0, True)
         #time.sleep(2)
 
         
@@ -171,9 +171,9 @@ class Leg:
         betaSpeed = speeds[1]
         gammaSpeed = speeds[2]
 
-        self.servoAlpha.setDesiredAngleAndMotorLoad(alphaAngle, alphaSpeed, True)
-        self.servoBeta.setDesiredAngleAndMotorLoad(betaAngle, betaSpeed, True)
-        self.servoGamma.setDesiredAngleAndMotorLoad(gammaAngle, gammaSpeed, True)
+        self.servoAlpha.setDesiredAngleAndMotorLoad(alphaAngle, alphaSpeed, False)
+        self.servoBeta.setDesiredAngleAndMotorLoad(betaAngle, betaSpeed, False)
+        self.servoGamma.setDesiredAngleAndMotorLoad(gammaAngle, gammaSpeed, False)
 
 
 
@@ -217,9 +217,10 @@ class Leg:
             pos[0] = pos[0] - self.leg_X[self.legID-1] - self.dims[0] # X
             pos[2] = pos[2] - self.dims[1] # Z
 
-        print("Pos after Offset: ", pos)
+        #print("Pos after Offset: ", pos)
         # Rotating local coordinates, so X is equal to our origin B
         self.rotateLegKoord(pos)
+        #print("pos after rotate",pos)
 
         # calc angles from pos
         curAngles= self.calcJointAngles(pos)
@@ -276,9 +277,10 @@ class Leg:
             cos = 0
             sin = 1
         
-        pos[0] = cos * pos[0] - sin * pos[1] # rotated X
-        pos[1] = sin * pos[0] + cos * pos[1] # rotated Y 
-
+        newX = cos * pos[0] - sin * pos[1] # rotated X
+        newY = sin * pos[0] + cos * pos[1] # rotated Y
+        pos[0] = newX
+        pos[1] = newY
         return pos
 
 

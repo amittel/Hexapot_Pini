@@ -13,7 +13,7 @@ class Com:
    
     def __init__(self, ip="172.16.137.133", port="5556", server=True):
 
-        self.data = {"Winkelrichtung": 0, "Geschwindigkeit": 0, "Angehoben": 0, 'InitPosition': 0}
+        self.data = {"Winkelrichtung": 0, "Geschwindigkeit": 1, "Angehoben": 0, 'InitPosition': 0}
         context = zmq.Context()
         self.socket = context.socket(zmq.PAIR)
 
