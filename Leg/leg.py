@@ -95,23 +95,6 @@ class Leg:
         #print("Current angle G: ", self.servoGamma.getCurrentJointAngle())
         #time.sleep(3)
         print("--- End Init ---")
-        # Used to define which leg and if it's coordinates need to be rotated
-        #self.bodyLoc = bodyLoc_
-
-        # Servo init position
-        #self.startPos = startPos_
-
-        # Vector of 3 ints, servos from body to tibia
-        #self.cox = sD.servo(servoIds_[0])
-        #self.fem = sD.servo(servoIds_[1])
-        #self.tib = sD.servo(servoIds_[2])
-
-        # Set servo speeds
-
-
-        # moves to init position
-        #self.moveTo(startPos_)
-
 
     def getLegLength(self):
         return (self.lc, self.lf, self.lt)
@@ -228,11 +211,6 @@ class Leg:
         speeds = self.setVelocity(self.oldAngles, curAngles)
 
         self.moveTo(curAngles, speeds)
-
-
-    #def printId(self):
-    #    print("Coxa/Femur/Tibia: "+ str(self.cox.gievId()) + "/" +str(self.fem.gievId())+ "/" + str(self.tib.gievId()))
-
 
     def setVelocity(self, oldAngle, newAngle, velocity = 25):
         
