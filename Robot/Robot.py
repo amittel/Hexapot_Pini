@@ -27,10 +27,11 @@ class Robot:
         self.isReal = isReal  # Flag if the robot is simulated (animation) or real (no animation)
         self.stepSize = 0.1  # Spacing of trajectory points
         self.stepHeight = 0.5  # Working area from 0 to 1
+        self.MINSTEPHEIGHT = 0.3 #Defines minimum Stepheight
         self.accuracy = 4  # Amount of decimals
-        self.walkingMode = WalkingMode.COSINE #Default Walkingmode
+        self.walkingMode = WalkingMode.COSINE # Default Walkingmode
         self.trajectory = self.createTrajectory()
-        self.cycleTime = 1  # Time for each step size
+        self.cycleTime = 1  # Time for each move (Simulation)
         self.CYCLETIMEMIN = 0.05 # Highest possible speed # TODO Testen was geht
         self.CYCLETIMEMAX = 1 # Lowest desired speed
         self.walkingAngle = 0  # Current movement angle
@@ -54,9 +55,8 @@ class Robot:
             self.legs.append(Leg( 4, [14,16,18], [True,False,True]))
             self.legs.append(Leg( 5, [13,15,17], [False,True,False]))
             self.legs.append(Leg( 6, [7,9,11], [True,True,False]))
-            #Servo.jointdrive.JointDrive.doActionAllServo()
 
-        if not self.isReal:# Animation
+        if not self.isReal:  #Animation
             self.fig = plt.figure()
             self.ax1 = p3.Axes3D(self.fig)
             self.init_plotting()
@@ -115,8 +115,6 @@ class Robot:
             if indexLegs2 == len(self.trajectory):
                 indexLegs2 = 0
             # For animation. Changes only apply when three legs are at their highest position
-            # TODO: COM OBJEKT AUSLESEN
-
             if (indexLegs1 == 0 or indexLegs2 == 0):
                 if not self.isReal:
                     # Angle & Step height
@@ -139,18 +137,19 @@ class Robot:
                     # Read COM Data
                     comData = self.com.readData()
                     # {'Winkelrichtung': 0, 'Geschwindigkeit': 0, 'Angehoben': 0, 'InitPosition': 0}
+
                     if is_number(comData["Winkelrichtung"]):
                         self.walkingAngle = comData["Winkelrichtung"]
+
                     if is_number(comData["Geschwindigkeit"]):
-                        # TODO Umrechnen von Prozent in cycleTime
                         percentValue = comData["Geschwindigkeit"]
                         self.cycleTime = self.CYCLETIMEMIN + (1-percentValue) * (self.CYCLETIMEMAX - self.CYCLETIMEMIN)
 
                     if is_number(comData["Angehoben"]):
                         if float(comData["Angehoben"]) <= 1:
                             self.stepHeight = float(comData["Angehoben"])
-                            if float(comData["Angehoben"]) <= 0.3:
-                                self.stepHeight = 0.3
+                            if float(comData["Angehoben"]) <= self.MINSTEPHEIGHT:
+                                self.stepHeight = self.MINSTEPHEIGHT
                             self.trajectory = self.createTrajectory()  # Recalculate trajectory
             #############
             #     V     #
@@ -163,16 +162,14 @@ class Robot:
             if self.isReal:
 
                 for i in range(0, 6):
-
-                    m1 = 0.05* np.dot(rotationMatrix, curPos1)
+                    m1 = 0.05*np.dot(rotationMatrix, curPos1)
                     m2 = 0.05*np.dot(rotationMatrix, curPos2)
+
                     if i in self.legsGroup1:
                         m1[0] += self.Homepositions[i][0]
                         m1[1] += self.Homepositions[i][1]
                         m1[2] += self.Homepositions[i][2]
                         self.legs[i].setFootCoordinate(m1)
-
-
 
                     elif i in self.legsGroup2:
                         m2[0] += self.Homepositions[i][0]
