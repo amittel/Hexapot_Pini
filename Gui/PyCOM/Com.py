@@ -11,7 +11,7 @@ class Com:
    # ip Marko NB       192.168.137.1
    # ip TMR - Marko NB 192.168.137.61
    
-    def __init__(self, ip="172.16.137.133", port="5556", server=True):
+    def __init__(self, ip="10.134.31.0", port="5556", server=True):
 
         self.data = {"Winkelrichtung": 0, "Geschwindigkeit": 1, "Angehoben": 0, 'InitPosition': 0}
         context = zmq.Context()

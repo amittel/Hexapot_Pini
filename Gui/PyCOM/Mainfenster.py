@@ -80,7 +80,7 @@ class MyWindow(QtWidgets.QMainWindow):
     # Connect to server
     def connect(self):
         # ip = textinput in QtDesigner implementieren
-        self.client = Com(ip="127.0.0.1", server=False)
+        self.client = Com(ip="10.134.31.0", server=False)
         self.send_thread.start()
 
     # Set direction

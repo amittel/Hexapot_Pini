@@ -10,7 +10,7 @@ class testCom:
         # vm ip:            172.16.137.133
         # server ip:        172.16.137.1
         # localhost ip:     127.0.0.1
-        self.server = Com(ip="127.0.0.1", port="5557", server=True)
+        self.server = Com(ip="10.134.31.0", port="5557", server=True)
         self.data = {'Winkelrichtung': 0, 'Geschwindigkeit': 0, 'Angehoben': 0, 'InitPosition': 0}
         
         #self.server.bind("tcp://*:"+port)
