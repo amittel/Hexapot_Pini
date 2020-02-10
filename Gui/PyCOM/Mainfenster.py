@@ -23,7 +23,7 @@ class MyWindow(QtWidgets.QMainWindow):
         # Connected Thread Variable
         self.connected = False
 
-        # initialise controller 
+        # initialise controller
         self.controller1 = Controller()
 
         # Data to be packed and processed
@@ -56,7 +56,7 @@ class MyWindow(QtWidgets.QMainWindow):
         if(self.initPos == 0):
             self.initPos = 1
 
-    # Set initial position 
+    # Set initial position
     def setInitPosR(self):
         if (self.initPos == 1):
             self.initPos = 0
@@ -80,7 +80,11 @@ class MyWindow(QtWidgets.QMainWindow):
     # Connect to server
     def connect(self):
         # ip = textinput in QtDesigner implementieren
-        self.client = Com(ip="10.134.31.0", server=False)
+        #self.client = Com(ip="192.168.137.61", server=False)
+        #self.send_thread.start()
+        self.ui.connectionLabel.setText("<font color='green'>Connected</font>")
+
+        self.client = Com(ip=self.ui.ipText.text(), server=False)
         self.send_thread.start()
 
     # Set direction
