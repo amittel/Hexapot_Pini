@@ -139,7 +139,7 @@ class Robot:
                     # Read COM Data
                     comData = self.com.readData()
                     percentValue = comData["Geschwindigkeit"]
-                    print("Geschw. Proz", percentValue)
+                    print(percentValue)
                     # {'Winkelrichtung': 0, 'Geschwindigkeit': 0, 'Angehoben': 0, 'InitPosition': 0}
                     if (indexLegs1 == 0 or indexLegs2 == 0):
                         if is_number(comData["Winkelrichtung"]):
