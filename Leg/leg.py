@@ -215,26 +215,30 @@ class Leg:
     def setVelocity(self, oldAngle, newAngle, velocity = 25):
         print("New Angle ", newAngle)
         print("old Angle ", oldAngle)
-        
-        # Calc'ing the diff between new and old angle
-        a = abs(newAngle[0] - oldAngle[0])
-        b = abs(newAngle[1] - oldAngle[1])
-        c = abs(newAngle[2] - oldAngle[2])
-        
-        # Checking for the largest angle and then setting speed relations accordingly
-        if a >= b and a >= c and a!=0:
-            servoSpeedAlpha = velocity
-            servoSpeedBeta = math.ceil((b / a) * velocity)
-            servoSpeedGamma = math.ceil((c / a) * velocity)
-        elif b >= a and b >= c and b!=0:
-            servoSpeedBeta = velocity
-            servoSpeedAlpha = math.ceil((a / b) * velocity)
-            servoSpeedGamma = math.ceil((c / b) * velocity)
-        elif c >= a and c >= b and c!=0:
-            servoSpeedGamma = velocity
-            servoSpeedAlpha = math.ceil((a / c) * velocity)
-            servoSpeedBeta = math.ceil((b / c) * velocity)
-        else:
+        try:
+            # Calc'ing the diff between new and old angle
+            a = abs(newAngle[0] - oldAngle[0])
+            b = abs(newAngle[1] - oldAngle[1])
+            c = abs(newAngle[2] - oldAngle[2])
+
+            # Checking for the largest angle and then setting speed relations accordingly
+            if a >= b and a >= c and a!=0:
+                servoSpeedAlpha = velocity
+                servoSpeedBeta = math.ceil((b / a) * velocity)
+                servoSpeedGamma = math.ceil((c / a) * velocity)
+            elif b >= a and b >= c and b!=0:
+                servoSpeedBeta = velocity
+                servoSpeedAlpha = math.ceil((a / b) * velocity)
+                servoSpeedGamma = math.ceil((c / b) * velocity)
+            elif c >= a and c >= b and c!=0:
+                servoSpeedGamma = velocity
+                servoSpeedAlpha = math.ceil((a / c) * velocity)
+                servoSpeedBeta = math.ceil((b / c) * velocity)
+            else:
+                servoSpeedAlpha = velocity
+                servoSpeedBeta = velocity
+                servoSpeedGamma = velocity
+        except:
             servoSpeedAlpha = velocity
             servoSpeedBeta = velocity
             servoSpeedGamma = velocity
