@@ -46,9 +46,9 @@ class Robot:
         self.legsGroup2 = [1, 3, 5]
 
         if self.isReal:
-            print("Konstruktor Leg init")
             # COM-Object for input from GUI
             self.com = testCom.testCom(port="5555")
+            print(com.readData())
             #Legs
             self.legs.append(Leg( 1, [1,3,5], [True,False,True]))
             self.legs.append(Leg( 2, [2,4,6], [True,True,False]))
@@ -95,7 +95,6 @@ class Robot:
                     [0, 0, 0, 1]])])
 
     def iterate(self):
-        print("iterate")
         #os.system("cls")  # Supposed to clear console
         percentValue = 0
         indexLegs1 = 0 # Index in trajectory of three legs that start swinging (-1 cuz it starts to count up in loop)
@@ -105,7 +104,6 @@ class Robot:
         angle = self.walkingAngle
         height = self.stepHeight
         while 1:
-            print("while")
             start_time = time.perf_counter()
 
             #############
@@ -122,7 +120,6 @@ class Robot:
             # For animation. Changes only apply when three legs are at their highest position
             
             if not self.isReal:
-                print("if not real")
                 if (indexLegs1 == 0 or indexLegs2 == 0):
                     # Angle & Step height
                     try:
@@ -141,7 +138,6 @@ class Robot:
                             self.stepHeight = float(height)
                             self.trajectory = self.createTrajectory()  # Recalculate trajectory
             else:
-                print("if real")
                 # Read COM Data
                 comData = self.com.readData()
                 percentValue = comData["Geschwindigkeit"]
