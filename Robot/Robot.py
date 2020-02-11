@@ -198,15 +198,17 @@ class Robot:
             #############
             #     A     #
             #############
-
-            if self.isReal:
-                end_time = time.perf_counter()
-                print("\nTime: %f" % (end_time - start_time))
-                time.sleep(self.cycleTime - (end_time - start_time))
-            else:
-                self.animate()
-                end_time = time.perf_counter()
-                print("\nTime: %f" % (end_time - start_time))
+            try:
+                if self.isReal:
+                    end_time = time.perf_counter()
+                    print("\nTime: %f" % (end_time - start_time))
+                    time.sleep(self.cycleTime - (end_time - start_time))
+                else:
+                    self.animate()
+                    end_time = time.perf_counter()
+                    print("\nTime: %f" % (end_time - start_time))
+            except:
+                pass
 
     def createTrajectory(self):
         """
