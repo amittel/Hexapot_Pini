@@ -28,9 +28,9 @@ class testCom:
         self.data = self.server.getData()
         return self.data
 
-if __name__ == "__main__":
-    test = testCom(port="5555")
-    test.readData()
+#if __name__ == "__main__":
+    #test = testCom(port="5555")
+    #test.readData()
     
 
 
