@@ -90,10 +90,12 @@ class MyWindow(QtWidgets.QMainWindow):
     # Set direction
     def setDirection(self):
 
-        if(-self.controller1.getAngleDirection() > -(1/2 * math.pi) and -self.controller1.getAngleDirection() < 0):
+        """if(-self.controller1.getAngleDirection() > -(1/2 * math.pi) and -self.controller1.getAngleDirection() < 0):
             self.direction = math.degrees(-self.controller1.getAngleDirection() + 2 * math.pi)
         else:
             self.direction = math.degrees(-self.controller1.getAngleDirection())
+            """
+        self.direction = math.degrees(-self.controller1.getAngleDirection())
 
     # Controller Thread
     def conReact(self):
