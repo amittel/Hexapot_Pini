@@ -130,7 +130,7 @@ class Leg:
 
         except Exception as e:
             print("FEHLER: Punkt nicht im Arbeitsbereich. Description: " + str(e))
-            return (0, 0, 0)
+            #return (0, 0, 0)
 
     def forKinAlphaJoint(self, alpha, beta, gamma):
         try:
