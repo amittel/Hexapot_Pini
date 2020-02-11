@@ -95,6 +95,7 @@ class Robot:
 
     def iterate(self):
         #os.system("cls")  # Supposed to clear console
+        percentValue = 0
         indexLegs1 = -1  # Index in trajectory of three legs that start swinging (-1 cuz it starts to count up in loop)
         indexLegs2 = int(len(self.trajectory) / 2 - 1)  # Index in trajectory of three legs that start stemming  (-1
         # cuz it starts to count up in loop)
@@ -115,8 +116,9 @@ class Robot:
             if indexLegs2 == len(self.trajectory):
                 indexLegs2 = 0
             # For animation. Changes only apply when three legs are at their highest position
-            if (indexLegs1 == 0 or indexLegs2 == 0):
-                if not self.isReal:
+            
+            if not self.isReal:
+                if (indexLegs1 == 0 or indexLegs2 == 0):
                     # Angle & Step height
                     try:
                         input_data = open('Steuer.txt', 'r').read()
@@ -136,21 +138,21 @@ class Robot:
                 else:
                     # Read COM Data
                     comData = self.com.readData()
+                    percentValue = comData["Geschwindigkeit"]
                     # {'Winkelrichtung': 0, 'Geschwindigkeit': 0, 'Angehoben': 0, 'InitPosition': 0}
-
-                    if is_number(comData["Winkelrichtung"]):
-                        self.walkingAngle = comData["Winkelrichtung"]
-
+                    if (indexLegs1 == 0 or indexLegs2 == 0):
+                        if is_number(comData["Winkelrichtung"]):
+                            self.walkingAngle = comData["Winkelrichtung"]
+                        if is_number(comData["Angehoben"]):
+                            if float(comData["Angehoben"]) <= 1:
+                                self.stepHeight = float(comData["Angehoben"])
+                                if float(comData["Angehoben"]) <= self.MINSTEPHEIGHT:
+                                    self.stepHeight = self.MINSTEPHEIGHT
+                                self.trajectory = self.createTrajectory()  # Recalculate trajectory
                     if is_number(comData["Geschwindigkeit"]):
-                        percentValue = comData["Geschwindigkeit"]
                         self.cycleTime = self.CYCLETIMEMIN + (1-percentValue) * (self.CYCLETIMEMAX - self.CYCLETIMEMIN)
 
-                    if is_number(comData["Angehoben"]):
-                        if float(comData["Angehoben"]) <= 1:
-                            self.stepHeight = float(comData["Angehoben"])
-                            if float(comData["Angehoben"]) <= self.MINSTEPHEIGHT:
-                                self.stepHeight = self.MINSTEPHEIGHT
-                            self.trajectory = self.createTrajectory()  # Recalculate trajectory
+
             #############
             #     V     #
             #############
@@ -160,24 +162,24 @@ class Robot:
             rotationMatrix = self.rotationMatrixZ(self.walkingAngle)
             # Append current coordinates for each leg
             if self.isReal:
+                if percentValue != 0:
+                    for i in range(0, 6):
+                        m1 = 0.05*np.dot(rotationMatrix, curPos1)
+                        m2 = 0.05*np.dot(rotationMatrix, curPos2)
 
-                for i in range(0, 6):
-                    m1 = 0.05*np.dot(rotationMatrix, curPos1)
-                    m2 = 0.05*np.dot(rotationMatrix, curPos2)
+                        if i in self.legsGroup1:
+                            m1[0] += self.Homepositions[i][0]
+                            m1[1] += self.Homepositions[i][1]
+                            m1[2] += self.Homepositions[i][2]
+                            self.legs[i].setFootCoordinate(m1)
 
-                    if i in self.legsGroup1:
-                        m1[0] += self.Homepositions[i][0]
-                        m1[1] += self.Homepositions[i][1]
-                        m1[2] += self.Homepositions[i][2]
-                        self.legs[i].setFootCoordinate(m1)
+                        elif i in self.legsGroup2:
+                            m2[0] += self.Homepositions[i][0]
+                            m2[1] += self.Homepositions[i][1]
+                            m2[2] += self.Homepositions[i][2]
+                            self.legs[i].setFootCoordinate(m2)
 
-                    elif i in self.legsGroup2:
-                        m2[0] += self.Homepositions[i][0]
-                        m2[1] += self.Homepositions[i][1]
-                        m2[2] += self.Homepositions[i][2]
-                        self.legs[i].setFootCoordinate(m2)
-
-                Servo.jointdrive.JointDrive.doActionAllServo()
+                    Servo.jointdrive.JointDrive.doActionAllServo()
 
             else:
                 self.legs = []  # Clear legs for new positions
