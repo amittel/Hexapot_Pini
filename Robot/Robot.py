@@ -14,7 +14,7 @@ import enum
 
 from Leg.leg import Leg
 import Servo.jointdrive
-from Gui.PyCOM import testCom
+from Gui.PyCOM import piCom
 #Enum to change walking modes
 class WalkingMode(enum.Enum):
     COSINE = 0
