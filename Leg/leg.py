@@ -142,21 +142,23 @@ class Leg:
             print("Error forward kinematics: " + str(e))
 
     def moveTo(self, angles, speeds):
+        try:
+            #Copying angles for next step to calc velocity
+            self.oldAngles = angles
 
-        #Copying angles for next step to calc velocity
-        self.oldAngles = angles
+            alphaAngle = angles[0]
+            betaAngle = angles[1]
+            gammaAngle = angles[2]
 
-        alphaAngle = angles[0]
-        betaAngle = angles[1]
-        gammaAngle = angles[2]
+            alphaSpeed = speeds[0]
+            betaSpeed = speeds[1]
+            gammaSpeed = speeds[2]
 
-        alphaSpeed = speeds[0]
-        betaSpeed = speeds[1]
-        gammaSpeed = speeds[2]
-
-        self.servoAlpha.setDesiredAngleAndMotorLoad(alphaAngle, alphaSpeed, False)
-        self.servoBeta.setDesiredAngleAndMotorLoad(betaAngle, betaSpeed, False)
-        self.servoGamma.setDesiredAngleAndMotorLoad(gammaAngle, gammaSpeed, False)
+            self.servoAlpha.setDesiredAngleAndMotorLoad(alphaAngle, alphaSpeed, False)
+            self.servoBeta.setDesiredAngleAndMotorLoad(betaAngle, betaSpeed, False)
+            self.servoGamma.setDesiredAngleAndMotorLoad(gammaAngle, gammaSpeed, False)
+        except:
+            pass
 
 
 
