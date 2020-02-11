@@ -98,8 +98,8 @@ class Robot:
         print("iterate")
         #os.system("cls")  # Supposed to clear console
         percentValue = 0
-        indexLegs1 = -1  # Index in trajectory of three legs that start swinging (-1 cuz it starts to count up in loop)
-        indexLegs2 = int(len(self.trajectory) / 2 - 1)  # Index in trajectory of three legs that start stemming  (-1
+        indexLegs1 = 0 # Index in trajectory of three legs that start swinging (-1 cuz it starts to count up in loop)
+        indexLegs2 = int(len(self.trajectory) / 2)  # Index in trajectory of three legs that start stemming  (-1
         # cuz it starts to count up in loop)
         # Temporary variables for checking of read in values
         angle = self.walkingAngle
@@ -111,8 +111,9 @@ class Robot:
             #############
             #     E     #
             #############
-            indexLegs1 += 1
-            indexLegs2 += 1
+            if percentValue != 0:
+                indexLegs1 += 1
+                indexLegs2 += 1
             # Indices iterate spaced by half trajectory length through trajectory.
             if indexLegs1 == len(self.trajectory):
                 indexLegs1 = 0
