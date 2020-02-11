@@ -200,7 +200,7 @@ class Leg:
             pos[0] = pos[0] - self.leg_X[self.legID-1] - self.dims[0] # X
             pos[2] = pos[2] - self.dims[1] # Z
 
-        #print("Pos after Offset: ", pos)
+        print("Pos after Offset: ", pos)
         # Rotating local coordinates, so X is equal to our origin B
         self.rotateLegKoord(pos)
         #print("pos after rotate",pos)
