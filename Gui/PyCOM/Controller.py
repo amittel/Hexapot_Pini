@@ -134,7 +134,7 @@ class Controller:
                 if (self.stickLinkBetrag < 0.2):
                     self.winkel1 = 0
                 else:
-                    self.winkel1 = math.atan2(self.axis1_Y, self.axis1_X) - 1/2 * math.pi
+                    self.winkel1 = math.atan2(self.axis1_Y, self.axis1_X) + 1/2 * math.pi
 
                 # Joystick right: calc Abs
                 if (self.axis2_Y > 0):
