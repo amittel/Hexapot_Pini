@@ -213,6 +213,8 @@ class Leg:
         self.moveTo(curAngles, speeds)
 
     def setVelocity(self, oldAngle, newAngle, velocity = 25):
+        print("New Angle ", newAngle)
+        print("old Angle ", oldAngle)
         
         # Calc'ing the diff between new and old angle
         a = abs(newAngle[0] - oldAngle[0])
