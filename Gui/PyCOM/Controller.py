@@ -67,7 +67,7 @@ class Controller:
 
     # Translate radiant in Robotlanguage (y = Angle - 1/2 pi)
     def winkelUmrechnen(self):
-        self.winkel1 = self.winkel1 + (1/2 * math.pi)
+        self.winkel1 = self.winkel1 - (1/2 * math.pi)
 
     # Getter
     def getAngleDirection(self):
@@ -121,20 +121,26 @@ class Controller:
                         self.buttonInit = 0
 
                 # Joystick left
-                self.axis1_X = joystick.get_axis(0)
+                """ self.axis1_X = joystick.get_axis(0)
                 self.axis1_Y = - joystick.get_axis(1)
+                """
+
+                self.axis1_X = -joystick.get_axis(1)
+                self.axis1_Y =  joystick.get_axis(0)
 
                 # Joystick right
                 self.axis2_X = joystick.get_axis(4)
                 self.axis2_Y = - joystick.get_axis(3)
 
+
                 self.stickLinkBetrag = math.sqrt(self.axis1_X ** 2 + self.axis1_Y ** 2)
 
                 # Joystick Left: Coordinates Angle(rad)
+
                 if (self.stickLinkBetrag < 0.2):
                     self.winkel1 = 0
                 else:
-                    self.winkel1 = math.atan2(self.axis1_Y, self.axis1_X) + 1/2 * math.pi
+                    self.winkel1 = math.atan2(self.axis1_Y, self.axis1_X) #- 1/2 * math.pi
 
                 # Joystick right: calc Abs
                 if (self.axis2_Y > 0):
