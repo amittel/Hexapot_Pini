@@ -165,9 +165,9 @@ class Leg:
             (kartesische Koordinaten) des Fußpunkts des Beins geschickt werden.
             Die Methode liefert die entsprechenden 3 Gelenkwinkel (a,b,g) zurück.
         '''
-        alpha, beta, gamma = self.invKinAlphaJoint(pos)
+        a = self.invKinAlphaJoint(pos)
 
-        return (alpha, beta, gamma)
+        return a
 
         # Send angles to servos
         #servo.JointDrive.setDesiredJointAngle()
