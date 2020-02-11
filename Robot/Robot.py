@@ -177,12 +177,14 @@ class Robot:
                             m1[0] += self.Homepositions[i][0]
                             m1[1] += self.Homepositions[i][1]
                             m1[2] += self.Homepositions[i][2]
+                            print(m1)
                             self.legs[i].setFootCoordinate(m1)
 
                         elif i in self.legsGroup2:
                             m2[0] += self.Homepositions[i][0]
                             m2[1] += self.Homepositions[i][1]
                             m2[2] += self.Homepositions[i][2]
+                            print(m2)
                             self.legs[i].setFootCoordinate(m2)
 
                     Servo.jointdrive.JointDrive.doActionAllServo()
