@@ -67,7 +67,7 @@ class Controller:
 
     # Translate radiant in Robotlanguage (y = Angle - 1/2 pi)
     def winkelUmrechnen(self):
-        self.winkel1 = self.winkel1 - (1/2 * math.pi)
+        self.winkel1 = self.winkel1 + (1/2 * math.pi)
 
     # Getter
     def getAngleDirection(self):
