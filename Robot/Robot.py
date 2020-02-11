@@ -139,18 +139,22 @@ class Robot:
                     # Read COM Data
                     comData = self.com.readData()
                     percentValue = comData["Geschwindigkeit"]
+                    print("Geschw. %", percentValue)
                     # {'Winkelrichtung': 0, 'Geschwindigkeit': 0, 'Angehoben': 0, 'InitPosition': 0}
                     if (indexLegs1 == 0 or indexLegs2 == 0):
                         if is_number(comData["Winkelrichtung"]):
                             self.walkingAngle = comData["Winkelrichtung"]
+                            print("Winkel", self.walkingAngle)
                         if is_number(comData["Angehoben"]):
                             if float(comData["Angehoben"]) <= 1:
                                 self.stepHeight = float(comData["Angehoben"])
                                 if float(comData["Angehoben"]) <= self.MINSTEPHEIGHT:
                                     self.stepHeight = self.MINSTEPHEIGHT
                                 self.trajectory = self.createTrajectory()  # Recalculate trajectory
+                                print("StepHeight", self.stepHeight)
                     if is_number(comData["Geschwindigkeit"]):
                         self.cycleTime = self.CYCLETIMEMIN + (1-percentValue) * (self.CYCLETIMEMAX - self.CYCLETIMEMIN)
+                        print("Geschw.", self.cycleTime)
 
 
             #############
