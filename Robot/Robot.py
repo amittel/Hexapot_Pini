@@ -48,7 +48,7 @@ class Robot:
         if self.isReal:
             # COM-Object for input from GUI
             self.com = testCom.testCom(port="5555")
-            print(com.readData())
+            print(self.com.readData())
             #Legs
             self.legs.append(Leg( 1, [1,3,5], [True,False,True]))
             self.legs.append(Leg( 2, [2,4,6], [True,True,False]))
