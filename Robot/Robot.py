@@ -14,7 +14,7 @@ import enum
 
 from Leg.leg import Leg
 import Servo.jointdrive
-from Gui.PyCOM import testCom
+from Gui.PyCOM import piCom
 #Enum to change walking modes
 class WalkingMode(enum.Enum):
     COSINE = 0
@@ -27,14 +27,17 @@ class Robot:
         self.isReal = isReal  # Flag if the robot is simulated (animation) or real (no animation)
         self.stepSize = 0.1  # Spacing of trajectory points
         self.stepHeight = 0.5  # Working area from 0 to 1
+        self.MINSTEPHEIGHT = 0.3 #Defines minimum Stepheight
         self.accuracy = 4  # Amount of decimals
-        self.walkingMode = WalkingMode.COSINE #Default Walkingmode
+        self.walkingMode = WalkingMode.COSINE # Default Walkingmode
         self.trajectory = self.createTrajectory()
-        self.cycleTime = 1  # Time for each step size
+        self.cycleTime = 1  # Time for each move (Simulation)
         self.CYCLETIMEMIN = 0.05 # Highest possible speed # TODO Testen was geht
         self.CYCLETIMEMAX = 1 # Lowest desired speed
         self.walkingAngle = 0  # Current movement angle
         self.legs = []
+        self.Homepositions= [(0.15,-0.08,-0.08),(0.15,0.08,-0.08),(0,0.18,-0.08),
+                             (-0.075,+0.08,-0.08),(-0.075,+0.08,-0.08),(0,-0.16,-0.08)]
         # Group 1 starts swinging
         # Consists of front right, middle left and back right
         self.legsGroup1 = [0, 2, 4]
@@ -44,17 +47,17 @@ class Robot:
 
         if self.isReal:
             # COM-Object for input from GUI
-            self.com = testCom.testCom()
+            self.com = testCom.testCom(port="5555")
+            print(self.com.readData())
             #Legs
-            self.legs.append(Leg( 1, [1,3,5], [True,True,True]))
-            self.legs.append(Leg( 2, [2,4,6], [True,True,True]))
-            self.legs.append(Leg( 3, [8,10,12], [True,True,True]))
-            self.legs.append(Leg( 4, [14,16,18], [True,True,True]))
-            self.legs.append(Leg( 5, [13,15,17], [True,True,True]))
-            self.legs.append(Leg( 6, [7,9,11], [True,True,True]))
-            #Servo.jointdrive.JointDrive.doActionAllServo()
+            self.legs.append(Leg( 1, [1,3,5], [True,False,True]))
+            self.legs.append(Leg( 2, [2,4,6], [True,True,False]))
+            self.legs.append(Leg( 3, [8,10,12], [True,False,True]))
+            self.legs.append(Leg( 4, [14,16,18], [True,False,True]))
+            self.legs.append(Leg( 5, [13,15,17], [False,True,False]))
+            self.legs.append(Leg( 6, [7,9,11], [True,True,False]))
 
-        if not self.isReal:#Animation
+        if not self.isReal:  #Animation
             self.fig = plt.figure()
             self.ax1 = p3.Axes3D(self.fig)
             self.init_plotting()
@@ -93,8 +96,9 @@ class Robot:
 
     def iterate(self):
         #os.system("cls")  # Supposed to clear console
-        indexLegs1 = -1  # Index in trajectory of three legs that start swinging (-1 cuz it starts to count up in loop)
-        indexLegs2 = int(len(self.trajectory) / 2 - 1)  # Index in trajectory of three legs that start stemming  (-1
+        percentValue = 0
+        indexLegs1 = 0 # Index in trajectory of three legs that start swinging (-1 cuz it starts to count up in loop)
+        indexLegs2 = int(len(self.trajectory) / 2)  # Index in trajectory of three legs that start stemming  (-1
         # cuz it starts to count up in loop)
         # Temporary variables for checking of read in values
         angle = self.walkingAngle
@@ -105,18 +109,18 @@ class Robot:
             #############
             #     E     #
             #############
-            indexLegs1 += 1
-            indexLegs2 += 1
+            if percentValue != 0:
+                indexLegs1 += 1
+                indexLegs2 += 1
             # Indices iterate spaced by half trajectory length through trajectory.
             if indexLegs1 == len(self.trajectory):
                 indexLegs1 = 0
             if indexLegs2 == len(self.trajectory):
                 indexLegs2 = 0
             # For animation. Changes only apply when three legs are at their highest position
-            # TODO: COM OBJEKT AUSLESEN
-
-            if (indexLegs1 == 0 or indexLegs2 == 0):
-                if not self.isReal:
+            
+            if not self.isReal:
+                if (indexLegs1 == 0 or indexLegs2 == 0):
                     # Angle & Step height
                     try:
                         input_data = open('Steuer.txt', 'r').read()
@@ -133,21 +137,28 @@ class Robot:
                         if float(height) <= 1:
                             self.stepHeight = float(height)
                             self.trajectory = self.createTrajectory()  # Recalculate trajectory
-                else:
-                    # Read COM Data
-                    comData = self.com.readData()
-                    # {'Winkelrichtung': 0, 'Geschwindigkeit': 0, 'Angehoben': 0, 'InitPosition': 0}
+            else:
+                # Read COM Data
+                comData = self.com.readData()
+                percentValue = comData["Geschwindigkeit"]
+                print(percentValue)
+                # {'Winkelrichtung': 0, 'Geschwindigkeit': 0, 'Angehoben': 0, 'InitPosition': 0}
+                if (indexLegs1 == 0 or indexLegs2 == 0):
                     if is_number(comData["Winkelrichtung"]):
                         self.walkingAngle = comData["Winkelrichtung"]
-                    if is_number(comData["Geschwindigkeit"]):
-                        # TODO Umrechnen von Prozent in cycleTime
-                        percentValue = comData["Geschwindigkeit"]
-                        self.cycleTime = self.CYCLETIMEMIN + (1-percentValue) * (self.CYCLETIMEMAX - self.CYCLETIMEMIN)
-
+                        print("Winkel", self.walkingAngle)
                     if is_number(comData["Angehoben"]):
                         if float(comData["Angehoben"]) <= 1:
                             self.stepHeight = float(comData["Angehoben"])
+                            if float(comData["Angehoben"]) <= self.MINSTEPHEIGHT:
+                                self.stepHeight = self.MINSTEPHEIGHT
                             self.trajectory = self.createTrajectory()  # Recalculate trajectory
+                            print("StepHeight", self.stepHeight)
+                if is_number(comData["Geschwindigkeit"]):
+                    self.cycleTime = self.CYCLETIMEMIN + (1-percentValue) * (self.CYCLETIMEMAX - self.CYCLETIMEMIN)
+                    print("Geschw.", self.cycleTime)
+
+
             #############
             #     V     #
             #############
@@ -157,12 +168,27 @@ class Robot:
             rotationMatrix = self.rotationMatrixZ(self.walkingAngle)
             # Append current coordinates for each leg
             if self.isReal:
-                for i in range(0, 6):
-                    if i in self.legsGroup1:
-                        self.legs[i].setFootCoordinate(0.05*np.dot(rotationMatrix, curPos1))
-                    elif i in self.legsGroup2:
-                        self.legs[i].setFootCoordinate(0.05*np.dot(rotationMatrix, curPos2))
-                Servo.jointdrive.JointDrive.doActionAllServo()
+                if percentValue != 0:
+                    for i in range(0, 6):
+                        m1 = 0.05*np.dot(rotationMatrix, curPos1)
+                        m2 = 0.05*np.dot(rotationMatrix, curPos2)
+
+                        if i in self.legsGroup1:
+                            m1[0] += self.Homepositions[i][0]
+                            m1[1] += self.Homepositions[i][1]
+                            m1[2] += self.Homepositions[i][2]
+                            print(m1)
+                            self.legs[i].setFootCoordinate(m1)
+
+                        elif i in self.legsGroup2:
+                            m2[0] += self.Homepositions[i][0]
+                            m2[1] += self.Homepositions[i][1]
+                            m2[2] += self.Homepositions[i][2]
+                            print(m2)
+                            self.legs[i].setFootCoordinate(m2)
+
+                    Servo.jointdrive.JointDrive.doActionAllServo()
+
             else:
                 self.legs = []  # Clear legs for new positions
                 for i in range(0, 6):
@@ -174,15 +200,17 @@ class Robot:
             #############
             #     A     #
             #############
-
-            if self.isReal:
-                end_time = time.perf_counter()
-                print("\nTime: %f" % (end_time - start_time))
-                time.sleep(self.cycleTime - (end_time - start_time))
-            else:
-                self.animate()
-                end_time = time.perf_counter()
-                print("\nTime: %f" % (end_time - start_time))
+            try:
+                if self.isReal:
+                    end_time = time.perf_counter()
+                    print("\nTime: %f" % (end_time - start_time))
+                    time.sleep(self.cycleTime - (end_time - start_time))
+                else:
+                    self.animate()
+                    end_time = time.perf_counter()
+                    print("\nTime: %f" % (end_time - start_time))
+            except:
+                pass
 
     def createTrajectory(self):
         """
@@ -286,9 +314,8 @@ def is_number(s):
 ############################
 def testFunction():
     myRobot = Robot(True)
-    
-    #myRobot.iterate()
-
+    time.sleep(1)
+    myRobot.iterate()
 
 if __name__ == "__main__":
     testFunction()

@@ -29,7 +29,12 @@ class Leg:
         self.leg_X = (0.033, 0.033, 0, -0.033,-0.033,0)
         self.leg_Y = (-0.033, 0.033, 0.044, 0.033, -0.033, -0.044)
 
-        print("--- Leg ", self.legID )
+        # Offset angles for leg to reach zero degree
+        offsetBetaAngle = math.radians(17)
+        offsetAlphaAngle = 0
+        offsetGammaAngle = math.radians(75)  # 11.76
+
+        print("--- Leg ", self.legID)
 
         # Length of legs
         if self.legID == 3 or self.legID == 6:
@@ -55,9 +60,9 @@ class Leg:
 
         
         print(" Init Servos")
-        self.servoAlpha = servo.JointDrive(self.servoID[0])
-        self.servoBeta = servo.JointDrive(self.servoID[1])
-        self.servoGamma = servo.JointDrive(self.servoID[2])
+        self.servoAlpha = servo.JointDrive(self.servoID[0],rotation[0], offsetAlphaAngle)
+        self.servoBeta = servo.JointDrive(self.servoID[1],rotation[1],offsetBetaAngle )
+        self.servoGamma = servo.JointDrive(self.servoID[2],rotation[2],offsetGammaAngle)
 
         #Servo.servo_ax12a.setReturnLevel(2, True)
         time.sleep(0.1)
@@ -65,7 +70,7 @@ class Leg:
         #Move leg into init Position
         print(" Moving A")
         
-        self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 5.0, True)
+        self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 25.0, True)
         
         #self.servoAlpha.setDesiredAngleAndMotorLoad(self.initAngle, 50.0, True)
         #time.sleep(2)
@@ -73,12 +78,12 @@ class Leg:
         #print("Current angle: ", self.servoBeta.getCurrentJointAngle())
         #self.servoBeta.setMovingSpeed(50,True)
         #self.servoBeta.setDesiredJointAngle(self.initAngle)
-        self.servoBeta.setDesiredAngleAndMotorLoad(self.initAngle, 5.0, True)
+        self.servoBeta.setDesiredAngleAndMotorLoad(self.initAngle, 25.0, True)
         #time.sleep(2)
         print(" Moving G")
         #self.servoGamma.setMovingSpeed(50,True)
         #self.servoGamma.setDesiredJointAngle(self.initAngle)
-        self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 5.0, True)
+        self.servoGamma.setDesiredAngleAndMotorLoad(self.initAngle, 25.0, True)
         #time.sleep(2)
 
         
@@ -90,23 +95,6 @@ class Leg:
         #print("Current angle G: ", self.servoGamma.getCurrentJointAngle())
         #time.sleep(3)
         print("--- End Init ---")
-        # Used to define which leg and if it's coordinates need to be rotated
-        #self.bodyLoc = bodyLoc_
-
-        # Servo init position
-        #self.startPos = startPos_
-
-        # Vector of 3 ints, servos from body to tibia
-        #self.cox = sD.servo(servoIds_[0])
-        #self.fem = sD.servo(servoIds_[1])
-        #self.tib = sD.servo(servoIds_[2])
-
-        # Set servo speeds
-
-
-        # moves to init position
-        #self.moveTo(startPos_)
-
 
     def getLegLength(self):
         return (self.lc, self.lf, self.lt)
@@ -142,7 +130,7 @@ class Leg:
 
         except Exception as e:
             print("FEHLER: Punkt nicht im Arbeitsbereich. Description: " + str(e))
-            return (0, 0, 0)
+            #return (0, 0, 0)
 
     def forKinAlphaJoint(self, alpha, beta, gamma):
         try:
@@ -154,21 +142,23 @@ class Leg:
             print("Error forward kinematics: " + str(e))
 
     def moveTo(self, angles, speeds):
+        try:
+            #Copying angles for next step to calc velocity
+            self.oldAngles = angles
 
-        #Copying angles for next step to calc velocity
-        self.oldAngles = angles
+            alphaAngle = angles[0]
+            betaAngle = angles[1]
+            gammaAngle = angles[2]
 
-        alphaAngle = angles[0]
-        betaAngle = angles[1]
-        gammaAngle = angles[2]
+            alphaSpeed = speeds[0]
+            betaSpeed = speeds[1]
+            gammaSpeed = speeds[2]
 
-        alphaSpeed = speeds[0]
-        betaSpeed = speeds[1]
-        gammaSpeed = speeds[2]
-
-        self.servoAlpha.setDesiredAngleAndMotorLoad(alphaAngle, alphaSpeed, True)
-        self.servoBeta.setDesiredAngleAndMotorLoad(betaAngle, betaSpeed, True)
-        self.servoGamma.setDesiredAngleAndMotorLoad(gammaAngle, gammaSpeed, True)
+            self.servoAlpha.setDesiredAngleAndMotorLoad(alphaAngle, alphaSpeed, False)
+            self.servoBeta.setDesiredAngleAndMotorLoad(betaAngle, betaSpeed, False)
+            self.servoGamma.setDesiredAngleAndMotorLoad(gammaAngle, gammaSpeed, False)
+        except:
+            pass
 
 
 
@@ -177,9 +167,9 @@ class Leg:
             (kartesische Koordinaten) des Fußpunkts des Beins geschickt werden.
             Die Methode liefert die entsprechenden 3 Gelenkwinkel (a,b,g) zurück.
         '''
-        alpha, beta, gamma = self.invKinAlphaJoint(pos)
+        a = self.invKinAlphaJoint(pos)
 
-        return (alpha, beta, gamma)
+        return a
 
         # Send angles to servos
         #servo.JointDrive.setDesiredJointAngle()
@@ -206,15 +196,16 @@ class Leg:
         print("Pos before Offset: ", pos)
         # Setting offset for leg from origin B
         if self.legID == 3 or self.legID == 6:
-            pos[1] = pos[1] + self.leg_Y[self.legID-1] + self.dims[0] # Y
+            pos[1] = pos[1] - self.leg_Y[self.legID-1] - self.dims[0] # Y
             pos[2] = pos[2] - self.dims[1] # Z
         else:
-            pos[0] = pos[0] + self.leg_X[self.legID-1] + self.dims[0] # X
+            pos[0] = pos[0] - self.leg_X[self.legID-1] - self.dims[0] # X
             pos[2] = pos[2] - self.dims[1] # Z
 
         print("Pos after Offset: ", pos)
         # Rotating local coordinates, so X is equal to our origin B
         self.rotateLegKoord(pos)
+        #print("pos after rotate",pos)
 
         # calc angles from pos
         curAngles= self.calcJointAngles(pos)
@@ -223,32 +214,33 @@ class Leg:
 
         self.moveTo(curAngles, speeds)
 
+    def setVelocity(self, oldAngle, newAngle, velocity = 25):
+        print("New Angle ", newAngle)
+        print("old Angle ", oldAngle)
+        try:
+            # Calc'ing the diff between new and old angle
+            a = abs(newAngle[0] - oldAngle[0])
+            b = abs(newAngle[1] - oldAngle[1])
+            c = abs(newAngle[2] - oldAngle[2])
 
-    #def printId(self):
-    #    print("Coxa/Femur/Tibia: "+ str(self.cox.gievId()) + "/" +str(self.fem.gievId())+ "/" + str(self.tib.gievId()))
-
-
-    def setVelocity(self, oldAngle, newAngle, velocity = 100):
-        
-        # Calc'ing the diff between new and old angle
-        a = abs(newAngle[0] - oldAngle[0])
-        b = abs(newAngle[1] - oldAngle[1])
-        c = abs(newAngle[2] - oldAngle[2])
-        
-        # Checking for the largest angle and then setting speed relations accordingly
-        if a >= b and a >= c and a!=0:
-            servoSpeedAlpha = velocity
-            servoSpeedBeta = math.ceil((b / a) * velocity)
-            servoSpeedGamma = math.ceil((c / a) * velocity)
-        elif b >= a and b >= c and b!=0:
-            servoSpeedBeta = velocity
-            servoSpeedAlpha = math.ceil((a / b) * velocity)
-            servoSpeedGamma = math.ceil((c / b) * velocity)
-        elif c >= a and c >= b and c!=0:
-            servoSpeedGamma = velocity
-            servoSpeedAlpha = math.ceil((a / c) * velocity)
-            servoSpeedBeta = math.ceil((b / c) * velocity)
-        else:
+            # Checking for the largest angle and then setting speed relations accordingly
+            if a >= b and a >= c and a!=0:
+                servoSpeedAlpha = velocity
+                servoSpeedBeta = math.ceil((b / a) * velocity)
+                servoSpeedGamma = math.ceil((c / a) * velocity)
+            elif b >= a and b >= c and b!=0:
+                servoSpeedBeta = velocity
+                servoSpeedAlpha = math.ceil((a / b) * velocity)
+                servoSpeedGamma = math.ceil((c / b) * velocity)
+            elif c >= a and c >= b and c!=0:
+                servoSpeedGamma = velocity
+                servoSpeedAlpha = math.ceil((a / c) * velocity)
+                servoSpeedBeta = math.ceil((b / c) * velocity)
+            else:
+                servoSpeedAlpha = velocity
+                servoSpeedBeta = velocity
+                servoSpeedGamma = velocity
+        except:
             servoSpeedAlpha = velocity
             servoSpeedBeta = velocity
             servoSpeedGamma = velocity
@@ -271,9 +263,10 @@ class Leg:
             cos = 0
             sin = 1
         
-        pos[0] = cos * pos[0] - sin * pos[1] # rotated X
-        pos[1] = sin * pos[0] + cos * pos[1] # rotated Y 
-
+        newX = cos * pos[0] - sin * pos[1] # rotated X
+        newY = sin * pos[0] + cos * pos[1] # rotated Y
+        pos[0] = newX
+        pos[1] = newY
         return pos
 
 

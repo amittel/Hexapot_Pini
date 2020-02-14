@@ -23,7 +23,7 @@ class MyWindow(QtWidgets.QMainWindow):
         # Connected Thread Variable
         self.connected = False
 
-        # initialise controller 
+        # initialise controller
         self.controller1 = Controller()
 
         # Data to be packed and processed
@@ -56,7 +56,7 @@ class MyWindow(QtWidgets.QMainWindow):
         if(self.initPos == 0):
             self.initPos = 1
 
-    # Set initial position 
+    # Set initial position
     def setInitPosR(self):
         if (self.initPos == 1):
             self.initPos = 0
@@ -80,16 +80,22 @@ class MyWindow(QtWidgets.QMainWindow):
     # Connect to server
     def connect(self):
         # ip = textinput in QtDesigner implementieren
-        self.client = Com(ip="127.0.0.1", server=False)
+        #self.client = Com(ip="192.168.137.61", server=False)
+        #self.send_thread.start()
+        self.ui.connectionLabel.setText("<font color='green'>Connected</font>")
+
+        self.client = Com(ip=self.ui.ipText.text(), server=False)
         self.send_thread.start()
 
     # Set direction
     def setDirection(self):
 
-        if(-self.controller1.getAngleDirection() > -(1/2 * math.pi) and -self.controller1.getAngleDirection() < 0):
+        """if(-self.controller1.getAngleDirection() > -(1/2 * math.pi) and -self.controller1.getAngleDirection() < 0):
             self.direction = math.degrees(-self.controller1.getAngleDirection() + 2 * math.pi)
         else:
             self.direction = math.degrees(-self.controller1.getAngleDirection())
+            """
+        self.direction = math.degrees(-self.controller1.getAngleDirection())
 
     # Controller Thread
     def conReact(self):
