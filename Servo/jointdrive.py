@@ -19,8 +19,8 @@ class JointDrive(ServoAx12a):
     # ----------------------------------------------------------------------
     _ANGLE_RADIAN_ZERO = (ServoAx12a._ANGLE_MAX_DEGREE
                           - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi / 360   # Zero angle offset of servo in radian
-    _ANGLE_RADIAN_MAX  = ServoAx12a._ANGLE_MAX_DEGREE * 2 * math.pi / 360       # Max angle offset of servo in radian
-    _ANGLE_RADIAN_MIN  = ServoAx12a._ANGLE_MIN_DEGREE * 2 * math.pi / 360       # Min angle offset of servo in radian
+    _ANGLE_RADIAN_MAX  = ServoAx12a._ANGLE_MAX_DEGREE * 2 * math.pi / 360   # Max angle offset of servo in radian
+    _ANGLE_RADIAN_MIN  = ServoAx12a._ANGLE_MIN_DEGREE * 2 * math.pi / 360   # Min angle offset of servo in radian
     _ANGLE_UNIT = ServoAx12a._ANGLE_MAX_TICKS / \
                   ((ServoAx12a._ANGLE_MAX_DEGREE - ServoAx12a._ANGLE_MIN_DEGREE) * math.pi * 2 / 360)  # Ticks per rad
 

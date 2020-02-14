@@ -134,7 +134,7 @@ class Dynamixel:
     # Request status packet
     def __requestStatusPkt(self):
         self.__writeReadDataPkt(self.REG_STATUS, 0)
-        self.__readStatusPkt(1)
+        self.__readStatusPkt(0)
 
     # Calculates check sum of packet list
     def __checkSum(self, pkt: list) -> int:
