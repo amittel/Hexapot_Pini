@@ -19,7 +19,7 @@ class Controller:
         self.buttonLB = 4
         self.buttonRB = 5
 
-        # 0 = Robot deelevate, 1 = Robot elevate
+        # 0 = Robot leg low, 1 = Robot leg high
         self.ButtonLeghight = 0
 
         # init position
@@ -34,9 +34,6 @@ class Controller:
 
         # Angle from Joystick left
         self.winkel1 = 0
-
-        # Abs from Joystick left
-        self.stickLinkBetrag = 0
 
         # Velocity Abs (from Joystick right)
         self.speed = 0
@@ -120,32 +117,28 @@ class Controller:
                     if event.button == self.buttonA:
                         self.buttonInit = 0
 
-                # Joystick left
-                """ self.axis1_X = joystick.get_axis(0)
-                self.axis1_Y = - joystick.get_axis(1)
-                """
-
+                #Left stick
+                
                 self.axis1_X = -joystick.get_axis(1)
                 self.axis1_Y =  joystick.get_axis(0)
 
-                # Joystick right
+                #Right stick 
                 self.axis2_X = joystick.get_axis(4)
                 self.axis2_Y = - joystick.get_axis(3)
-
-
-                self.stickLinkBetrag = math.sqrt(self.axis1_X ** 2 + self.axis1_Y ** 2)
-
+                
+                #Right stick abs
+                
+                self.rightStickBetrag = math.sqrt(self.axis2_X ** 2 + self.axis2_Y ** 2)
+               
                 # Joystick Left: Coordinates Angle(rad)
 
-                if (self.stickLinkBetrag < 0.2):
-                    self.winkel1 = 0
+                if (self.axis1_X < 0.3 and self.axis1_X > -0.3 and self.axis1_Y < 0.3 and self.axis1_Y > -0.3):
+                    self.winkel1 = 0.0
                 else:
-                    self.winkel1 = math.atan2(self.axis1_Y, self.axis1_X) #- 1/2 * math.pi
+                    self.winkel1 = math.atan2(self.axis1_Y, self.axis1_X)
 
-                # Joystick right: calc Abs
+                # Right Sticks absolute Wert fragen
                 if (self.axis2_Y > 0):
-                    self.speed = math.sqrt(self.axis2_X ** 2 + self.axis2_Y ** 2)
-                    # print("Geschwindigkeit: ", speed)
+                    self.speed = self.rightStickBetrag
                 if (self.axis2_Y < 0):
-                    self.speed = - math.sqrt(self.axis2_X ** 2 + self.axis2_Y ** 2)
-                    #print("Geschwindigkeit: ", self.speed)
+                    self.speed = - self.rightStickBetrag
