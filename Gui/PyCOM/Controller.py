@@ -22,9 +22,6 @@ class Controller:
         # 0 = Robot leg low, 1 = Robot leg high
         self.ButtonLeghight = 0
 
-        # init position
-        self.buttonInit = 0
-
         # X/Y Coordinates
         self.axis1_X = 0
         self.axis1_Y = 0
@@ -79,8 +76,6 @@ class Controller:
 
     def getButtonLeghight(self):
         return self.ButtonLeghight
-    def getButtonInit(self):
-        return self.buttonInit
 
     def getControllerName(self):
         return self.joystickName
@@ -102,27 +97,21 @@ class Controller:
                 if event.type == pygame.QUIT:  # If user clicked close
                     self.done = True  # Flag that we are done so we exit this loop
 
-                # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
                 if event.type == pygame.JOYBUTTONDOWN:
-                    # Button pressed
+                    # Possible action: "Button pressed"
                     if event.button == self.buttonLB:
                         self.ButtonLeghight = 1
                     if event.button == self.buttonRB:
                         self.ButtonLeghight = 0
-                    if event.button == self.buttonA:
-                        self.buttonInit = 1
-
-                if event.type == pygame.JOYBUTTONUP:
-                    # Button released
-                    if event.button == self.buttonA:
-                        self.buttonInit = 0
-
+                   
+                
                 #Left stick
                 
                 self.axis1_X = -joystick.get_axis(1)
                 self.axis1_Y =  joystick.get_axis(0)
 
                 #Right stick 
+                
                 self.axis2_X = joystick.get_axis(4)
                 self.axis2_Y = - joystick.get_axis(3)
                 
@@ -137,7 +126,7 @@ class Controller:
                 else:
                     self.winkel1 = math.atan2(self.axis1_Y, self.axis1_X)
 
-                # Right Sticks absolute Wert fragen
+                # Right Stick fuer absoluten Wert fragen
                 if (self.axis2_Y > 0):
                     self.speed = self.rightStickBetrag
                 if (self.axis2_Y < 0):
