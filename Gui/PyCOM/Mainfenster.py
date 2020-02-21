@@ -30,7 +30,6 @@ class MyWindow(QtWidgets.QMainWindow):
         self.direction = 0
         self.leghight = 0
         self.velocity = 0
-        self.initPos = 0
 
         # Create window
         super(MyWindow, self).__init__()
@@ -50,16 +49,6 @@ class MyWindow(QtWidgets.QMainWindow):
     # Set direction to 0
     def setDirection0(self):
         self.direction = 0
-
-    # Set initial position
-    def setInitPos(self):
-        if(self.initPos == 0):
-            self.initPos = 1
-
-    # Set initial position
-    def setInitPosR(self):
-        if (self.initPos == 1):
-            self.initPos = 0
 
     # Elevate hexapod
     def setAnheben(self):
@@ -103,18 +92,14 @@ class MyWindow(QtWidgets.QMainWindow):
                  self.setAnheben()
             if (self.controller1.getButtonLeghight() == 0 and self.con_Thread_var):
                  self.setAbsenken()
-            if(self.controller1.getButtonInit() == 1 and self.con_Thread_var):
-                self.setInitPos()
-            if (self.controller1.getButtonInit() == 0 and self.con_Thread_var):
-                self.setInitPosR()
 
     # Data Thread
     def dataReact(self):
 
         while True:
             # Pack data
-            self.data = {'Winkelrichtung': self.direction, 'Geschwindigkeit': self.velocity, 'Angehoben': self.leghight, 'InitPosition': self.initPos}
-            # print(self.data)
+            self.data = {'Winkelrichtung': self.direction, 'Geschwindigkeit': self.velocity, 'Angehoben': self.leghight}
+            # print(self.data) //local testen
 
     # Send data Thread
     def sendReact(self):
